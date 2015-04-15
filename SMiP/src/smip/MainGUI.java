@@ -9,7 +9,7 @@ import factory.EdgeFactory;
 import Struktura_jung.Przerob;
 import factory.CircVertexFactory;
 import Struktura_jung.lokator;
-import Struktura_jung.node;
+import model.node;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
@@ -26,83 +26,30 @@ import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 import factory.RectVertexFactory;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import model.nodeShape;
-
-
-
 
 public class MainGUI extends javax.swing.JFrame{
 
+   DefaultModalGraphMouse graphMouse;
+   VisualizationViewer<node, Integer> viewer=null;
+   public DirectedSparseGraph<node,Integer> graphNet=null;    
+   public JFrame graphFrame;
 
-
-
-    //public parametryGrafowe u;
-    public JMenu myszmenu;
-    DefaultModalGraphMouse mysz;
-    public int i=1;
-    BufferedImage bi;
-    Thread t;
-    public float[] tab;
-    public int pom=0;
- //   DefaultXYItemRenderer re;
-  //  StandardTickUnitSource ts;
-    /////////////////
-   public boolean flaga=false;
-   public int najgorszy=0;//najgorszy w pokoleniu
-   public boolean flaga_zly=false;//flaga do powyzej
-   public int naj_pok=0;//najlepszy w pokoleniu
-   public boolean flaga_n_pok=false;//flaga do tego
-   public boolean koniec=false;
-   public boolean flaga_mediana;
-   public int mediana;
-   VisualizationViewer<node, Integer> vv=null;
-   public DirectedSparseGraph<node,Integer> graf_jung=null;
-   
-    /////////////////        
-   public JFrame oddzielnie;
-   
-   ////
     public MainGUI() {
-       
-   //     graf_jung = Przerob.daj_graf(start.ustaw.czyPlanarny,start.ustaw.wierzcholki,(float)(start.ustaw.gestosc));
-        
-        
-        
-        //////////
         initComponents(); 
-
-        
-      //oddzielnie=new JFrame();
-       
-       mysz = new DefaultModalGraphMouse();
-       mysz.setMode(ModalGraphMouse.Mode.TRANSFORMING);
-    //   myszmenu=mysz.getModeMenu();
-
- 
-
-       /////////////////////////////////
-       
-       //inf=new GrInfo();
-       //inf.setAlwaysOnTop(true);
-       ////////
-       
-       
-       graf_jung = Przerob.daj_graf(false,1,(float)(1));
-       oddzielnie=new JFrame();
-       oddzielnie.setBounds(190,255,735,485);
-       oddzielnie.setAlwaysOnTop(true);
-       vv=Przerob.daj_panel(graf_jung, "kk",oddzielnie.getSize().width , oddzielnie.getSize().height-25);
-       oddzielnie.add(vv);
-       oddzielnie.setTitle("Widok na graf");
-       oddzielnie.setForeground(Color.LIGHT_GRAY);
-       oddzielnie.getContentPane().setBackground(Color.LIGHT_GRAY);
-       oddzielnie.setVisible(true);
-       
-       ///
-       
+        graphMouse = new DefaultModalGraphMouse();
+        graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+        graphNet = Przerob.getGraph();
+        graphFrame=new JFrame();
+        graphFrame.setBounds(190,255,735,485);
+        graphFrame.setAlwaysOnTop(true);
+        viewer=Przerob.getViewer(graphNet, "kk",graphFrame.getSize().width , graphFrame.getSize().height-25);
+        graphFrame.add(viewer);
+        graphFrame.setTitle("Widok sieci");
+        graphFrame.setForeground(Color.LIGHT_GRAY);
+        graphFrame.getContentPane().setBackground(Color.LIGHT_GRAY);
+        graphFrame.setVisible(true);
     }
   
     /**
@@ -115,7 +62,6 @@ public class MainGUI extends javax.swing.JFrame{
     private void initComponents() {
 
         jLayeredPane2 = new javax.swing.JLayeredPane();
-        odGestosci = new javax.swing.JSlider();
         odMyszy = new javax.swing.JComboBox();
         czyszczenie = new javax.swing.JButton();
         jSeparator7 = new javax.swing.JSeparator();
@@ -132,19 +78,6 @@ public class MainGUI extends javax.swing.JFrame{
         setFocusCycleRoot(false);
 
         jLayeredPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(64, 32, 153), 5), "Do grafu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14), new java.awt.Color(110, 20, 215))); // NOI18N
-
-        odGestosci.setVisible(false);
-        odGestosci.setFont(new java.awt.Font("DejaVu Sans", 0, 8)); // NOI18N
-        odGestosci.setMajorTickSpacing(20);
-        odGestosci.setMinorTickSpacing(10);
-        odGestosci.setPaintLabels(true);
-        odGestosci.setPaintTicks(true);
-        odGestosci.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        odGestosci.setValueIsAdjusting(true);
-        jLayeredPane2.add(odGestosci);
-        odGestosci.setBounds(10, 320, 150, 41);
-        odGestosci.getAccessibleContext().setAccessibleName("");
-        odGestosci.getAccessibleContext().setAccessibleDescription("% szansy, że dowolny wierzchołek będzie połączony z innym wierzchołkiem");
 
         odMyszy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Miejsca", "Przejścia", "Znakowanie", "Transforming", "Picking" }));
         odMyszy.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 38, 147), 2));
@@ -232,7 +165,7 @@ public class MainGUI extends javax.swing.JFrame{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 729, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 717, Short.MAX_VALUE)
                         .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -253,42 +186,39 @@ public class MainGUI extends javax.swing.JFrame{
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLayeredPane2.getAccessibleContext().setAccessibleName("Sieć");
+        jLayeredPane2.getAccessibleContext().setAccessibleDescription("");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void odStartuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odStartuActionPerformed
-
-      
-        // TODO add your handling code here:
+    // TODO add your handling code here:
     }//GEN-LAST:event_odStartuActionPerformed
 
     private void odOprojekcieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odOprojekcieActionPerformed
-
-    
-        
-        
-        // TODO add your handling code here:
+    // TODO add your handling code here:
     }//GEN-LAST:event_odOprojekcieActionPerformed
 
     private void odLayoutuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odLayoutuActionPerformed
         if (odLayoutu.getSelectedIndex()==0) {
-            vv.setGraphLayout(new ISOMLayout(graf_jung));
-            vv.repaint();
+            viewer.setGraphLayout(new ISOMLayout(graphNet));
+            viewer.repaint();
         } else if (odLayoutu.getSelectedIndex()==1) {
-            vv.setGraphLayout(new KKLayout(graf_jung));
-            vv.repaint();
+            viewer.setGraphLayout(new KKLayout(graphNet));
+            viewer.repaint();
         } else if (odLayoutu.getSelectedIndex()==2) {
-            vv.setGraphLayout(new CircleLayout(graf_jung));
-            vv.repaint();
+            viewer.setGraphLayout(new CircleLayout(graphNet));
+            viewer.repaint();
         } else if (odLayoutu.getSelectedIndex()==3) {
-            vv.setGraphLayout(new SpringLayout(graf_jung));
-            vv.repaint();
+            viewer.setGraphLayout(new SpringLayout(graphNet));
+            viewer.repaint();
         } else if (odLayoutu.getSelectedIndex()==4) {
-            vv.setGraphLayout(new FRLayout(graf_jung));
-            vv.repaint();
+            viewer.setGraphLayout(new FRLayout(graphNet));
+            viewer.repaint();
         } else if (odLayoutu.getSelectedIndex()==5) {
-            vv.setGraphLayout(new StaticLayout<>(graf_jung, new lokator()));
-            vv.repaint();
+            viewer.setGraphLayout(new StaticLayout<>(graphNet, new lokator()));
+            viewer.repaint();
         }
     }//GEN-LAST:event_odLayoutuActionPerformed
 
@@ -302,15 +232,15 @@ public class MainGUI extends javax.swing.JFrame{
         CircVertexFactory.zeruj();
         odMyszy.setSelectedIndex(0);
         odLayoutu.setSelectedIndex(0);
-        graf_jung = Przerob.daj_graf(true,0,(float)(0));
-        oddzielnie.dispose();
-        oddzielnie=new JFrame();
-        oddzielnie.setBounds(190,255,735,485);
-        oddzielnie.setTitle("Widok na graf");
-        oddzielnie.setAlwaysOnTop(true);
-        vv=Przerob.daj_panel(graf_jung, "kk",720,485-25);
-        oddzielnie.add(vv);
-        oddzielnie.setVisible(true);
+        graphNet = Przerob.getGraph();
+        graphFrame.dispose();
+        graphFrame=new JFrame();
+        graphFrame.setBounds(190,255,735,485);
+        graphFrame.setTitle("Widok na graf");
+        graphFrame.setAlwaysOnTop(true);
+        viewer=Przerob.getViewer(graphNet, "kk",720,485-25);
+        graphFrame.add(viewer);
+        graphFrame.setVisible(true);
     }//GEN-LAST:event_czyszczenieActionPerformed
 
     private void odMyszyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odMyszyActionPerformed
@@ -319,49 +249,49 @@ public class MainGUI extends javax.swing.JFrame{
         {
             case "Transforming":
             {
-                mysz.setMode(ModalGraphMouse.Mode.TRANSFORMING);
-                vv.setGraphMouse(mysz);
-                vv.repaint();
+                graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+                viewer.setGraphMouse(graphMouse);
+                viewer.repaint();
                 break;
 
             }
             case "Picking":
             {
-                if (vv.getModel().getRelaxer()!=null){
-                    vv.getModel().getRelaxer().stop();
+                if (viewer.getModel().getRelaxer()!=null){
+                    viewer.getModel().getRelaxer().stop();
                 }
-                mysz.setMode(ModalGraphMouse.Mode.PICKING);
-                vv.setGraphMouse(mysz);
-                vv.repaint();
+                graphMouse.setMode(ModalGraphMouse.Mode.PICKING);
+                viewer.setGraphMouse(graphMouse);
+                viewer.repaint();
                 break;
             }
             case "Miejsca":
             {
-                if (vv.getModel().getRelaxer()!=null){
-                    vv.getModel().getRelaxer().stop();
+                if (viewer.getModel().getRelaxer()!=null){
+                    viewer.getModel().getRelaxer().stop();
                 }
 
                 PluggableGraphMouse myszka = new PluggableGraphMouse();
                 myszka.add(new EditingGraphMousePlugin(new CircVertexFactory(), new EdgeFactory()));
-                vv.setGraphMouse(myszka);
-                vv.repaint();
+                viewer.setGraphMouse(myszka);
+                viewer.repaint();
                 break;
             }
             case "Przejścia":
             {
-                if (vv.getModel().getRelaxer()!=null){
-                    vv.getModel().getRelaxer().stop();
+                if (viewer.getModel().getRelaxer()!=null){
+                    viewer.getModel().getRelaxer().stop();
                 }
 
                 PluggableGraphMouse myszka = new PluggableGraphMouse();
                 myszka.add(new EditingGraphMousePlugin(new RectVertexFactory(), new EdgeFactory()));
-                vv.setGraphMouse(myszka);
-                vv.repaint();
+                viewer.setGraphMouse(myszka);
+                viewer.repaint();
                 break;
             }
             case "Znakowanie":
             {
-                vv.addGraphMouseListener(new GraphMouseListener(){
+                viewer.addGraphMouseListener(new GraphMouseListener(){
                     @Override
                     public void graphClicked(Object v, MouseEvent me) {
                         if (me.getButton() == MouseEvent.BUTTON1 && me.getClickCount() == 1) 
@@ -369,7 +299,7 @@ public class MainGUI extends javax.swing.JFrame{
                             node clickedNode = (node) v;   
                             if(clickedNode.getShape()==nodeShape.CIRCLE) {
                                 clickedNode.addMark();
-                                vv.repaint();
+                                viewer.repaint();
                             }
                         }
                         me.consume(); 
@@ -399,7 +329,6 @@ public class MainGUI extends javax.swing.JFrame{
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JSlider odGestosci;
     private javax.swing.JComboBox odLayoutu;
     private javax.swing.JComboBox odMyszy;
     private javax.swing.JButton odOprojekcie;

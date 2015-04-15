@@ -19,6 +19,6 @@ public class EdgeFactory implements Factory {
 
     @Override
     public Integer create() {
-        return (new Integer(e++));
+        return (e++);
     }
 }

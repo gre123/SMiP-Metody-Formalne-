@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package Struktura_jung;
 
-import model.nodeShape;
+package model;
 
 /**
  * Klasa reprezentująca wierzchołek. Ma kolor i niezmienialne po utworzeniu ID
@@ -19,6 +14,7 @@ public class node {
     private final int nID;
     private float x;
     private float y;
+    
     private int nKolor;
     private nodeShape shape;
     private int markCount=0;

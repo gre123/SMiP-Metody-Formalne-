@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package factory;
 
-import Struktura_jung.node;
+import model.node;
 import model.nodeShape;
 import org.apache.commons.collections15.Factory;
 
@@ -21,10 +18,11 @@ public class CircVertexFactory implements Factory {
         n = 0;
     }
 
+    @Override
     public node create() {
-        return new node((new Integer(n++)), nodeShape.CIRCLE);
+        return new node((n++), nodeShape.CIRCLE);
     }
     public node create(float iks, float ygr) {
-        return new node((new Integer(n++)), iks, ygr, nodeShape.CIRCLE);
+        return new node((n++), iks, ygr, nodeShape.CIRCLE);
     }
 }

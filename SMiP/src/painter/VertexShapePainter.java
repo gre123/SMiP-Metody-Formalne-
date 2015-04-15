@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package painter;
 
-import Struktura_jung.node;
+import model.node;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Area;
@@ -31,7 +26,7 @@ public class VertexShapePainter implements Transformer<node, Shape>{
                 if(v.getMarkCount()!=0) {
                     for(int i=0;i<v.getMarkCount();i++)
                     {
-                        shape.exclusiveOr(new Area(new Ellipse2D.Double(-5 +random.nextInt(7), -5 +random.nextInt(7), 1, 1)));
+                        shape.exclusiveOr(new Area(new Ellipse2D.Double(-5 +random.nextInt(15), -5 +random.nextInt(15), 1, 1)));
                     }
                 }
             }

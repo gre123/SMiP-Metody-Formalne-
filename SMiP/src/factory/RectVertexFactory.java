@@ -1,7 +1,7 @@
 
 package factory;
 
-import Struktura_jung.node;
+import model.node;
 import model.nodeShape;
 import org.apache.commons.collections15.Factory;
 
@@ -13,10 +13,11 @@ public class RectVertexFactory implements Factory {
         n = 0;
     }
 
+    @Override
     public node create() {
-        return new node((new Integer(n++)), nodeShape.RECTANGLE);
+        return new node((n++), nodeShape.RECTANGLE);
     }
     public node create(float iks, float ygr) {
-        return new node((new Integer(n++)), iks, ygr, nodeShape.RECTANGLE);
+        return new node((n++), iks, ygr, nodeShape.RECTANGLE);
     }
 }
