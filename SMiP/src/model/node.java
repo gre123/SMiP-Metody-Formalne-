@@ -73,10 +73,22 @@ public class node {
     {
         markCount++;
     }
-    
+    public void removeMark()
+    {
+        if(markCount>0) markCount--;
+    }
+    public boolean hasMark()
+    {
+        return markCount!=0;
+    }
     public int getMarkCount()
     {
         return markCount;
+    }
+    
+    public boolean isTransition()
+    {
+        return this.shape==nodeShape.RECTANGLE;
     }
     
     @Override

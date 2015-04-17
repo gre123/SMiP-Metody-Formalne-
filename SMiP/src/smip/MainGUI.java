@@ -5,47 +5,43 @@
  */
 package smip;
 
+import MousePlugin.MarkGraphMousePlugin;
+import MousePlugin.PopupGraphMousePlugin;
 import factory.EdgeFactory;
 import Struktura_jung.Przerob;
 import factory.CircVertexFactory;
 import Struktura_jung.lokator;
-import model.node;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
-import edu.uci.ics.jung.visualization.control.GraphMouseListener;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
-import factory.RectVertexFactory;
 import java.awt.Color;
-import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
-import model.nodeShape;
+import simulation.RunnableSimulation;
 
 public class MainGUI extends javax.swing.JFrame{
 
-   DefaultModalGraphMouse graphMouse;
-   VisualizationViewer<node, Integer> viewer=null;
-   public DirectedSparseGraph<node,Integer> graphNet=null;    
+   DefaultModalGraphMouse graphMouse;  
+   PluggableGraphMouse myszka = new PluggableGraphMouse();
    public JFrame graphFrame;
+   public Thread simulationThread;
 
     public MainGUI() {
         initComponents(); 
         graphMouse = new DefaultModalGraphMouse();
         graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
-        graphNet = Przerob.getGraph();
+        SMiP.graphNet = Przerob.getGraph();
         graphFrame=new JFrame();
         graphFrame.setBounds(190,255,735,485);
         graphFrame.setAlwaysOnTop(true);
-        viewer=Przerob.getViewer(graphNet, "kk",graphFrame.getSize().width , graphFrame.getSize().height-25);
-        graphFrame.add(viewer);
+        SMiP.viewer=Przerob.getViewer(SMiP.graphNet, "kk",graphFrame.getSize().width , graphFrame.getSize().height-25);
+        graphFrame.add(SMiP.viewer);
         graphFrame.setTitle("Widok sieci");
         graphFrame.setForeground(Color.LIGHT_GRAY);
         graphFrame.getContentPane().setBackground(Color.LIGHT_GRAY);
@@ -69,7 +65,7 @@ public class MainGUI extends javax.swing.JFrame{
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        odStartu = new javax.swing.JButton();
+        startStopButton = new javax.swing.JToggleButton();
         odOprojekcie = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,7 +75,7 @@ public class MainGUI extends javax.swing.JFrame{
 
         jLayeredPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(64, 32, 153), 5), "Do grafu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14), new java.awt.Color(110, 20, 215))); // NOI18N
 
-        odMyszy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Miejsca", "Przejścia", "Znakowanie", "Transforming", "Picking" }));
+        odMyszy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Transforming", "Picking", "Editing", "Znakowanie" }));
         odMyszy.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 38, 147), 2));
         odMyszy.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -136,16 +132,15 @@ public class MainGUI extends javax.swing.JFrame{
         jLayeredPane1.setBackground(javax.swing.UIManager.getDefaults().getColor("textHighlight"));
         jLayeredPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(19, 0, 239), 5), "Do algorytmów", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14), new java.awt.Color(110, 20, 215))); // NOI18N
 
-        odStartu.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
-        odStartu.setBackground(Color.LIGHT_GRAY);
-        odStartu.setText("START");
-        odStartu.addActionListener(new java.awt.event.ActionListener() {
+        startStopButton.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
+        startStopButton.setText("START");
+        startStopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                odStartuActionPerformed(evt);
+                startStopButtonActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(odStartu);
-        odStartu.setBounds(20, 490, 130, 30);
+        jLayeredPane1.add(startStopButton);
+        startStopButton.setBounds(20, 490, 140, 60);
 
         odOprojekcie.setBackground(new java.awt.Color(177, 165, 108));
         odOprojekcie.setFont(new java.awt.Font("DejaVu Sans", 1, 12)); // NOI18N
@@ -192,33 +187,29 @@ public class MainGUI extends javax.swing.JFrame{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void odStartuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odStartuActionPerformed
-    // TODO add your handling code here:
-    }//GEN-LAST:event_odStartuActionPerformed
-
     private void odOprojekcieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odOprojekcieActionPerformed
     // TODO add your handling code here:
     }//GEN-LAST:event_odOprojekcieActionPerformed
 
     private void odLayoutuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odLayoutuActionPerformed
         if (odLayoutu.getSelectedIndex()==0) {
-            viewer.setGraphLayout(new ISOMLayout(graphNet));
-            viewer.repaint();
+            SMiP.viewer.setGraphLayout(new ISOMLayout(SMiP.graphNet));
+            SMiP.viewer.repaint();
         } else if (odLayoutu.getSelectedIndex()==1) {
-            viewer.setGraphLayout(new KKLayout(graphNet));
-            viewer.repaint();
+            SMiP.viewer.setGraphLayout(new KKLayout(SMiP.graphNet));
+            SMiP.viewer.repaint();
         } else if (odLayoutu.getSelectedIndex()==2) {
-            viewer.setGraphLayout(new CircleLayout(graphNet));
-            viewer.repaint();
+            SMiP.viewer.setGraphLayout(new CircleLayout(SMiP.graphNet));
+            SMiP.viewer.repaint();
         } else if (odLayoutu.getSelectedIndex()==3) {
-            viewer.setGraphLayout(new SpringLayout(graphNet));
-            viewer.repaint();
+            SMiP.viewer.setGraphLayout(new SpringLayout(SMiP.graphNet));
+            SMiP.viewer.repaint();
         } else if (odLayoutu.getSelectedIndex()==4) {
-            viewer.setGraphLayout(new FRLayout(graphNet));
-            viewer.repaint();
+            SMiP.viewer.setGraphLayout(new FRLayout(SMiP.graphNet));
+            SMiP.viewer.repaint();
         } else if (odLayoutu.getSelectedIndex()==5) {
-            viewer.setGraphLayout(new StaticLayout<>(graphNet, new lokator()));
-            viewer.repaint();
+            SMiP.viewer.setGraphLayout(new StaticLayout<>(SMiP.graphNet, new lokator()));
+            SMiP.viewer.repaint();
         }
     }//GEN-LAST:event_odLayoutuActionPerformed
 
@@ -232,85 +223,60 @@ public class MainGUI extends javax.swing.JFrame{
         CircVertexFactory.zeruj();
         odMyszy.setSelectedIndex(0);
         odLayoutu.setSelectedIndex(0);
-        graphNet = Przerob.getGraph();
+        SMiP.graphNet = Przerob.getGraph();
         graphFrame.dispose();
         graphFrame=new JFrame();
         graphFrame.setBounds(190,255,735,485);
         graphFrame.setTitle("Widok na graf");
         graphFrame.setAlwaysOnTop(true);
-        viewer=Przerob.getViewer(graphNet, "kk",720,485-25);
-        graphFrame.add(viewer);
+        SMiP.viewer=Przerob.getViewer(SMiP.graphNet, "kk",720,485-25);
+        graphFrame.add(SMiP.viewer);
         graphFrame.setVisible(true);
     }//GEN-LAST:event_czyszczenieActionPerformed
 
     private void odMyszyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odMyszyActionPerformed
 
+
+        if (SMiP.viewer.getModel().getRelaxer()!=null)
+        {
+            SMiP.viewer.getModel().getRelaxer().stop();
+        }
+        myszka = new PluggableGraphMouse();
+        graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
         switch((String)odMyszy.getSelectedItem())
         {
             case "Transforming":
-            {
-                graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
-                viewer.setGraphMouse(graphMouse);
-                viewer.repaint();
+            {    
+                SMiP.viewer.setGraphMouse(graphMouse);
+                SMiP.viewer.repaint();
                 break;
 
             }
             case "Picking":
             {
-                if (viewer.getModel().getRelaxer()!=null){
-                    viewer.getModel().getRelaxer().stop();
-                }
                 graphMouse.setMode(ModalGraphMouse.Mode.PICKING);
-                viewer.setGraphMouse(graphMouse);
-                viewer.repaint();
+                SMiP.viewer.setGraphMouse(graphMouse);
+                SMiP.viewer.repaint();
                 break;
             }
-            case "Miejsca":
+            case "Editing":
             {
-                if (viewer.getModel().getRelaxer()!=null){
-                    viewer.getModel().getRelaxer().stop();
-                }
+                myszka.add(new PopupGraphMousePlugin());
+                /**
+                 * To miejsce wlasnie generuje wyjateczki przy kliknieciu w trybie Editing - Grzesiek
+                 * TO DO poprawic
+                 */
+                myszka.add(new EditingGraphMousePlugin(null , new EdgeFactory()));
 
-                PluggableGraphMouse myszka = new PluggableGraphMouse();
-                myszka.add(new EditingGraphMousePlugin(new CircVertexFactory(), new EdgeFactory()));
-                viewer.setGraphMouse(myszka);
-                viewer.repaint();
-                break;
-            }
-            case "Przejścia":
-            {
-                if (viewer.getModel().getRelaxer()!=null){
-                    viewer.getModel().getRelaxer().stop();
-                }
-
-                PluggableGraphMouse myszka = new PluggableGraphMouse();
-                myszka.add(new EditingGraphMousePlugin(new RectVertexFactory(), new EdgeFactory()));
-                viewer.setGraphMouse(myszka);
-                viewer.repaint();
+                SMiP.viewer.setGraphMouse(myszka);
+                SMiP.viewer.repaint();
                 break;
             }
             case "Znakowanie":
             {
-                viewer.addGraphMouseListener(new GraphMouseListener(){
-                    @Override
-                    public void graphClicked(Object v, MouseEvent me) {
-                        if (me.getButton() == MouseEvent.BUTTON1 && me.getClickCount() == 1) 
-                        {
-                            node clickedNode = (node) v;   
-                            if(clickedNode.getShape()==nodeShape.CIRCLE) {
-                                clickedNode.addMark();
-                                viewer.repaint();
-                            }
-                        }
-                        me.consume(); 
-                    }
-                    @Override
-                    public void graphPressed(Object v, MouseEvent me) {
-                    }
-                    @Override
-                    public void graphReleased(Object v, MouseEvent me) {
-                    }                   
-                });
+                myszka.add(new MarkGraphMousePlugin());
+                SMiP.viewer.setGraphMouse(myszka);
+                SMiP.viewer.repaint();
                 break;
             }
         }
@@ -320,6 +286,21 @@ public class MainGUI extends javax.swing.JFrame{
 
         // TODO add your handling code here:
     }//GEN-LAST:event_odMyszyItemStateChanged
+
+    private void startStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startStopButtonActionPerformed
+        if(startStopButton.isSelected())
+        {
+            simulationThread = new Thread(new RunnableSimulation());
+            simulationThread.start();
+        }
+        else
+        {
+            simulationThread.stop();
+        }
+        
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_startStopButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -332,7 +313,7 @@ public class MainGUI extends javax.swing.JFrame{
     private javax.swing.JComboBox odLayoutu;
     private javax.swing.JComboBox odMyszy;
     private javax.swing.JButton odOprojekcie;
-    public javax.swing.JButton odStartu;
+    private javax.swing.JToggleButton startStopButton;
     // End of variables declaration//GEN-END:variables
 
     

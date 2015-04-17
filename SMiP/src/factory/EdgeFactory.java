@@ -12,7 +12,7 @@ import org.apache.commons.collections15.Factory;
 public class EdgeFactory implements Factory {
 
     private static int e = 0;
-
+    
     public static void zeruj() {
         e = 0;
     }

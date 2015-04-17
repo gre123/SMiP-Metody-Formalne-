@@ -26,7 +26,7 @@ public class VertexShapePainter implements Transformer<node, Shape>{
                 if(v.getMarkCount()!=0) {
                     for(int i=0;i<v.getMarkCount();i++)
                     {
-                        shape.exclusiveOr(new Area(new Ellipse2D.Double(-5 +random.nextInt(15), -5 +random.nextInt(15), 1, 1)));
+                        shape.exclusiveOr(new Area(new Ellipse2D.Double(-7 +random.nextInt(12), -7 +random.nextInt(12), 1, 1)));
                     }
                 }
             }
