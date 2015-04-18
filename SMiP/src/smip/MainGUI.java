@@ -22,6 +22,7 @@ import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 import java.awt.Color;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import simulation.RunnableSimulation;
 
@@ -66,10 +67,16 @@ public class MainGUI extends javax.swing.JFrame{
         jLabel3 = new javax.swing.JLabel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         startStopButton = new javax.swing.JToggleButton();
-        odOprojekcie = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Kolorowanie wierzchołków G.Bylina, T.Gajda, E.Wszołek 2013");
+        setTitle("Sieci miejsc i przejść");
         setBackground(new java.awt.Color(147, 150, 171));
         setFocusCycleRoot(false);
 
@@ -121,7 +128,7 @@ public class MainGUI extends javax.swing.JFrame{
         jLayeredPane2.add(odLayoutu);
         odLayoutu.setBounds(20, 80, 139, 24);
 
-        jLabel2.setText("Layout grafu:");
+        jLabel2.setText("Layout sieci:");
         jLayeredPane2.add(jLabel2);
         jLabel2.setBounds(20, 64, 140, 20);
 
@@ -140,56 +147,74 @@ public class MainGUI extends javax.swing.JFrame{
             }
         });
         jLayeredPane1.add(startStopButton);
-        startStopButton.setBounds(20, 490, 140, 60);
+        startStopButton.setBounds(20, 480, 140, 60);
 
-        odOprojekcie.setBackground(new java.awt.Color(177, 165, 108));
-        odOprojekcie.setFont(new java.awt.Font("DejaVu Sans", 1, 12)); // NOI18N
-        odOprojekcie.setForeground(new java.awt.Color(1, 1, 1));
-        odOprojekcie.setText("O projekcie");
-        odOprojekcie.addActionListener(new java.awt.event.ActionListener() {
+        jMenu1.setText("Sieć");
+
+        jMenuItem2.setText("Zapisz sieć");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                odOprojekcieActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem1.setText("Wczytaj sieć");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("O programie");
+
+        jMenuItem3.setText("Autorzy");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setText("Licencja");
+        jMenu2.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 717, Short.MAX_VALUE)
-                        .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(odOprojekcie, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 717, Short.MAX_VALUE)
+                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(odOprojekcie, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(88, 88, 88)
+                        .addGap(65, 65, 65)
+                        .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
                         .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLayeredPane2.getAccessibleContext().setAccessibleName("Sieć");
         jLayeredPane2.getAccessibleContext().setAccessibleDescription("");
+        jLayeredPane1.getAccessibleContext().setAccessibleName("Symulacja");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void odOprojekcieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odOprojekcieActionPerformed
-    // TODO add your handling code here:
-    }//GEN-LAST:event_odOprojekcieActionPerformed
 
     private void odLayoutuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odLayoutuActionPerformed
         if (odLayoutu.getSelectedIndex()==0) {
@@ -302,6 +327,22 @@ public class MainGUI extends javax.swing.JFrame{
 // TODO add your handling code here:
     }//GEN-LAST:event_startStopButtonActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+            new SaveLoadGui('l').setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+            new SaveLoadGui('s').setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+
+      JDialog authors = new JDialog(this, "Autorzy");
+      authors.setVisible(true);
+// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton czyszczenie;
@@ -309,10 +350,16 @@ public class MainGUI extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JComboBox odLayoutu;
     private javax.swing.JComboBox odMyszy;
-    private javax.swing.JButton odOprojekcie;
     private javax.swing.JToggleButton startStopButton;
     // End of variables declaration//GEN-END:variables
 

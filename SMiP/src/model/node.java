@@ -1,6 +1,8 @@
 
 package model;
 
+import java.io.Serializable;
+
 /**
  * Klasa reprezentująca wierzchołek. Ma kolor i niezmienialne po utworzeniu ID
  * (pasowałoby niepowtarzalne).
@@ -9,7 +11,7 @@ package model;
  */
 
 
-public class node {
+public class node implements Serializable{
 
     private final int nID;
     private float x;
@@ -18,6 +20,8 @@ public class node {
     private int nKolor;
     private nodeShape shape;
     private int markCount=0;
+    private boolean markWillBeAdded=false;
+    private boolean markWillBeRemoved=false;
 
     public node(int x, nodeShape _shape) {
         nID = x;
@@ -69,6 +73,30 @@ public class node {
         return shape;
     }
 
+    public void planAddingMark()
+    {
+        markWillBeAdded = true;
+        markWillBeRemoved = false;
+    }
+    public void planRemovingMark()
+    {
+        markWillBeAdded = false;
+        markWillBeRemoved = true;
+    }
+    
+    private void resetPlanningMarks()
+    {
+        markWillBeAdded = false;
+        markWillBeRemoved = false;
+    }
+    
+    public void applyMarkChanges()
+    {
+        if(markWillBeAdded && !markWillBeRemoved) addMark();
+        if(markWillBeRemoved && !markWillBeAdded) removeMark();
+        resetPlanningMarks();
+    }
+    
     public void addMark()
     {
         markCount++;
@@ -77,9 +105,11 @@ public class node {
     {
         if(markCount>0) markCount--;
     }
+    
     public boolean hasMark()
     {
-        return markCount!=0;
+        if(markCount>0) return true;
+        return false;
     }
     public int getMarkCount()
     {
@@ -93,6 +123,6 @@ public class node {
     
     @Override
     public String toString() {
-        return (Integer.toString(this.getID()) + " kolor= " + Integer.toString(this.getColor()));
+        return (Integer.toString(this.getID()));
     }
 }
