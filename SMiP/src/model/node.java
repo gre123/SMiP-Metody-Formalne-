@@ -76,11 +76,9 @@ public class node implements Serializable{
     public void planAddingMark()
     {
         markWillBeAdded = true;
-        markWillBeRemoved = false;
     }
     public void planRemovingMark()
     {
-        markWillBeAdded = false;
         markWillBeRemoved = true;
     }
     
@@ -92,8 +90,8 @@ public class node implements Serializable{
     
     public void applyMarkChanges()
     {
-        if(markWillBeAdded && !markWillBeRemoved) addMark();
-        if(markWillBeRemoved && !markWillBeAdded) removeMark();
+        if(markWillBeAdded) addMark();
+        if(markWillBeRemoved) removeMark();
         resetPlanningMarks();
     }
     
