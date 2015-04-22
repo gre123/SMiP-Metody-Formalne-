@@ -20,6 +20,7 @@ public class node implements Serializable{
     private int nKolor;
     private nodeShape shape;
     private int markCount=0;
+    
     private boolean markWillBeAdded=false;
     private boolean markWillBeRemoved=false;
 

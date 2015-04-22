@@ -19,7 +19,6 @@ public class SimulationUtil {
                 for(node previousNode:previousNodes)
                 {
                     transitionIsActive&=previousNode.hasMark();
-                    System.out.print(previousNode.hasMark());
                 }
                 if(transitionIsActive)
                 {

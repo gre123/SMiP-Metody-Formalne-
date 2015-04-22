@@ -7,6 +7,7 @@ package smip;
 
 import MousePlugin.MarkGraphMousePlugin;
 import MousePlugin.PopupGraphMousePlugin;
+import NetProperties.NetProperties;
 import factory.EdgeFactory;
 import Struktura_jung.Przerob;
 import factory.CircVertexFactory;
@@ -22,6 +23,7 @@ import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 import java.awt.Color;
+import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import simulation.RunnableSimulation;
@@ -32,9 +34,11 @@ public class MainGUI extends javax.swing.JFrame{
    PluggableGraphMouse myszka = new PluggableGraphMouse();
    public JFrame graphFrame;
    public Thread simulationThread;
+   public NetProperties netProperties;
 
     public MainGUI() {
         initComponents(); 
+        netProperties = new NetProperties();
         graphMouse = new DefaultModalGraphMouse();
         graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
         SMiP.graphNet = Przerob.getGraph();
@@ -67,6 +71,10 @@ public class MainGUI extends javax.swing.JFrame{
         jLabel3 = new javax.swing.JLabel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         startStopButton = new javax.swing.JToggleButton();
+        checkLivingButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        raportArea = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -80,7 +88,7 @@ public class MainGUI extends javax.swing.JFrame{
         setBackground(new java.awt.Color(147, 150, 171));
         setFocusCycleRoot(false);
 
-        jLayeredPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(64, 32, 153), 5), "Do grafu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14), new java.awt.Color(110, 20, 215))); // NOI18N
+        jLayeredPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0), 5), "Sieć", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14), new java.awt.Color(102, 153, 0))); // NOI18N
 
         odMyszy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Transforming", "Picking", "Editing", "Znakowanie" }));
         odMyszy.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 38, 147), 2));
@@ -107,7 +115,7 @@ public class MainGUI extends javax.swing.JFrame{
             }
         });
         jLayeredPane2.add(czyszczenie);
-        czyszczenie.setBounds(20, 400, 140, 27);
+        czyszczenie.setBounds(20, 507, 140, 30);
         jLayeredPane2.add(jSeparator7);
         jSeparator7.setBounds(10, 120, 157, 14);
 
@@ -137,9 +145,11 @@ public class MainGUI extends javax.swing.JFrame{
         jLabel3.setBounds(20, 26, 140, 14);
 
         jLayeredPane1.setBackground(javax.swing.UIManager.getDefaults().getColor("textHighlight"));
-        jLayeredPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(19, 0, 239), 5), "Do algorytmów", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14), new java.awt.Color(110, 20, 215))); // NOI18N
+        jLayeredPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0), 5), "Właściwości sieci", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14), new java.awt.Color(51, 153, 0))); // NOI18N
 
+        startStopButton.setBackground(new java.awt.Color(51, 102, 0));
         startStopButton.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
+        startStopButton.setForeground(new java.awt.Color(153, 153, 0));
         startStopButton.setText("START");
         startStopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,7 +157,34 @@ public class MainGUI extends javax.swing.JFrame{
             }
         });
         jLayeredPane1.add(startStopButton);
-        startStopButton.setBounds(20, 480, 140, 60);
+        startStopButton.setBounds(20, 510, 140, 30);
+
+        checkLivingButton.setText("Sprawdź żywotność");
+        checkLivingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkLivingButtonActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(checkLivingButton);
+        checkLivingButton.setBounds(10, 50, 160, 30);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0), 3), "Raport", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 1, 10))); // NOI18N
+
+        raportArea.setEditable(false);
+        raportArea.setColumns(20);
+        raportArea.setRows(5);
+        jScrollPane1.setViewportView(raportArea);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+        );
 
         jMenu1.setText("Sieć");
 
@@ -192,20 +229,21 @@ public class MainGUI extends javax.swing.JFrame{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 717, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                        .addComponent(jLayeredPane2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -343,8 +381,16 @@ public class MainGUI extends javax.swing.JFrame{
 // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void checkLivingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkLivingButtonActionPerformed
+        Date date = new Date();
+        
+        raportArea.setText(raportArea.getText()+"\n"+date.getHours()+":"+date.getMinutes()+">"+" Żywotność sieci : " + netProperties.checkIfNetAlive());
+        SMiP.viewer.repaint();
+    }//GEN-LAST:event_checkLivingButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton checkLivingButton;
     private javax.swing.JButton czyszczenie;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -357,9 +403,12 @@ public class MainGUI extends javax.swing.JFrame{
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JComboBox odLayoutu;
     private javax.swing.JComboBox odMyszy;
+    private javax.swing.JTextArea raportArea;
     private javax.swing.JToggleButton startStopButton;
     // End of variables declaration//GEN-END:variables
 
