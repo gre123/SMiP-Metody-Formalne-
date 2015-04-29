@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import simulation.RunnableSimulation;
 
 public class MainGUI extends javax.swing.JFrame{
@@ -35,10 +36,12 @@ public class MainGUI extends javax.swing.JFrame{
    public JFrame graphFrame;
    public Thread simulationThread;
    public NetProperties netProperties;
+   public RaportConsole raportConsole;
 
     public MainGUI() {
         initComponents(); 
         netProperties = new NetProperties();
+        raportConsole = new RaportConsole(raportArea);
         graphMouse = new DefaultModalGraphMouse();
         graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
         SMiP.graphNet = Przerob.getGraph();
@@ -377,15 +380,21 @@ public class MainGUI extends javax.swing.JFrame{
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 
       JDialog authors = new JDialog(this, "Autorzy");
+      authors.setSize(200, 300);
+      JTextArea engineers = new JTextArea("pan inżynier Elpidiusz Wszołek \n"
+              + "pan inżynier Tomasz Gajda\n"
+              + "pan inżynier Piotr Knop\n"
+              + "pan inżynier Grzegorz Bylina");
+      engineers.setEditable(false);
+      engineers.setBackground(Color.LIGHT_GRAY);
+      authors.add(engineers);
+      authors.setAlwaysOnTop(true);
       authors.setVisible(true);
 // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void checkLivingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkLivingButtonActionPerformed
-        Date date = new Date();
-        
-        raportArea.setText(raportArea.getText()+"\n"+date.getHours()+":"+date.getMinutes()+">"+" Żywotność sieci : " + netProperties.checkIfNetAlive());
-        SMiP.viewer.repaint();
+        raportConsole.printLine(" Żywotność sieci : " + netProperties.checkIfNetAlive());
     }//GEN-LAST:event_checkLivingButtonActionPerformed
 
 

@@ -94,6 +94,7 @@ public class SaveLoadGui extends javax.swing.JFrame {
            panieInzynierze.setSize(300, 200);
            panieInzynierze.setLocation(500, 500);
            panieInzynierze.add(new JLabel("Wystąpił problem natury informatycznej, panie inżynierze"));
+           panieInzynierze.setAlwaysOnTop(true);
            panieInzynierze.setVisible(true);
            e.printStackTrace();
         }
