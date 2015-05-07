@@ -75,6 +75,7 @@ public class MainGUI extends javax.swing.JFrame{
         jLayeredPane1 = new javax.swing.JLayeredPane();
         startStopButton = new javax.swing.JToggleButton();
         checkAlive = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         raportArea = new javax.swing.JTextArea();
@@ -170,6 +171,15 @@ public class MainGUI extends javax.swing.JFrame{
         });
         jLayeredPane1.add(checkAlive);
         checkAlive.setBounds(10, 50, 160, 23);
+
+        jButton1.setText("Macierz incydencji");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(jButton1);
+        jButton1.setBounds(10, 80, 160, 23);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0), 3), "Raport", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 1, 10))); // NOI18N
 
@@ -404,10 +414,17 @@ public class MainGUI extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_checkAliveActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        raportConsole.printMatrix(netProperties.getIncidenceMatrix());
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton checkAlive;
     private javax.swing.JButton czyszczenie;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane1;

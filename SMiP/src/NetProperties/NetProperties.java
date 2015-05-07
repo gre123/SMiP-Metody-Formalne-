@@ -82,7 +82,6 @@ public class NetProperties {
 
         return incidenceMatrix;
     }
-    
     public void resetProperties()
     {
         Collection<node> allNodes = SMiP.graphNet.getVertices();
