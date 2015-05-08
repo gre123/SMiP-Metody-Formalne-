@@ -27,6 +27,11 @@ import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
+import model.Arc;
+import model.MyVertex;
+import model.PetriGraph;
+import static model.PetriGraph.CLASSA;
+import model.Place;
 import simulation.RunnableSimulation;
 
 public class MainGUI extends javax.swing.JFrame{
@@ -45,15 +50,23 @@ public class MainGUI extends javax.swing.JFrame{
         graphMouse = new DefaultModalGraphMouse();
         graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
         SMiP.graphNet = Przerob.getGraph();
-        graphFrame=new JFrame();
-        graphFrame.setBounds(190,255,735,485);
-        graphFrame.setAlwaysOnTop(true);
-        SMiP.viewer=Przerob.getViewer(SMiP.graphNet, "kk",graphFrame.getSize().width , graphFrame.getSize().height-25);
-        graphFrame.add(SMiP.viewer);
-        graphFrame.setTitle("Widok sieci");
-        graphFrame.setForeground(Color.LIGHT_GRAY);
-        graphFrame.getContentPane().setBackground(Color.LIGHT_GRAY);
-        graphFrame.setVisible(true);
+        SMiP.viewer=Przerob.getViewer(SMiP.graphNet, "kk", jPanelGraph.getSize().width, jPanelGraph.getSize().getSize().height);
+        jPanelGraph.add(SMiP.viewer);
+        jPanelGraph.validate();
+        jPanelGraph.repaint();
+        
+
+        
+        
+//        graphFrame=new JFrame();
+//        graphFrame.setBounds(190,255,735,485);
+//        graphFrame.setAlwaysOnTop(true);
+//        SMiP.viewer=Przerob.getViewer(SMiP.graphNet, "kk",graphFrame.getSize().width , graphFrame.getSize().height-25);
+//        graphFrame.add(SMiP.viewer);
+//        graphFrame.setTitle("Widok sieci");
+//        graphFrame.setForeground(Color.LIGHT_GRAY);
+//        graphFrame.getContentPane().setBackground(Color.LIGHT_GRAY);
+//        graphFrame.setVisible(true);
     }
   
     /**
@@ -78,6 +91,7 @@ public class MainGUI extends javax.swing.JFrame{
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         raportArea = new javax.swing.JTextArea();
+        jPanelGraph = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -233,7 +247,9 @@ public class MainGUI extends javax.swing.JFrame{
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -242,15 +258,16 @@ public class MainGUI extends javax.swing.JFrame{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
-                        .addComponent(jLayeredPane2)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLayeredPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                    .addComponent(jLayeredPane2, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLayeredPane2.getAccessibleContext().setAccessibleName("Sieć");
         jLayeredPane2.getAccessibleContext().setAccessibleDescription("");
         jLayeredPane1.getAccessibleContext().setAccessibleName("Symulacja");
 
@@ -413,6 +430,7 @@ public class MainGUI extends javax.swing.JFrame{
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelGraph;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JComboBox odLayoutu;
