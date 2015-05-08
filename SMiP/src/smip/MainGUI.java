@@ -8,26 +8,22 @@ package smip;
 import MousePlugin.MarkGraphMousePlugin;
 import MousePlugin.PopupGraphMousePlugin;
 import NetProperties.NetProperties;
-import factory.EdgeFactory;
 import Struktura_jung.Przerob;
-import factory.CircVertexFactory;
 import Struktura_jung.lokator;
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.algorithms.layout.FRLayout;
-import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
-import edu.uci.ics.jung.algorithms.layout.KKLayout;
+import edu.uci.ics.jung.algorithms.layout.*;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout;
-import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
-import java.awt.Color;
-import java.util.Date;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import factory.CircVertexFactory;
+import factory.EdgeFactory;
+import model.node;
+import org.apache.commons.collections15.Transformer;
 import simulation.RunnableSimulation;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class MainGUI extends javax.swing.JFrame{
 
@@ -49,6 +45,16 @@ public class MainGUI extends javax.swing.JFrame{
         graphFrame.setBounds(190,255,735,485);
         graphFrame.setAlwaysOnTop(true);
         SMiP.viewer=Przerob.getViewer(SMiP.graphNet, "kk",graphFrame.getSize().width , graphFrame.getSize().height-25);
+        SMiP.viewer.getRenderContext().setVertexLabelTransformer(new Transformer<node, String>() {
+            @Override
+            public String transform(node node) {
+                if (node.isTransition()) {
+                    return ("T" + node.getID());
+                } else {
+                    return ("P" + node.getID());
+                }
+            }
+        });
         graphFrame.add(SMiP.viewer);
         graphFrame.setTitle("Widok sieci");
         graphFrame.setForeground(Color.LIGHT_GRAY);
@@ -416,8 +422,7 @@ public class MainGUI extends javax.swing.JFrame{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         raportConsole.printMatrix(netProperties.getIncidenceMatrix());
-        
-// TODO add your handling code here:
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

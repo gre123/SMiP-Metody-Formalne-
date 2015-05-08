@@ -7,10 +7,10 @@ import org.apache.commons.collections15.Factory;
 
 public class RectVertexFactory implements Factory {
 
-    private static int n = 0;
+    private static int n = 1;
 
     public static void zeruj() {
-        n = 0;
+        n = 1;
     }
 
     @Override
