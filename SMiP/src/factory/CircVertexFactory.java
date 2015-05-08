@@ -6,16 +6,16 @@ import model.nodeShape;
 import org.apache.commons.collections15.Factory;
 
 /**
- * Najprostsza fabryka wierzchołków. Robi wierzchołki z kolejnymi ID od 0 wzwyż.
+ * Najprostsza fabryka wierzchołków. Robi wierzchołki z kolejnymi ID od 1 wzwyż.
  *
  * @author Epifaniusz
  */
 public class CircVertexFactory implements Factory {
 
-    private static int n = 0;
+    private static int n = 1;
 
     public static void zeruj() {
-        n = 0;
+        n = 1;
     }
 
     @Override

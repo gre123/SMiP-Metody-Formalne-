@@ -8,31 +8,27 @@ package smip;
 import MousePlugin.MarkGraphMousePlugin;
 import MousePlugin.PopupGraphMousePlugin;
 import NetProperties.NetProperties;
-import factory.EdgeFactory;
 import Struktura_jung.Przerob;
-import factory.CircVertexFactory;
 import Struktura_jung.lokator;
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.algorithms.layout.FRLayout;
-import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
-import edu.uci.ics.jung.algorithms.layout.KKLayout;
+import edu.uci.ics.jung.algorithms.layout.*;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout;
-import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
-import java.awt.Color;
-import java.util.Date;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import factory.CircVertexFactory;
+import factory.EdgeFactory;
+import model.node;
+import org.apache.commons.collections15.Transformer;
 import model.Arc;
 import model.MyVertex;
 import model.PetriGraph;
 import static model.PetriGraph.CLASSA;
 import model.Place;
 import simulation.RunnableSimulation;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class MainGUI extends javax.swing.JFrame{
 
@@ -87,7 +83,8 @@ public class MainGUI extends javax.swing.JFrame{
         jLabel3 = new javax.swing.JLabel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         startStopButton = new javax.swing.JToggleButton();
-        checkLivingButton = new javax.swing.JButton();
+        checkAlive = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         raportArea = new javax.swing.JTextArea();
@@ -176,14 +173,23 @@ public class MainGUI extends javax.swing.JFrame{
         jLayeredPane1.add(startStopButton);
         startStopButton.setBounds(20, 510, 140, 30);
 
-        checkLivingButton.setText("Sprawdź żywotność");
-        checkLivingButton.addActionListener(new java.awt.event.ActionListener() {
+        checkAlive.setText("Sprawdź żywotność");
+        checkAlive.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkLivingButtonActionPerformed(evt);
+                checkAliveActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(checkLivingButton);
-        checkLivingButton.setBounds(10, 50, 160, 30);
+        jLayeredPane1.add(checkAlive);
+        checkAlive.setBounds(10, 50, 160, 23);
+
+        jButton1.setText("Macierz incydencji");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(jButton1);
+        jButton1.setBounds(10, 80, 160, 23);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0), 3), "Raport", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 1, 10))); // NOI18N
 
@@ -410,14 +416,28 @@ public class MainGUI extends javax.swing.JFrame{
 // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void checkLivingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkLivingButtonActionPerformed
-        raportConsole.printLine(" Żywotność sieci : " + netProperties.checkIfNetAlive());
-    }//GEN-LAST:event_checkLivingButtonActionPerformed
+    private void checkAliveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkAliveActionPerformed
+        if(checkAlive.isSelected())
+        {
+            raportConsole.printLine(" Żywotność sieci : " + netProperties.checkIfNetAlive());   
+        }
+        else 
+        {
+            netProperties.resetProperties();
+            SMiP.viewer.repaint();
+        }
+    }//GEN-LAST:event_checkAliveActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        raportConsole.printMatrix(netProperties.getIncidenceMatrix());
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton checkLivingButton;
+    private javax.swing.JToggleButton checkAlive;
     private javax.swing.JButton czyszczenie;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane1;
