@@ -23,7 +23,6 @@ import org.apache.commons.collections15.Transformer;
 import model.Arc;
 import model.MyVertex;
 import model.PetriGraph;
-import static model.PetriGraph.CLASSA;
 import model.Place;
 import simulation.RunnableSimulation;
 

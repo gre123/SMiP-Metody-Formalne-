@@ -21,6 +21,7 @@ import edu.uci.ics.jung.visualization.VisualizationServer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 import factory.PlaceTransitionFactory;
+import model.PetriGraph;
 import model.Place;
 import model.Transition;
 
@@ -160,15 +161,20 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
             if (pickSupport != null) {
                 final V vertex = pickSupport.getVertex(layout, p.getX(), p.getY());
                 if (vertex != null && startVertex != null) {
+                    Graph<V, E> graph
+                        = (Graph<V, E>) vv.getGraphLayout().getGraph();
                     if ((startVertex == vertex) && vertex.getClass() == Place.class) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             ((Place) vertex).incResources();
+                            //tylko do testów, wypada robić to inaczej:
+                            System.out.println(((PetriGraph)graph).updateGraphTransitionStates());
                         } else if (e.getButton() == MouseEvent.BUTTON2) {
                             ((Place) vertex).decResources();
+                            System.out.println(((PetriGraph)graph).updateGraphTransitionStates());
                         }
                     } else {
-                        Graph<V, E> graph
-                                = (Graph<V, E>) vv.getGraphLayout().getGraph();
+//                        Graph<V, E> graph
+//                                = (Graph<V, E>) vv.getGraphLayout().getGraph();
                         boolean okToAdd = true;
                         E edge = edgeFactory.create();
                         if (edgeChecker != null) {
@@ -177,6 +183,10 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                         }
                         if (okToAdd) {
                             graph.addEdge(edge, startVertex, vertex, edgeIsDirected);
+                            //tylko do testów, wypada robić to inaczej:
+                            if (vertex.getClass() == Transition.class){
+                                ((PetriGraph)graph).updateTransitionState((Transition)vertex);
+                            }
                         }
 
                     }

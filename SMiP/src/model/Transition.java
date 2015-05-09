@@ -12,7 +12,7 @@ import edu.uci.ics.jung.graph.Graph;
  * @author Elpidiusz
  */
 public class Transition extends MyVertex{
-    boolean Active;
+    boolean active;
 
     public Transition(int id) {
         super(id, "Transition");
@@ -23,11 +23,11 @@ public class Transition extends MyVertex{
     }
 
     public boolean getActive() {
-        return Active;
+        return active;
     }
 
     public void setActive(boolean Active) {
-        this.Active = Active;
+        this.active = Active;
     }
     
 }

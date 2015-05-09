@@ -4,6 +4,8 @@ package model;
 
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.event.GraphEvent.Vertex;
+import edu.uci.ics.jung.graph.util.EdgeType;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,30 +18,6 @@ import org.apache.commons.collections15.MultiMap;
  *
  * @author Elpidiusz
  */
-
-/**
- * A Bipartite graph is divided into A vertices and B vertices. Edges only
- * connect A vertices to B vertices, and vice versa. This class extends
- * <i>UndirectedSparseGraph</i>; thus, the Graph is made up of
- * <i>UndirectedSparseVertices</i>.
- * <p>
- * Vertices can only be added to the graph with a flag that says which class
- * they will be added to (using <i>BipartiteGraph.Choice</i> ); edges must be of
- * type <i>BipartiteGraph</i>, which must consist of two vertices, one each from
- * CLASSA and CLASSB.
- * <pre>
- * BipartiteGraph bpg = new BipartiteGraph;
- * Vertex va = bpg.addVertex( new UndirectedSparseVertex(), BipartiteGraph.CLASSA );
- * Vertex vb = bpg.addVertex( new UndirectedSparseVertex(), BipartiteGraph.CLASSB );
- * bpg.addBipartiteEdge( new BipartiteEdge( va, vb ));
- * </pre> Note that the traditional <i>addVertex()</i> and <i>addEdge()</i> will
- * both throw a <i>FatalException</i>.<p>
- * The function <i>fold</i> creates an <i>UndirectedGraph</i>
- * based on finding vertices that share a common neighbor.
- *
- * @author danyelf
- * @since 1.0.1
- */
 public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
 
     private Set placeSet = new HashSet();
@@ -49,134 +27,127 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
         placeSet = new HashSet();
         transitionSet = new HashSet();
     }
-    
 
-    public PetriGraph(){
+    public PetriGraph() {
         super();
         placeSet = new HashSet();
         transitionSet = new HashSet();
     }
+
     /**
      * Returns the set of all vertices from that class. All vertices in the
-     * return set will be of class A or class B, depending on the parameter.
+     * return set will be of class specified in parameter.
+     *
+     * @param type type of vertex class you want
      */
-    public Set getAllVertices(Choice choice) {
-        if (choice == CLASSA) {
+    public Set getAllVertices(Class type) {
+        if (type == Place.class) {
             return Collections.unmodifiableSet(placeSet);
-        } else if (choice == CLASSB) {
+        } else if (type == Transition.class) {
             return Collections.unmodifiableSet(transitionSet);
         } else {
-            throw new IllegalArgumentException("Invalid partition specification " + choice);
+            throw new IllegalArgumentException("Invalid partition specification " + type.getName());
         }
     }
 
     /**
-     * Returns the partition for vertex <code>v</code>.
+     * Returns the set of all vertices
+     *
+     * @param type type of vertex class you want
+     */
+    public Collection<MyVertex> getAllVertices() {
+        return this.getVertices();
+    }
+
+    /**
+     * Returns the partition for vertex v.
      *
      * @param v
      */
-    public Choice getPartition(MyVertex v) {
-        if (placeSet.contains(v)) {
-            return CLASSA;
-        } else if (transitionSet.contains(v)) {
-            return CLASSB;
-        } else {
-            if (!this.containsVertex(v)) {
-                throw new IllegalArgumentException("Inconsistent state in graph!");
-            }
-            throw new IllegalArgumentException("Vertex " + v + " is not part of this graph");
-        }
+    public Class getPartition(MyVertex v) {
+        return v.getClass();
     }
 
+//    /**
+//     * Adds a single vertex to the graph in the specified partition.
+//     * NIE UŻYWAĆ PÓKI CO,
+//     * to będzie konwerter MyVertex do klasy zadanej w drugim parametrze
+//     * o ile będzie taka funkcja do czegoś potrzebna.
+//     * 
+//     * @param v	the vertex to be added to the class
+//     * @param choice	the class to which the vertex should be added
+//     * @return the input vertex
+//     */
+//    public MyVertex addVertex(MyVertex v, Choice choice) {
+//        String exists = "Specified partition already contains vertex ";
+//        String dup = "Another partition already contains vertex ";
+//        if (choice == CLASSA) {
+//            if (placeSet.contains(v)) {
+//                throw new IllegalArgumentException(exists + v);
+//            }
+//            if (transitionSet.contains(v)) {
+//                throw new IllegalArgumentException(dup + v);
+//            }
+//            placeSet.add(v);
+//        } else if (choice == CLASSB) {
+//            if (transitionSet.contains(v)) {
+//                throw new IllegalArgumentException(exists + v);
+//            }
+//            if (placeSet.contains(v)) {
+//                throw new IllegalArgumentException(dup + v);
+//            }
+//            transitionSet.add(v);
+//        } else {
+//            throw new IllegalArgumentException("Invalid partition specification for vertex " + v + ": " + choice);
+//        }
+//        super.addVertex(v);
+//        return v;
+//    }
     /**
-     * Adds a single vertex to the graph in the specified partition. Note that
-     * the vertex must be compatible with BipartiteVertex.
+     * Adds a BipartiteEdge to the Graph. Checks if it is not connecting
+     * vertices of the same partition
      *
-     * <p>
-     * Throws an <code>IllegalArgumentException</code> if <code>v</code> is not
-     * an element of either partition.</p>
-     *
-     * @param v	the vertex to be added to the class
-     * @param choice	the class to which the vertex should be added
-     * @return the input vertex
+     * @param bpe a BipartiteEdge
+     * @return the edge, now a member of the graph.
      */
-    public MyVertex addVertex(MyVertex v, Choice choice) {
-        String exists = "Specified partition already contains vertex ";
-        String dup = "Another partition already contains vertex ";
-        if (choice == CLASSA) {
-            if (placeSet.contains(v)) {
-                throw new IllegalArgumentException(exists + v);
-            }
-            if (transitionSet.contains(v)) {
-                throw new IllegalArgumentException(dup + v);
-            }
-            placeSet.add(v);
-        } else if (choice == CLASSB) {
-            if (transitionSet.contains(v)) {
-                throw new IllegalArgumentException(exists + v);
-            }
-            if (placeSet.contains(v)) {
-                throw new IllegalArgumentException(dup + v);
-            }
-            transitionSet.add(v);
-        } else {
-            throw new IllegalArgumentException("Invalid partition specification for vertex " + v + ": " + choice);
+    public boolean addBipartiteEdge(Arc arc, MyVertex start, MyVertex end) {
+        //trochę naiwne sprawdzanie, gdyby ktoś wsadził więcej typów wierchołków to nie będzie działało
+        if (start.getClass() != end.getClass()) {
         }
-        super.addVertex(v);
-        return v;
+        return super.addEdge(arc, start, end, EdgeType.DIRECTED);
+    }
+    
+    /**
+     * właściwie do usunięcia, jeśli weryfikacja poprawności łączenia wierzchołków jest na poziomie edytora
+     * @param arc
+     * @param start
+     * @param end
+     * @param type
+     * @return 
+     */
+    @Override
+    public boolean addEdge (Arc arc, MyVertex start, MyVertex end, EdgeType type){
+        if (type == EdgeType.UNDIRECTED){
+            return false;
+        }
+        return addBipartiteEdge(arc, start, end);
     }
 
-//    /**
-//     * Adds a BipartiteEdge to the Graph. This function is simply a typed
-//     * version of addEdge
-//     *
-//     * @param bpe a BipartiteEdge
-//     * @return the edge, now a member of the graph.
-//     */
-//    public Edge addBipartiteEdge(Edge bpe) {
-//        return super.addEdge(bpe);
-//    }
-//
-//    /**
-//     * DO NOT USE THIS METHOD. Contractually required, but merely throws a
-//     * FatalException.
-//     *
-//     * @see
-//     * edu.uci.ics.jung.graph.impl.UndirectedSparseGraph#addEdge(edu.uci.ics.jung.graph.Edge)
-//     * @deprecated Use addBipartiteEdge
-//     */
-//    public Edge addEdge(Edge ae) throws Exception {
-//        throw new Exception("Only add BipartiteEdges");
-//    }
-//
-//    /**
-//     * DO NOT USE THIS METHOD. Contractually required, but merely throws a
-//     * FatalException.
-//     *
-//     * @see
-//     * edu.uci.ics.jung.graph.impl.UndirectedSparseGraph#addVertex(edu.uci.ics.jung.graph.Vertex)
-//     * @deprecated Use addBipartiteVertex
-//     */
-//    public Vertex addVertex(Vertex av) throws Exception {
-//        throw new Exception("Use addVertexX to add vertices to a BipartiteGraph ");
-//    }
-
-    /**
-     * This small enumerated type merely forces a user to pick class "A" or "B"
-     * when adding a Vertex to a BipartiteGraph.
-     */
-    public static final class Choice {
+    @Override
+    public boolean addVertex(MyVertex vertex) {
+        if (vertex.getClass() == Place.class) {
+            placeSet.add(vertex);
+        } else if (vertex.getClass() == Transition.class) {
+            transitionSet.add(vertex);
+        } else {
+            throw new IllegalArgumentException("Invalid vertex class in addVertex: " + vertex.getClass().getName());
+        }
+        return super.addVertex(vertex);
     }
-    public static final Choice CLASSA = new Choice();
-    public static final Choice CLASSB = new Choice();
-
-    /**
-     * The tag for the UserData attached to a single Edge.
-     */
-    public static final Object BIPARTITE_USER_TAG = "BipartiteUserTag";
 
     /**
      * Adds all pairs (key, value) to the multimap from the initial set keySet.
+     * Nie wiem czy działa, skopiowane ze wzoru
      *
      * @param set
      * @param hyperEdge
@@ -188,9 +159,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
         }
     }
 
-    /* (non-Javadoc)
-     * @see edu.uci.ics.jung.graph.Graph#removeVertex(edu.uci.ics.jung.graph.Vertex)
-     */
     @Override
     public boolean removeVertex(MyVertex v) {
         if (placeSet.contains(v)) {
@@ -200,24 +168,47 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
         }
         return super.removeVertex(v);
     }
-    
-    boolean countTransitionAlive(Transition t){
+
+    /**
+     * Funkcja uaktualniająca stan przejścia (czy jest aktywne, boolean )
+     *
+     * @param t Przejście do uaktualnienia
+     * @return uaktualniony stan przejścia
+     */
+    public boolean updateTransitionState(Transition t) {
+        for (Object place : this.getPredecessors(t)) {
+            Arc connectingEdge = this.findEdge((Place) place, t);
+            if (((Place) place).getResources() < connectingEdge.getValue()) {
+                t.setActive(false);
+                return false;
+            }
+        }
+        t.setActive(true);
+        return true;
+    }
+
+    /**
+     * Funkcja uaktualniająca stany przejść całego grafu
+     *
+     * @return coś jak L4 żywotność
+     */
+    public boolean updateGraphTransitionStates() {
         boolean alive = true;
-        for(Object transition:this.getPredecessors(t)){
-            if (((Place)transition).getResources()<1){
-                alive=false;
+        for (Object transition : this.transitionSet) {
+            if (!updateTransitionState((Transition) transition)) {
+                alive = false;
             }
         }
         return alive;
     }
-    public boolean isGraphAlive(){
-        boolean alive = true;
-        for(Object transition:this.getAllVertices(CLASSB)){
-            if (!((Transition)transition).getActive()){
-                alive=false;
-            }
-        }
-        return alive;
+
+    /**
+     * Coś jak L4 żywotność: wszystkie przejścia są aktywne
+     *
+     * @return true jesli wszystkie przejscia sa aktywne
+     */
+    public boolean dummyisGraphAlive() {
+        return updateGraphTransitionStates();
     }
 
 }

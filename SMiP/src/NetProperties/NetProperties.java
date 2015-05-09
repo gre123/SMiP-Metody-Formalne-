@@ -42,7 +42,7 @@ public class NetProperties {
         int[][] outputsMatrix;
         int[][] incidenceMatrix;
 
-        //tworzenie list miejsc i przejœæ
+        //tworzenie list miejsc i przejsc
         for (node node : nodes) {
             if (node.isTransition()) {
                 transitions.add(node);
