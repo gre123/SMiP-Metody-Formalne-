@@ -5,8 +5,10 @@ package model;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.event.GraphEvent.Vertex;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -20,8 +22,8 @@ import org.apache.commons.collections15.MultiMap;
  */
 public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
 
-    private Set placeSet = new HashSet();
-    private Set transitionSet = new HashSet();
+    private Set<Place> placeSet = new HashSet();
+    private Set<Transition> transitionSet = new HashSet();
 
     public void initialize() {
         placeSet = new HashSet();
@@ -116,18 +118,20 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
         }
         return super.addEdge(arc, start, end, EdgeType.DIRECTED);
     }
-    
+
     /**
-     * właściwie do usunięcia, jeśli weryfikacja poprawności łączenia wierzchołków jest na poziomie edytora
+     * właściwie do usunięcia, jeśli weryfikacja poprawności łączenia
+     * wierzchołków jest na poziomie edytora
+     *
      * @param arc
      * @param start
      * @param end
      * @param type
-     * @return 
+     * @return
      */
     @Override
-    public boolean addEdge (Arc arc, MyVertex start, MyVertex end, EdgeType type){
-        if (type == EdgeType.UNDIRECTED){
+    public boolean addEdge(Arc arc, MyVertex start, MyVertex end, EdgeType type) {
+        if (type == EdgeType.UNDIRECTED) {
             return false;
         }
         return addBipartiteEdge(arc, start, end);
@@ -136,9 +140,9 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
     @Override
     public boolean addVertex(MyVertex vertex) {
         if (vertex.getClass() == Place.class) {
-            placeSet.add(vertex);
+            placeSet.add((Place) vertex);
         } else if (vertex.getClass() == Transition.class) {
-            transitionSet.add(vertex);
+            transitionSet.add((Transition) vertex);
         } else {
             throw new IllegalArgumentException("Invalid vertex class in addVertex: " + vertex.getClass().getName());
         }
@@ -209,6 +213,70 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
      */
     public boolean dummyisGraphAlive() {
         return updateGraphTransitionStates();
+    }
+
+    /**
+     * mało optymalna implementacja, można by zamiast przeglądać wszystkie miejsca i przejścia
+     * skorzystać z np getPredecessors();
+     * @return 
+     */
+    public int[][] getNplus() {
+        Object[] placearray = placeSet.toArray();
+//        //nie najlepszy sposób na sortowanie, wypadałoby te komparatory ogarnąć w źródłowych klasach
+//        Arrays.sort(placearray, new Comparator<Object>() {
+//            @Override
+//            public int compare(Object p1, Object p2) {
+//                return Integer.compare(((Place)p1).id, ((Place)p2).id);
+//            }
+//        });
+        Arrays.sort(placearray);
+        Object[] transitionarray = transitionSet.toArray();
+//        //nie najlepszy sposób na sortowanie, wypadałoby te komparatory ogarnąć w źródłowych klasach
+//        Arrays.sort(transitionarray, new Comparator<Object>() {
+//            @Override
+//            public int compare(Object p1, Object p2) {
+//                return Integer.compare(((Transition)p1).id, ((Transition)p2).id);
+//            }
+//        });
+        Arrays.sort(transitionarray);
+        int[][] nplus = new int[placeSet.size()][transitionSet.size()];
+
+        for (int i = 0; i < placearray.length; i++) {
+            for (int j = 0; j < transitionarray.length; j++) {
+                if (this.isPredecessor((Place) placearray[i], (Transition) transitionarray[j])) {
+                    nplus[i][j] = this.findEdge((Transition) transitionarray[j], (Place) placearray[i]).getValue();
+                }
+            }
+        }
+        return nplus;
+    }
+    public int[][] getNminus() {
+        Object[] placearray = placeSet.toArray();
+        Arrays.sort(placearray);
+        Object[] transitionarray = transitionSet.toArray();
+        Arrays.sort(transitionarray);
+        int[][] nminus = new int[placeSet.size()][transitionSet.size()];
+
+        for (int i = 0; i < placearray.length; i++) {
+            for (int j = 0; j < transitionarray.length; j++) {
+                if (this.isSuccessor((Place) placearray[i], (Transition) transitionarray[j])) {
+                    nminus[i][j] = this.findEdge((Place) placearray[i], (Transition) transitionarray[j]).getValue();
+                }
+            }
+        }
+        return nminus;
+    }
+     public int[][] getNincidence() {
+        int[][] nplus = this.getNplus();
+        int[][] nminus = this.getNminus();
+        int[][] nincidence = new int[nplus.length][nplus[0].length];
+        
+        for (int i = 0; i < nplus.length; i++) {
+            for (int j = 0; j < nplus[0].length; j++) {
+                nincidence[i][j] = nplus[i][j] - nminus[i][j];
+            }
+        }
+        return nincidence;
     }
 
 }

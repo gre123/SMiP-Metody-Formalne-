@@ -5,12 +5,13 @@
  */
 package model;
 import edu.uci.ics.jung.graph.Graph;
+import java.util.Comparator;
 
 /**
  *
  * @author Elpidiusz
  */
-public class MyVertex{
+public class MyVertex implements Comparable<MyVertex>{
     int id;
     String description;
     
@@ -21,4 +22,7 @@ public class MyVertex{
     public MyVertex(int id){
         this.id = id;
     }
+
+    public int compareTo(MyVertex v2) {
+        return ((Integer)this.id).compareTo((Integer)v2.id);    }
 }
