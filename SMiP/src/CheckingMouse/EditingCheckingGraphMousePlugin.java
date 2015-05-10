@@ -33,11 +33,11 @@ import model.Transition;
  * added to the graph. Note: all "significant" code reused from Tom Nelson's
  * EditingGraphMousePlugin, I just added checking hooks.
  *
- * @author Dr. Greg Bernstein
- * Epifaniusz: pozmieniałem trochę zmieniając działanie lewego klawisza myszy
- * i dodając obsługę środkowego kliknięcia (odejmuje znaczniki).
- * TODO: w przyszłości wypada się zastanowić jakie akcje powinny być pod odpowiednimi
- * przyciskami i to pozmieniać, bo teraz jest trochę małi intuicyjnie
+ * @author Dr. Greg Bernstein Epifaniusz: pozmieniałem trochę zmieniając
+ * działanie lewego klawisza myszy i dodając obsługę środkowego kliknięcia
+ * (odejmuje znaczniki). TODO: w przyszłości wypada się zastanowić jakie akcje
+ * powinny być pod odpowiednimi przyciskami i to pozmieniać, bo teraz jest
+ * trochę małi intuicyjnie
  *
  */
 public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlugin<V, E> {
@@ -46,7 +46,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
     protected VertexChecker<V, E> vertexChecker;
 
     public EditingCheckingGraphMousePlugin(Factory<V> vertexFactory, Factory<E> edgeFactory) {
-        this(MouseEvent.BUTTON2_MASK+MouseEvent.BUTTON1_MASK, vertexFactory, edgeFactory);
+        this(MouseEvent.BUTTON2_MASK + MouseEvent.BUTTON1_MASK, vertexFactory, edgeFactory);
     }
 
     /**
@@ -74,13 +74,13 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
     public boolean checkModifiers(MouseEvent e) {
         return (e.getModifiers() & modifiers) != 0;
     }
-    
+
     /**
      * If the mouse is pressed in an empty area, create a new vertex there. If
      * the mouse is pressed on an existing vertex, prepare to create an edge
-     * from that vertex to another
-     * Moja wersja: jak myszka kliknięta w pustym polu, to zależnie od przycisku myszy 
-     * zrób tam Place (lewy) albo Transition(środkowy)
+     * from that vertex to another Moja wersja: jak myszka kliknięta w pustym
+     * polu, to zależnie od przycisku myszy zrób tam Place (lewy) albo
+     * Transition(środkowy)
      */
     @SuppressWarnings("unchecked")
     public void mousePressed(MouseEvent e) {
@@ -113,11 +113,11 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                     }
                 } else { // make a new vertex 
                     V newVertex;
-                    if (vertexFactory.getClass() == PlaceTransitionFactory.class){
-                        if (e.getButton() == MouseEvent.BUTTON1){
-                            newVertex = (V) ((PlaceTransitionFactory)vertexFactory).create(Place.class);
-                        } else if ((e.getButton() == MouseEvent.BUTTON2)){
-                            newVertex = (V) ((PlaceTransitionFactory)vertexFactory).create(Transition.class);
+                    if (vertexFactory.getClass() == PlaceTransitionFactory.class) {
+                        if (e.getButton() == MouseEvent.BUTTON1) {
+                            newVertex = (V) ((PlaceTransitionFactory) vertexFactory).create(Place.class);
+                        } else if ((e.getButton() == MouseEvent.BUTTON2)) {
+                            newVertex = (V) ((PlaceTransitionFactory) vertexFactory).create(Transition.class);
                         } else {
                             newVertex = vertexFactory.create();
                         }
@@ -139,16 +139,14 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
             vv.repaint();
         }
     }
-    
+
     /**
      * If startVertex is non-null, and the mouse is released over an existing
      * vertex, create an undirected edge from startVertex to the vertex under
      * the mouse pointer. If shift was also pressed, create a directed edge
-     * instead.
-     * Moja wersja: jeśli startVertex nie jest nullem i myszka jest puszczona
-     * nad tym samym wierchołkiem, to jeśli to jest Place to:
-     * 1. lewy klawisz - znakowanie++
-     * 2. środkowy klawisz - znakowanie--
+     * instead. Moja wersja: jeśli startVertex nie jest nullem i myszka jest
+     * puszczona nad tym samym wierchołkiem, to jeśli to jest Place to: 1. lewy
+     * klawisz - znakowanie++ 2. środkowy klawisz - znakowanie--
      */
     @SuppressWarnings("unchecked")
     public void mouseReleased(MouseEvent e) {
@@ -162,15 +160,15 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                 final V vertex = pickSupport.getVertex(layout, p.getX(), p.getY());
                 if (vertex != null && startVertex != null) {
                     Graph<V, E> graph
-                        = (Graph<V, E>) vv.getGraphLayout().getGraph();
+                            = (Graph<V, E>) vv.getGraphLayout().getGraph();
                     if ((startVertex == vertex) && vertex.getClass() == Place.class) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             ((Place) vertex).incResources();
-                            //tylko do testów, wypada robić to inaczej:
-                            System.out.println(((PetriGraph)graph).updateGraphTransitionStates());
+                            //wypadałoby aktualizować stany tylko sąsiednich wierzchołków a nie całości
+                            ((PetriGraph) graph).updateGraphTransitionStates();
                         } else if (e.getButton() == MouseEvent.BUTTON2) {
                             ((Place) vertex).decResources();
-                            System.out.println(((PetriGraph)graph).updateGraphTransitionStates());
+                            ((PetriGraph) graph).updateGraphTransitionStates();
                         }
                     } else {
 //                        Graph<V, E> graph
@@ -184,8 +182,8 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                         if (okToAdd) {
                             graph.addEdge(edge, startVertex, vertex, edgeIsDirected);
                             //tylko do testów, wypada robić to inaczej:
-                            if (vertex.getClass() == Transition.class){
-                                ((PetriGraph)graph).updateTransitionState((Transition)vertex);
+                            if (vertex.getClass() == Transition.class) {
+                                ((PetriGraph) graph).updateTransitionState((Transition) vertex);
                             }
                         }
 

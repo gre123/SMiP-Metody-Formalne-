@@ -3,14 +3,17 @@
 package model;
 
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.graph.event.GraphEvent.Vertex;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.commons.collections15.MultiMap;
 
@@ -20,7 +23,7 @@ import org.apache.commons.collections15.MultiMap;
  *
  * @author Elpidiusz
  */
-public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
+public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Serializable {
 
     private Set<Place> placeSet = new HashSet();
     private Set<Transition> transitionSet = new HashSet();
@@ -42,7 +45,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
      *
      * @param type type of vertex class you want
      */
-    public Set getAllVertices(Class type) {
+    public Collection<MyVertex> getAllVertices(Class type) {
         if (type == Place.class) {
             return Collections.unmodifiableSet(placeSet);
         } else if (type == Transition.class) {
@@ -187,6 +190,13 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
                 return false;
             }
         }
+        for (Object place : this.getSuccessors(t)) {
+            Arc connectingEdge = this.findEdge(t, (Place) place);
+            if (((Place) place).getCapacity() < ((Place) place).getResources() + connectingEdge.getValue()) {
+                t.setActive(false);
+                return false;
+            }
+        }
         t.setActive(true);
         return true;
     }
@@ -215,9 +225,10 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
     }
 
     /**
-     * mało optymalna implementacja, można by zamiast przeglądać wszystkie miejsca i przejścia
-     * skorzystać z np getPredecessors();
-     * @return 
+     * mało optymalna implementacja, można by zamiast przeglądać wszystkie
+     * miejsca i przejścia skorzystać z np getPredecessors();
+     *
+     * @return
      */
     public int[][] getNplus() {
         Object[] placearray = placeSet.toArray();
@@ -249,6 +260,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
         }
         return nplus;
     }
+
     public int[][] getNminus() {
         Object[] placearray = placeSet.toArray();
         Arrays.sort(placearray);
@@ -265,17 +277,61 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
         }
         return nminus;
     }
-     public int[][] getNincidence() {
+
+    public int[][] getNincidence() {
         int[][] nplus = this.getNplus();
         int[][] nminus = this.getNminus();
         int[][] nincidence = new int[nplus.length][nplus[0].length];
-        
+
         for (int i = 0; i < nplus.length; i++) {
             for (int j = 0; j < nplus[0].length; j++) {
                 nincidence[i][j] = nplus[i][j] - nminus[i][j];
             }
         }
         return nincidence;
+    }
+
+    public Map<Place, Integer> getMarking() {
+        Map marking = new HashMap<>();
+        for (Place place : this.placeSet) {
+            marking.put(place, place.resources);
+        }
+        return marking;
+    }
+
+    public void setMarking(Map<Place, Integer> marking) {
+        for (Map.Entry<Place, Integer> entry : marking.entrySet()) {
+            if (this.containsVertex(entry.getKey())) {
+                entry.getKey().setResources(entry.getValue());
+            }
+        }
+    }
+
+    public List<Transition> getActiveTransitions() {
+        this.updateGraphTransitionStates();
+        List<Transition> activetransitions = new ArrayList<>();
+        for (Transition t : this.transitionSet) {
+            if (t.getActive()) {
+                activetransitions.add(t);
+            }
+        }
+        return activetransitions;
+    }
+
+    public boolean executeTransition(Transition t) {
+        if (updateTransitionState(t)) {
+            for (Object place : this.getPredecessors(t)) {
+                Arc connectingEdge = this.findEdge((Place) place, t);
+                ((Place) place).decResources(connectingEdge.getValue());
+            }
+            for (Object place : this.getSuccessors(t)) {
+                Arc connectingEdge = this.findEdge(t, (Place) place);
+                ((Place) place).incResources(connectingEdge.getValue());
+            }
+        }
+        //wypadałoby tylko dla powiązanych miejsc, wszędzie gdzie ta funkcja jest użyta
+        updateGraphTransitionStates();
+        return true;
     }
 
 }
