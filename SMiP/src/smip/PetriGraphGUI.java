@@ -112,7 +112,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sieć miejsc i przejsć");
-        setMaximumSize(new java.awt.Dimension(1920, 1080));
         setName("main_frame"); // NOI18N
 
         jPanelActions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -148,7 +147,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         });
 
         jToggleButtonSymulacja.setText("Symuluj");
-        jToggleButtonSymulacja.setEnabled(false);
         jToggleButtonSymulacja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButtonSymulacjaActionPerformed(evt);
