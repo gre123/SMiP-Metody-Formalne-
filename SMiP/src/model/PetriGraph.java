@@ -281,6 +281,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     public int[][] getNincidence() {
         int[][] nplus = this.getNplus();
         int[][] nminus = this.getNminus();
+        if( nplus.length==0 ||  nplus[0].length==0){return null;}
         int[][] nincidence = new int[nplus.length][nplus[0].length];
 
         for (int i = 0; i < nplus.length; i++) {
@@ -332,6 +333,22 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         //wypadałoby tylko dla powiązanych miejsc, wszędzie gdzie ta funkcja jest użyta
         updateGraphTransitionStates();
         return true;
+    }
+
+    public Set<Place> getPlaceSet() {
+        return placeSet;
+    }
+
+    public void setPlaceSet(Set<Place> placeSet) {
+        this.placeSet = placeSet;
+    }
+
+    public Set<Transition> getTransitionSet() {
+        return transitionSet;
+    }
+
+    public void setTransitionSet(Set<Transition> transitionSet) {
+        this.transitionSet = transitionSet;
     }
 
 }

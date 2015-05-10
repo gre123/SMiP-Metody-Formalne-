@@ -1,14 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package smip.table;
 
+import java.awt.Color;
+
 /**
- *
  * @author Tomek
  */
 public class Cell {
-    
+    int x;
+    int y;
+    Color color;
+   public  Cell(int _y,int _x,Color _color){
+        x=_x;
+        y=_y;
+        color=_color;
+    }
 }

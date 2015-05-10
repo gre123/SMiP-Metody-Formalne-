@@ -11,32 +11,38 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author Tomek
  */
 public class Table extends DefaultTableCellRenderer {
-    private final ArrayList<Cell> colloredCell=new ArrayList<>();
-    
-    public void addColloredCells(Cell cell){
+
+    private final ArrayList<Cell> colloredCell = new ArrayList<>();
+
+    public void addColloredCells(int[][] matrix) {
+        
+        
+    }
+
+    public void addColloredCells(Cell cell) {
         colloredCell.add(cell);
     }
-    
-    public void cleanColloredCells(){
+
+    public void cleanColloredCells() {
         colloredCell.clear();
     }
-    
+
     @Override
     public Component getTableCellRendererComponent(JTable table,
-                                                 Object value,
-                                                 boolean isSelected,
-                                                 boolean hasFocus,
-                                                 int row,
-                                                 int column) {
-    Component c = super.getTableCellRendererComponent(table, value,
-                                          isSelected, hasFocus,
-                                          row, column);
-    c.setBackground(new Color(255,255,255));
-    for (int i=0;i<colloredCell.size();i++){
-        if(colloredCell.get(i).x==column && colloredCell.get(i).y==row){
-            c.setBackground(colloredCell.get(i).color);
+            Object value,
+            boolean isSelected,
+            boolean hasFocus,
+            int row,
+            int column) {
+        Component c = super.getTableCellRendererComponent(table, value,
+                isSelected, hasFocus,
+                row, column);
+        c.setBackground(new Color(255, 255, 255));
+        for (int i = 0; i < colloredCell.size(); i++) {
+            if (colloredCell.get(i).x == column && colloredCell.get(i).y == row) {
+                c.setBackground(colloredCell.get(i).color);
+            }
         }
+        return c;
     }
-    return c;
-  }
 }

@@ -14,10 +14,11 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import factory.ArcFactory;
 import factory.PlaceTransitionFactory;
+import java.awt.Color;
 import java.awt.Dimension;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
+import javax.swing.JTextArea;
 import model.Arc;
 import model.MyVertex;
 import model.PetriGraph;
@@ -25,6 +26,7 @@ import org.apache.commons.collections15.Factory;
 import painter.MyVertexColorPainter;
 import painter.MyVertexShapePainter;
 import simulation.RunnableSimulationPetriGraph;
+import smip.views.MatrixForm;
 
 /**
  *
@@ -38,7 +40,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     ArcChecker eCheck;
     VisualizationViewer vv;
     Thread simulationThread;
-
+    MatrixForm matrixForm;
 
     /**
      * Creates new form PetriGraphGUI
@@ -50,6 +52,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         edgeFactory = new ArcFactory();
         vCheck = new MyVertexChecker();
         eCheck = new ArcChecker();
+        
+        jPanelGraph.setSize(600, 400);
         
         Layout<MyVertex, Arc> layout = new StaticLayout(graph);
         layout.setSize(this.jPanelGraph.getSize());
@@ -72,19 +76,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         gm.setEditingPlugin(plugin);
         vv.setGraphMouse(gm);
 
-        // Let's add a menu for changing mouse modes
-        JMenu modeMenu = gm.getModeMenu();
-        modeMenu.setText("Mouse Mode");
-        modeMenu.setIcon(null);
         gm.setMode(ModalGraphMouse.Mode.EDITING);
-        modeMenu.setPreferredSize(new Dimension(80,20));
         
         simulationThread=new Thread(new RunnableSimulationPetriGraph(graph, vv));
+        vv.setBackground(new java.awt.Color(204, 255, 255));
+        createMenu(gm);
 
-        
-        jMenuBar.add(modeMenu);
-        
-        
         jPanelGraph.add(vv);
         jPanelGraph.validate();
         jPanelGraph.repaint();
@@ -106,9 +103,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         jButtonIncidenceMatrix = new javax.swing.JButton();
         jToggleButtonSymulacja = new javax.swing.JToggleButton();
         jPanelGraph = new javax.swing.JPanel();
-        jMenuBar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        menuBar = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sieć miejsc i przejsć");
@@ -186,51 +187,110 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         jPanelGraph.setToolTipText("Panel z grafem");
         jPanelGraph.setPreferredSize(new java.awt.Dimension(600, 400));
 
-        jMenu1.setText("File");
-        jMenuBar.add(jMenu1);
+        jMenu3.setText("O programie");
 
-        jMenu2.setText("Edit");
-        jMenuBar.add(jMenu2);
+        jMenuItem3.setText("Autorzy");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
 
-        setJMenuBar(jMenuBar);
+        jMenuItem4.setText("Licencja");
+        jMenu3.add(jMenuItem4);
+
+        menuBar.add(jMenu3);
+
+        jMenu4.setText("Sieć");
+
+        jMenuItem2.setText("Zapisz sieć");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem2);
+
+        jMenuItem1.setText("Wczytaj sieć");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem1);
+
+        menuBar.add(jMenu4);
+
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanelActions, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanelActions, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelGraph, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanelActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void createMenu(EditingModalGraphMouse2 gm){
+        // Let's add a menu for changing mouse modes
+        JMenu modeMenu = gm.getModeMenu();
+        modeMenu.setText("Mouse Mode");
+        modeMenu.setIcon(null);
+        modeMenu.setPreferredSize(new Dimension(80,20));
+        menuBar.add(modeMenu);
+        
+        JMenu viewMenu = new JMenu();
+        viewMenu.setText("Widok");
+        viewMenu.setIcon(null);
+        
+        menuBar.add(viewMenu);
+    }
+    
     private void jButtonActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActiveActionPerformed
         System.out.println("Wszystkie przejścia są aktywe: "+graph.updateGraphTransitionStates());
     }//GEN-LAST:event_jButtonActiveActionPerformed
 
     private void jButtonNplusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNplusActionPerformed
         System.out.println("Macierz N+: "+java.util.Arrays.deepToString(graph.getNplus()));
+        drawTable(graph.getNplus());
     }//GEN-LAST:event_jButtonNplusActionPerformed
 
     private void jButtonNminusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNminusActionPerformed
         System.out.println("Macierz N-: "+java.util.Arrays.deepToString(graph.getNminus()));
+         drawTable(graph.getNminus());
     }//GEN-LAST:event_jButtonNminusActionPerformed
 
     private void jButtonIncidenceMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncidenceMatrixActionPerformed
         System.out.println("Macierz incydencji: "+java.util.Arrays.deepToString(graph.getNincidence()));
+        drawTable(graph.getNincidence());
     }//GEN-LAST:event_jButtonIncidenceMatrixActionPerformed
 
+    private void drawTable(int[][] matrix){
+        if (matrix == null){return; }
+        if (matrixForm==null){
+            matrixForm=new MatrixForm();
+        }
+        matrixForm.setVisible(true);
+        matrixForm.drawTable(matrix,graph.getTransitionSet());
+    }
+    
     private void jToggleButtonSymulacjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonSymulacjaActionPerformed
         if (jToggleButtonSymulacja.isSelected()) {
             simulationThread.start();
@@ -238,6 +298,29 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             simulationThread.stop(); //tak się nie powinno robić, ale nie umiem tak jak się powinno
         }
     }//GEN-LAST:event_jToggleButtonSymulacjaActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+
+        JDialog authors = new JDialog(this, "Autorzy");
+        authors.setSize(200, 100);
+        JTextArea engineers = new JTextArea("pan inżynier Elpidiusz Wszołek \n"
+            + "pan inżynier Tomasz Gajda\n"
+            + "pan inżynier Piotr Knop\n"
+            + "pan inżynier Grzegorz Bylina");
+        engineers.setEditable(false);
+        engineers.setBackground(Color.LIGHT_GRAY);
+        authors.add(engineers);
+        authors.setAlwaysOnTop(true);
+        authors.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        new SaveLoadGui('s').setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        new SaveLoadGui('l').setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,11 +362,15 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonIncidenceMatrix;
     private javax.swing.JButton jButtonNminus;
     private javax.swing.JButton jButtonNplus;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanelActions;
     private javax.swing.JPanel jPanelGraph;
     private javax.swing.JToggleButton jToggleButtonSymulacja;
+    private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 }
