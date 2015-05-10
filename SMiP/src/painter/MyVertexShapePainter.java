@@ -16,9 +16,9 @@ public class MyVertexShapePainter implements Transformer<MyVertex, Shape>{
     public Shape transform(MyVertex v)
     {
         if (v.getClass() == Place.class) {
-            return new Area(new Ellipse2D.Float(-10, -10, 20, 20));
+            return new Area(new Ellipse2D.Float(-15, -15, 30, 30));
         } else if (v.getClass() == Transition.class) {
-            return new Area(new Rectangle(-10,-10, 20, 40));
+            return new Area(new Rectangle(-5,-5, 10, 30));
         }
         return new Area(new Ellipse2D.Float(-5, -10, 10, 20));//nie powinno takich wierzchołków być
     }

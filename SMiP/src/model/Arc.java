@@ -7,9 +7,17 @@ public class Arc {
 
     int value = 1;
 
+    public Arc() {
+        super();
+    }
+
+    public Arc(int val) {
+        value = val;
+    }
+
     @Override
     public String toString() {
-        return "szczałka(" + value + ")";
+        return "(" + value + ")";
     }
 
     public int getValue() {

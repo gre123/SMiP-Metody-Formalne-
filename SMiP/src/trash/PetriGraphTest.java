@@ -6,7 +6,7 @@
  * Copyright March 8, 2007 Grotto Networking
  */
 
-package smip;
+package trash;
 
 import CheckingMouse.ArcChecker;
 import CheckingMouse.EditingCheckingGraphMousePlugin;
