@@ -20,7 +20,7 @@ import painter.*;
 public class Przerob {
 
     public static DirectedSparseGraph<node, Integer> getGraph() {  
-        return new DirectedSparseGraph<node, Integer>();
+        return new DirectedSparseGraph<>();
     }
 
     public static VisualizationViewer<node, Integer> getViewer(Graph g, String layout, int width, int height) {
@@ -43,7 +43,7 @@ public class Przerob {
         
         lay.setSize(new Dimension(width, height));
         VisualizationViewer<node, Integer> vv =
-                new VisualizationViewer<node, Integer>(lay,
+                new VisualizationViewer<>(lay,
                 new Dimension(width, height));
         DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
         gm.setMode(ModalGraphMouse.Mode.TRANSFORMING);

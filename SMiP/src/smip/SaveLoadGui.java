@@ -11,7 +11,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
 /**
- *
  * @author Grzesiek
  */
 public class SaveLoadGui extends javax.swing.JFrame {
@@ -24,16 +23,11 @@ public class SaveLoadGui extends javax.swing.JFrame {
         switch(operation)
         {
             case 's':
-            {
                 fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
                 break;
-            }
             case 'l':
-            {
                 fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
                 break;
-            }
-            
         }
     }
 
@@ -79,17 +73,13 @@ public class SaveLoadGui extends javax.swing.JFrame {
 
     private void fileChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileChooserActionPerformed
        try{
-            if(fileChooser.getDialogType()==JFileChooser.OPEN_DIALOG)
-            {
+            if(fileChooser.getDialogType()==JFileChooser.OPEN_DIALOG){
                 SaveNetUtil.loadNet(fileChooser.getSelectedFile().getAbsolutePath());
             }
-            else
-            {
+            else{
                 SaveNetUtil.saveNet(fileChooser.getSelectedFile().getAbsolutePath());
-               
             }
-        }catch(Exception e)
-        {
+        }catch(Exception e){
            JDialog panieInzynierze = new JDialog(SMiP.mainGUI,"Panie inżynierze");
            panieInzynierze.setSize(300, 200);
            panieInzynierze.setLocation(500, 500);
@@ -101,8 +91,6 @@ public class SaveLoadGui extends javax.swing.JFrame {
         finally{
            this.dispose();
         }
-        
-// TODO add your handling code here:
     }//GEN-LAST:event_fileChooserActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

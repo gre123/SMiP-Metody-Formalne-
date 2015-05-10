@@ -1,5 +1,3 @@
-/*
- */
 package CheckingMouse;
 
 import edu.uci.ics.jung.graph.Graph;
@@ -11,7 +9,6 @@ import model.Arc;
 import model.MyVertex;
 
 /**
- *
  * @author Elpidiusz
  */
     public class ArcChecker implements EdgeChecker<MyVertex, Arc> {

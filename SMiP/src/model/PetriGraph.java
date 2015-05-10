@@ -197,13 +197,12 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> {
      * @return coś jak L4 żywotność
      */
     public boolean updateGraphTransitionStates() {
-        boolean alive = true;
         for (Object transition : this.transitionSet) {
             if (!updateTransitionState((Transition) transition)) {
-                alive = false;
+                return false;
             }
         }
-        return alive;
+        return true;
     }
 
     /**

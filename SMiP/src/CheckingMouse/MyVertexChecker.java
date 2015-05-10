@@ -1,5 +1,3 @@
-/*
- */
 package CheckingMouse;
 
 import edu.uci.ics.jung.graph.Graph;
@@ -10,7 +8,6 @@ import model.MyVertex;
 import model.PetriGraph;
 
 /**
- *
  * @author Elpidiusz
  */
     public class MyVertexChecker implements EditingCheckingGraphMousePlugin.VertexChecker<MyVertex,Arc> {

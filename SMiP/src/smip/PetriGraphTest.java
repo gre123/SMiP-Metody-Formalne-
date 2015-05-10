@@ -62,7 +62,7 @@ public class PetriGraphTest {
         // Layout<V, E>, VisualizationViewer<V,E>
         Layout<MyVertex, Arc> layout = new StaticLayout(sgv.g);
         layout.setSize(new Dimension(500,500));
-        VisualizationViewer<MyVertex, Arc> vv = new VisualizationViewer<MyVertex, Arc>(layout);
+        VisualizationViewer<MyVertex, Arc> vv = new VisualizationViewer<>(layout);
         vv.setPreferredSize(new Dimension(550,550));
         // Show vertex and edge labels
         vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());

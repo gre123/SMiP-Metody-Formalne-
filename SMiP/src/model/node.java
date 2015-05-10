@@ -107,8 +107,7 @@ public class node implements Serializable{
     
     public boolean hasMark()
     {
-        if(markCount>0) return true;
-        return false;
+        return markCount>0;
     }
     public int getMarkCount()
     {

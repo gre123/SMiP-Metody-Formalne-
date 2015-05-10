@@ -28,6 +28,5 @@ public class MyVertexColorPainter implements Transformer<MyVertex, Paint> {
             }
         }
         return Color.GRAY;
-
     }
 }

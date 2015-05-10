@@ -18,12 +18,6 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 import factory.CircVertexFactory;
 import factory.EdgeFactory;
-import model.node;
-import org.apache.commons.collections15.Transformer;
-import model.Arc;
-import model.MyVertex;
-import model.PetriGraph;
-import model.Place;
 import simulation.RunnableSimulation;
 
 import javax.swing.*;
@@ -45,10 +39,10 @@ public class MainGUI extends javax.swing.JFrame{
         graphMouse = new DefaultModalGraphMouse();
         graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
         SMiP.graphNet = Przerob.getGraph();
-        SMiP.viewer=Przerob.getViewer(SMiP.graphNet, "kk", jPanelGraph.getSize().width, jPanelGraph.getSize().getSize().height);
-        jPanelGraph.add(SMiP.viewer);
-        jPanelGraph.validate();
-        jPanelGraph.repaint();
+        SMiP.viewer=Przerob.getViewer(SMiP.graphNet, "kk", pnlMain.getSize().width, pnlMain.getSize().getSize().height);
+        pnlMain.add(SMiP.viewer);
+        pnlMain.validate();
+        pnlMain.repaint();
         
 
         
@@ -83,11 +77,11 @@ public class MainGUI extends javax.swing.JFrame{
         jLayeredPane1 = new javax.swing.JLayeredPane();
         startStopButton = new javax.swing.JToggleButton();
         checkAlive = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
+        btnMatrixInc = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         raportArea = new javax.swing.JTextArea();
-        jPanelGraph = new javax.swing.JPanel();
+        pnlMain = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -181,14 +175,14 @@ public class MainGUI extends javax.swing.JFrame{
         jLayeredPane1.add(checkAlive);
         checkAlive.setBounds(10, 50, 160, 23);
 
-        jButton1.setText("Macierz incydencji");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnMatrixInc.setText("Macierz incydencji");
+        btnMatrixInc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnMatrixIncActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(jButton1);
-        jButton1.setBounds(10, 80, 160, 23);
+        jLayeredPane1.add(btnMatrixInc);
+        btnMatrixInc.setBounds(10, 80, 160, 23);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0), 3), "Raport", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Cambria", 1, 10))); // NOI18N
 
@@ -254,7 +248,7 @@ public class MainGUI extends javax.swing.JFrame{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -265,7 +259,7 @@ public class MainGUI extends javax.swing.JFrame{
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLayeredPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
@@ -372,22 +366,16 @@ public class MainGUI extends javax.swing.JFrame{
 
     private void odMyszyItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_odMyszyItemStateChanged
 
-        // TODO add your handling code here:
     }//GEN-LAST:event_odMyszyItemStateChanged
 
     private void startStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startStopButtonActionPerformed
-        if(startStopButton.isSelected())
-        {
+        if(startStopButton.isSelected()){
             simulationThread = new Thread(new RunnableSimulation());
             simulationThread.start();
         }
-        else
-        {
+        else{
             simulationThread.stop();
         }
-        
-
-// TODO add your handling code here:
     }//GEN-LAST:event_startStopButtonActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -427,16 +415,16 @@ public class MainGUI extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_checkAliveActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnMatrixIncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatrixIncActionPerformed
         raportConsole.printMatrix(netProperties.getIncidenceMatrix());
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnMatrixIncActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMatrixInc;
     private javax.swing.JToggleButton checkAlive;
     private javax.swing.JButton czyszczenie;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane1;
@@ -449,11 +437,11 @@ public class MainGUI extends javax.swing.JFrame{
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanelGraph;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JComboBox odLayoutu;
     private javax.swing.JComboBox odMyszy;
+    private javax.swing.JPanel pnlMain;
     private javax.swing.JTextArea raportArea;
     private javax.swing.JToggleButton startStopButton;
     // End of variables declaration//GEN-END:variables

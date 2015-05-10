@@ -7,14 +7,12 @@ public class RunnableSimulation implements Runnable{
     
     @Override
     public void run() {
-       while(true)
-       {
+       while(true){
            try {
                Thread.sleep(1000);
            } catch (InterruptedException ex) {}
            SimulationUtil.next();
-           SMiP.viewer.repaint();
-           
+           SMiP.viewer.repaint();           
        }
     }    
 }
