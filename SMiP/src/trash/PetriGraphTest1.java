@@ -23,7 +23,6 @@ import model.Transition;
 import org.apache.commons.collections15.Transformer;
 
 /**
- *
  * @author Elpidiusz
  */
 public class PetriGraphTest1 {
