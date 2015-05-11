@@ -29,7 +29,7 @@ public class PlaceTransitionFactory implements Factory {
         return new Place((place_n++), "factorizedPlace");
     }
     
-    //to nie powinno brać booleana tylko jakieś MyVertex.class ale nie mam internetu i nie wiem jak się tego używa
+
     public MyVertex create(Class type) {
         if(type == Place.class){
             return new Place((place_n++), "factorizedPlace");

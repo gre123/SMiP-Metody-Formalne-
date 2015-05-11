@@ -2,7 +2,6 @@
 package factory;
 
 import model.Arc;
-import model.Place;
 import org.apache.commons.collections15.Factory;
 
 /**

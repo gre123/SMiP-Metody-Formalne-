@@ -24,30 +24,27 @@ import javax.swing.*;
 import java.awt.*;
 import smip.table.Table;
 
-public class MainGUI extends javax.swing.JFrame{
+public class MainGUI extends javax.swing.JFrame {
 
-   DefaultModalGraphMouse graphMouse;  
-   PluggableGraphMouse myszka = new PluggableGraphMouse();
-   public JFrame graphFrame;
-   public Thread simulationThread;
-   public NetProperties netProperties;
-   public RaportConsole raportConsole;
+    DefaultModalGraphMouse graphMouse;
+    PluggableGraphMouse myszka = new PluggableGraphMouse();
+    public JFrame graphFrame;
+    public Thread simulationThread;
+    public NetProperties netProperties;
+    public RaportConsole raportConsole;
 
     public MainGUI() {
-        initComponents(); 
+        initComponents();
         netProperties = new NetProperties();
         raportConsole = new RaportConsole(raportArea);
         graphMouse = new DefaultModalGraphMouse();
         graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
         SMiP.graphNet = Przerob.getGraph();
-        SMiP.viewer=Przerob.getViewer(SMiP.graphNet, "kk", pnlMain.getSize().width, pnlMain.getSize().getSize().height);
+        SMiP.viewer = Przerob.getViewer(SMiP.graphNet, "kk", pnlMain.getSize().width, pnlMain.getSize().getSize().height);
         pnlMain.add(SMiP.viewer);
         pnlMain.validate();
         pnlMain.repaint();
-        
 
-        
-        
 //        graphFrame=new JFrame();
 //        graphFrame.setBounds(190,255,735,485);
 //        graphFrame.setAlwaysOnTop(true);
@@ -58,7 +55,7 @@ public class MainGUI extends javax.swing.JFrame{
 //        graphFrame.getContentPane().setBackground(Color.LIGHT_GRAY);
 //        graphFrame.setVisible(true);
     }
-  
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -301,57 +298,56 @@ public class MainGUI extends javax.swing.JFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void odLayoutuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odLayoutuActionPerformed
-        if (odLayoutu.getSelectedIndex()==0) {
-            SMiP.viewer.setGraphLayout(new ISOMLayout(SMiP.graphNet));
-            SMiP.viewer.repaint();
-        } else if (odLayoutu.getSelectedIndex()==1) {
-            SMiP.viewer.setGraphLayout(new KKLayout(SMiP.graphNet));
-            SMiP.viewer.repaint();
-        } else if (odLayoutu.getSelectedIndex()==2) {
-            SMiP.viewer.setGraphLayout(new CircleLayout(SMiP.graphNet));
-            SMiP.viewer.repaint();
-        } else if (odLayoutu.getSelectedIndex()==3) {
-            SMiP.viewer.setGraphLayout(new SpringLayout(SMiP.graphNet));
-            SMiP.viewer.repaint();
-        } else if (odLayoutu.getSelectedIndex()==4) {
-            SMiP.viewer.setGraphLayout(new FRLayout(SMiP.graphNet));
-            SMiP.viewer.repaint();
-        } else if (odLayoutu.getSelectedIndex()==5) {
-            SMiP.viewer.setGraphLayout(new StaticLayout<>(SMiP.graphNet, new lokator()));
-            SMiP.viewer.repaint();
+        switch (odLayoutu.getSelectedIndex()) {
+            case 0:
+                SMiP.viewer.setGraphLayout(new ISOMLayout(SMiP.graphNet));
+                SMiP.viewer.repaint();
+            case 1:
+                SMiP.viewer.setGraphLayout(new KKLayout(SMiP.graphNet));
+                SMiP.viewer.repaint();
+            case 2:
+                SMiP.viewer.setGraphLayout(new CircleLayout(SMiP.graphNet));
+                SMiP.viewer.repaint();
+            case 3:
+                SMiP.viewer.setGraphLayout(new SpringLayout(SMiP.graphNet));
+                SMiP.viewer.repaint();
+            case 4:
+                SMiP.viewer.setGraphLayout(new FRLayout(SMiP.graphNet));
+                SMiP.viewer.repaint();
+            case 5:
+                SMiP.viewer.setGraphLayout(new StaticLayout<>(SMiP.graphNet, new lokator()));
+                SMiP.viewer.repaint();
         }
     }//GEN-LAST:event_odLayoutuActionPerformed
 
     private void odLayoutuItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_odLayoutuItemStateChanged
-        
+
     }//GEN-LAST:event_odLayoutuItemStateChanged
 
     private void czyszczenieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_czyszczenieActionPerformed
-
         EdgeFactory.zeruj();
         CircVertexFactory.zeruj();
         odMyszy.setSelectedIndex(0);
         odLayoutu.setSelectedIndex(0);
         SMiP.graphNet = Przerob.getGraph();
         graphFrame.dispose();
-        graphFrame=new JFrame();
-        graphFrame.setBounds(190,255,735,485);
+        graphFrame = new JFrame();
+        graphFrame.setBounds(190, 255, 735, 485);
         graphFrame.setTitle("Widok na graf");
         graphFrame.setAlwaysOnTop(true);
-        SMiP.viewer=Przerob.getViewer(SMiP.graphNet, "kk",720,485-25);
+        SMiP.viewer = Przerob.getViewer(SMiP.graphNet, "kk", 720, 485 - 25);
         graphFrame.add(SMiP.viewer);
         graphFrame.setVisible(true);
     }//GEN-LAST:event_czyszczenieActionPerformed
 
     private void odMyszyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odMyszyActionPerformed
 
-        if (SMiP.viewer.getModel().getRelaxer()!=null){
+        if (SMiP.viewer.getModel().getRelaxer() != null) {
             SMiP.viewer.getModel().getRelaxer().stop();
         }
         myszka = new PluggableGraphMouse();
         graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
-        switch((String)odMyszy.getSelectedItem())
-        {
+        switch ((String) odMyszy.getSelectedItem()) {
             case "Transforming":
                 SMiP.viewer.setGraphMouse(graphMouse);
                 SMiP.viewer.repaint();
@@ -364,10 +360,10 @@ public class MainGUI extends javax.swing.JFrame{
             case "Editing":
                 myszka.add(new PopupGraphMousePlugin());
                 /**
-                 * To miejsce wlasnie generuje wyjateczki przy kliknieciu w trybie Editing - Grzesiek
-                 * TO DO poprawic
+                 * To miejsce wlasnie generuje wyjateczki przy kliknieciu w
+                 * trybie Editing - Grzesiek TO DO poprawic
                  */
-                myszka.add(new EditingGraphMousePlugin(null , new EdgeFactory()));
+                myszka.add(new EditingGraphMousePlugin(null, new EdgeFactory()));
 
                 SMiP.viewer.setGraphMouse(myszka);
                 SMiP.viewer.repaint();
@@ -385,50 +381,48 @@ public class MainGUI extends javax.swing.JFrame{
     }//GEN-LAST:event_odMyszyItemStateChanged
 
     private void startStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startStopButtonActionPerformed
-        if(startStopButton.isSelected()){
+        if (startStopButton.isSelected()) {
             simulationThread = new Thread(new RunnableSimulation());
             simulationThread.start();
-        }
-        else{
+        } else {
             simulationThread.stop();
         }
     }//GEN-LAST:event_startStopButtonActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-            new SaveLoadGui('l').setVisible(true);
+        new SaveLoadGui('l').setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-            new SaveLoadGui('s').setVisible(true);    
+        new SaveLoadGui('s').setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 
-      JDialog authors = new JDialog(this, "Autorzy");
-      authors.setSize(200, 300);
-      JTextArea engineers = new JTextArea("pan inżynier Elpidiusz Wszołek \n"
-              + "pan inżynier Tomasz Gajda\n"
-              + "pan inżynier Piotr Knop\n"
-              + "pan inżynier Grzegorz Bylina");
-      engineers.setEditable(false);
-      engineers.setBackground(Color.LIGHT_GRAY);
-      authors.add(engineers);
-      authors.setAlwaysOnTop(true);
-      authors.setVisible(true);
+        JDialog authors = new JDialog(this, "Autorzy");
+        authors.setSize(200, 300);
+        JTextArea engineers = new JTextArea("pan inżynier Elpidiusz Wszołek \n"
+                + "pan inżynier Tomasz Gajda\n"
+                + "pan inżynier Piotr Knop\n"
+                + "pan inżynier Grzegorz Bylina");
+        engineers.setEditable(false);
+        engineers.setBackground(Color.LIGHT_GRAY);
+        authors.add(engineers);
+        authors.setAlwaysOnTop(true);
+        authors.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void checkAliveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkAliveActionPerformed
-        if(checkAlive.isSelected()){
-            raportConsole.printLine(" Żywotność sieci : " + netProperties.checkIfNetAlive());   
-        }
-        else{
+        if (checkAlive.isSelected()) {
+            raportConsole.printLine(" Żywotność sieci : " + netProperties.checkIfNetAlive());
+        } else {
             netProperties.resetProperties();
             SMiP.viewer.repaint();
         }
     }//GEN-LAST:event_checkAliveActionPerformed
 
     private void btnMatrixIncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatrixIncActionPerformed
-        raportConsole.printMatrix(netProperties.getIncidenceMatrix());     
+        raportConsole.printMatrix(netProperties.getIncidenceMatrix());
     }//GEN-LAST:event_btnMatrixIncActionPerformed
 
 
@@ -460,5 +454,4 @@ public class MainGUI extends javax.swing.JFrame{
     private javax.swing.JToggleButton startStopButton;
     // End of variables declaration//GEN-END:variables
 
-    
 }
