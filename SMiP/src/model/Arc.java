@@ -29,7 +29,7 @@ public class Arc {
     }
 
     public boolean decValue() {
-        if (value > 0) {
+        if (value > 1) {
             value--;
             return true;
         }
@@ -37,7 +37,7 @@ public class Arc {
     }
 
     public void setValue(int value) {
-        if (value >= 0) {
+        if (value >= 1) {
             this.value = value;
         } else {
             throw new IllegalArgumentException("nie można ustawić ujemnej wagi");

@@ -22,7 +22,6 @@ import smip.views.MatrixForm;
 
 import javax.swing.*;
 import java.awt.*;
-import painter.VertexResourcesTransformer;
 
 /**
  *
@@ -59,6 +58,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         // Show vertex and edge labels
         vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
         vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+        vv.getRenderContext().setLabelOffset(20);
         vv.getRenderContext().setVertexFillPaintTransformer(new MyVertexColorPainter());
         vv.getRenderContext().setVertexShapeTransformer(new MyVertexShapePainter());
         // Create a graph mouse and add it to the visualization viewer
