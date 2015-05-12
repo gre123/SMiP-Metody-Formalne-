@@ -24,6 +24,18 @@ public class Arc {
         return value;
     }
 
+    public void incValue() {
+        value++;
+    }
+
+    public boolean decValue() {
+        if (value > 0) {
+            value--;
+            return true;
+        }
+        return false;
+    }
+
     public void setValue(int value) {
         if (value >= 0) {
             this.value = value;

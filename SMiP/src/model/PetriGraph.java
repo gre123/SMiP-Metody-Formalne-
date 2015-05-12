@@ -339,16 +339,17 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return placeSet;
     }
 
-    public void setPlaceSet(Set<Place> placeSet) {
-        this.placeSet = placeSet;
-    }
+    // to tak nie zadziała, ten Set musi być zgodny ze stanem grafu
+//    public void setPlaceSet(Set<Place> placeSet) {
+//        this.placeSet = placeSet;
+//    }
 
     public Set<Transition> getTransitionSet() {
         return transitionSet;
     }
 
-    public void setTransitionSet(Set<Transition> transitionSet) {
-        this.transitionSet = transitionSet;
-    }
+//    public void setTransitionSet(Set<Transition> transitionSet) {
+//        this.transitionSet = transitionSet;
+//    }
 
 }

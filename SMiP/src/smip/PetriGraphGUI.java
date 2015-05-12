@@ -22,6 +22,7 @@ import smip.views.MatrixForm;
 
 import javax.swing.*;
 import java.awt.*;
+import painter.VertexResourcesTransformer;
 
 /**
  *
@@ -74,12 +75,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         gm.setEditingPlugin(plugin);
         vv.setGraphMouse(gm);
         
+        createMenu(gm);
         gm.setMode(ModalGraphMouse.Mode.EDITING);
         simulationPetriGraph=new RunnableSimulationPetriGraph(graph, vv);
         simulationThread=new Thread(simulationPetriGraph);
         vv.setBackground(new java.awt.Color(204, 255, 255));
-        createMenu(gm);
-
+        
         jPanelGraph.add(vv);
         jPanelGraph.validate();
         jPanelGraph.repaint();

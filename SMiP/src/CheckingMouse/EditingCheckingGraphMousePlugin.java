@@ -21,6 +21,7 @@ import edu.uci.ics.jung.visualization.VisualizationServer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 import factory.PlaceTransitionFactory;
+import model.Arc;
 import model.PetriGraph;
 import model.Place;
 import model.Transition;
@@ -98,6 +99,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                 }
 
                 final V vertex = pickSupport.getVertex(vv.getModel().getGraphLayout(), p.getX(), p.getY());
+                final E edge = pickSupport.getEdge(vv.getModel().getGraphLayout(), p.getX(), p.getY());
                 if (vertex != null) { // get ready to make an edge
                     startVertex = vertex;
                     down = e.getPoint();
@@ -111,7 +113,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                         transformArrowShape(down, e.getPoint());
                         vv.addPostRenderPaintable(arrowPaintable);
                     }
-                } else { // make a new vertex 
+                } else if (edge == null){ // make a new vertex 
                     V newVertex;
                     if (vertexFactory.getClass() == PlaceTransitionFactory.class) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
@@ -214,6 +216,36 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
             VisualizationViewer<V, E> vv
                     = (VisualizationViewer<V, E>) e.getSource();
             vv.repaint();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void mouseClicked(MouseEvent e) {
+        if (checkModifiers(e)) {
+            final VisualizationViewer<V, E> vv
+                    = (VisualizationViewer<V, E>) e.getSource();
+            final Point2D p = e.getPoint();
+            Layout<V, E> layout = vv.getModel().getGraphLayout();
+            GraphElementAccessor<V, E> pickSupport = vv.getPickSupport();
+            if (pickSupport != null) {
+                final V vertex = pickSupport.getVertex(vv.getModel().getGraphLayout(), p.getX(), p.getY());
+                final E edge = pickSupport.getEdge(layout, p.getX(), p.getY());
+                if (vertex == null && edge != null) {
+                    Graph<V, E> graph
+                            = (Graph<V, E>) vv.getGraphLayout().getGraph();
+                    if (edge.getClass() == Arc.class) {
+                        if (e.getButton() == MouseEvent.BUTTON1) {
+                            ((Arc) edge).incValue();
+                            //wypadałoby aktualizować stany tylko sąsiednich wierzchołków a nie całości
+                            ((PetriGraph) graph).updateGraphTransitionStates();
+                        } else if (e.getButton() == MouseEvent.BUTTON2) {
+                            ((Arc) edge).decValue();
+                            ((PetriGraph) graph).updateGraphTransitionStates();
+                        }
+                        vv.repaint();
+                    }
+                }
+            }
         }
     }
 
