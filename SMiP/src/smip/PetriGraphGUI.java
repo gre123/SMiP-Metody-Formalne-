@@ -22,6 +22,7 @@ import smip.views.MatrixForm;
 
 import javax.swing.*;
 import java.awt.*;
+import smip.views.ReachabilityGraphForm;
 
 /**
  *
@@ -104,6 +105,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         sldDeley = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
         lblDelayVal = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jPanelGraph = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
@@ -177,6 +179,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         lblDelayVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblDelayVal.setText("1000 ms");
 
+        jButton1.setText("Graf osiągalności");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelActionsLayout = new javax.swing.GroupLayout(jPanelActions);
         jPanelActions.setLayout(jPanelActionsLayout);
         jPanelActionsLayout.setHorizontalGroup(
@@ -193,7 +202,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                     .addGroup(jPanelActionsLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblDelayVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(lblDelayVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelActionsLayout.setVerticalGroup(
@@ -207,6 +217,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addComponent(jButtonNminus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonIncidenceMatrix)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -371,6 +383,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         simulationPetriGraph.setDelay(sldDeley.getValue());
     }//GEN-LAST:event_sldDeleyStateChanged
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+       new ReachabilityGraphForm().setVisible(true);
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -408,6 +426,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu elmViews;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonActive;
     private javax.swing.JButton jButtonIncidenceMatrix;
     private javax.swing.JButton jButtonNminus;
