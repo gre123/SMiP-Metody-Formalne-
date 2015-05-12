@@ -7,16 +7,10 @@ import CheckingMouse.MyVertexChecker;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.control.GraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import factory.ArcFactory;
 import factory.PlaceTransitionFactory;
-import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.JDialog;
-import javax.swing.JMenu;
-import javax.swing.JTextArea;
 import model.Arc;
 import model.MyVertex;
 import model.PetriGraph;
@@ -25,6 +19,9 @@ import painter.MyVertexColorPainter;
 import painter.MyVertexShapePainter;
 import simulation.RunnableSimulationPetriGraph;
 import smip.views.MatrixForm;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -330,7 +327,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
         matrixForm.setVisible(true);
          if (matrix == null){return; }
-        matrixForm.drawTable(matrix,graph.getTransitionSet());
+        matrixForm.drawTable(matrix, graph.getTransitionSet(), graph.getPlaceSet());
     }
     
     private void jToggleButtonSymulacjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonSymulacjaActionPerformed

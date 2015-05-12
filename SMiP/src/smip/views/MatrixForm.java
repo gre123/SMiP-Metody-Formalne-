@@ -1,11 +1,14 @@
 package smip.views;
 
-import java.awt.Color;
-import java.util.Set;
-import javax.swing.table.DefaultTableModel;
+import model.Place;
 import model.Transition;
 import smip.table.Cell;
 import smip.table.Table;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.Set;
 
 /**
  * @author Tomek
@@ -36,18 +39,18 @@ public class MatrixForm extends javax.swing.JFrame {
 
         jLabel1.setText("jLabel1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         tableMatrix.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object[][]{
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String[]{
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         jScrollPane1.setViewportView(tableMatrix);
 
@@ -149,8 +152,29 @@ public class MatrixForm extends javax.swing.JFrame {
         });
     }
 
-    public void drawTable(int[][] matrix,Set<Transition> transitons) {
-        
+    public void drawTable(int[][] matrix, Set<Transition> transitons, Set<Place> places) {
+
+        //nag³ówek wiersza
+        Object[] placesArray = places.toArray();
+        DefaultTableModel rowHeaderTableModel = new DefaultTableModel(0, 1);
+        for (int i = 0; i < places.size(); i++) {
+            rowHeaderTableModel.addRow(new Object[]{placesArray[i]});
+        }
+
+        JTable dispTableRowHeader = new JTable();
+        dispTableRowHeader.setModel(rowHeaderTableModel);
+        dispTableRowHeader.getColumnModel().getColumn(0).setMaxWidth(40);
+        dispTableRowHeader.setPreferredScrollableViewportSize(dispTableRowHeader.getPreferredSize());
+        dispTableRowHeader.setDefaultRenderer(Object.class, dispTableRowHeader.getTableHeader().getDefaultRenderer());
+        jScrollPane1.setRowHeaderView(dispTableRowHeader);
+
+        //róg tabelki
+        //JTableHeader corner = dispTableRowHeader.getTableHeader();
+        //corner.setReorderingAllowed(false);
+        //corner.setResizingAllowed(false);
+        //jScrollPane1.setCorner(JScrollPane.UPPER_LEFT_CORNER, corner);
+
+
         DefaultTableModel dtm = (DefaultTableModel) tableMatrix.getModel();
 
         dtm.setRowCount(matrix.length);
