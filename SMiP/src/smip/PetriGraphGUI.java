@@ -391,7 +391,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         }
 
         reachabilityGraphForm.setVisible(true);
-        reachabilityGraphForm.calculateReachabilityGraph(graph.getPlaceSet(), graph.getTransitionSet());
+        reachabilityGraphForm.calculateReachabilityGraph(graph);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

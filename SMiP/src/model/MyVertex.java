@@ -18,6 +18,10 @@ public class MyVertex implements Comparable<MyVertex> {
         this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public int compareTo(MyVertex v2) {
         return ((Integer) this.id).compareTo((Integer) v2.id);

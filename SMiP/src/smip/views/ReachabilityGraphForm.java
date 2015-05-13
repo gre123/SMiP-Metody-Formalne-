@@ -14,13 +14,15 @@ import model.*;
 import painter.ReachabilityGraphVertexColorPainter;
 import painter.ReachabilityGraphVertexShapePainter;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
  * @author Grzesiek
  */
 public class ReachabilityGraphForm extends javax.swing.JFrame {
-    ReachabilityGraph graph;
+    ReachabilityGraph reachabilityGraph;
     VisualizationViewer vv;
 
     /**
@@ -28,9 +30,9 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
      */
     public ReachabilityGraphForm() {
         initComponents();
-        graph = new ReachabilityGraph();
+        reachabilityGraph = new ReachabilityGraph();
         jPanel1.setSize(600, 400);
-        Layout<ReachabilityVertex, ReachabilityArc> layout = new StaticLayout(graph);
+        Layout<ReachabilityVertex, ReachabilityArc> layout = new StaticLayout(reachabilityGraph);
         layout.setSize(this.jPanel1.getSize());
 
         vv = new VisualizationViewer<>(layout);
@@ -66,10 +68,6 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        //jLabel1.setBackground(new java.awt.Color(255, 255, 153));
-        //jLabel1.setText("POWODZENIA INŻYNIERZE !");
-        //jLabel1.setOpaque(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -143,11 +141,54 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
         });
     }
 
-    public void calculateReachabilityGraph(Set<Place> placeSet, Set<Transition> transitionSet) {
-        int[] table = {1, 3, 4};
-        ReachabilityVertex reachabilityVertex = new ReachabilityVertex(table);
-        graph.addVertex(reachabilityVertex);
-        System.out.println("Added " + reachabilityVertex);
+    public void calculateReachabilityGraph(PetriGraph graph) {
+        Place[] places = graph.getPlaceSet().toArray(new Place[graph.getPlaceSet().size()]);
+        Transition[] transitions = graph.getTransitionSet().toArray(new Transition[graph.getTransitionSet().size()]);
+        int[][] incidenceMatrix = graph.getNincidence();
+        int[] markers = new int[places.length];
+        List<ReachabilityVertex> vertexList = new LinkedList<>();
+
+        for (int i = 0; i < places.length; i++) {
+            markers[i] = places[i].getResources();
+        }
+
+        ReachabilityVertex startVertex = new ReachabilityVertex(markers);
+        for (Transition transition : transitions) {
+            if (transition.getActive()) {
+                startVertex.addActiveTransition(transition);
+            }
+        }
+        if (!startVertex.getActiveTransitions().isEmpty()) {
+            reachabilityGraph.addVertex(startVertex);
+            vertexList.add(startVertex);
+            System.out.print("Start vertex: " + startVertex);
+        }
+
+        while (!vertexList.isEmpty()) {
+            ReachabilityVertex parentVertex = vertexList.remove(0);
+
+            for (int i = 0; i < places.length; i++) {
+                places[i].setResources(parentVertex.getMarker(i));
+            }
+
+            Set<Transition> activeTransitions = parentVertex.getActiveTransitions();
+            for (int i = 0; i < transitions.length; i++) {
+                if (activeTransitions.contains(transitions[i])) {
+                    int[] newMarkers = new int[places.length];
+                    for (int j = 0; j < places.length; j++) {
+                        places[j].incResources(incidenceMatrix[j][i]);
+                        newMarkers[j] = places[j].getResources();
+                    }
+                    ReachabilityVertex newVertex = new ReachabilityVertex(newMarkers);
+                    if (!reachabilityGraph.containsVertex(newVertex)) {
+                        reachabilityGraph.addVertex(newVertex);
+                        vertexList.add(newVertex);
+                    }
+                    reachabilityGraph.addEdge(new ReachabilityArc(transitions[i].getId()), parentVertex, newVertex);
+                }
+            }
+        }
+        System.out.println(reachabilityGraph.toString());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

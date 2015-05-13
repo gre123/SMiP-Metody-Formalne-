@@ -12,4 +12,14 @@ public class ReachabilityGraph extends DirectedSparseGraph<ReachabilityVertex, R
     public ReachabilityGraph() {
         vertexSet = new HashSet<>();
     }
+
+    public boolean checkIsExistsVertex(ReachabilityVertex vertex) {
+        return vertexSet.contains(vertex);
+    }
+
+    @Override
+    public boolean addVertex(ReachabilityVertex vertex) {
+        vertexSet.add(vertex);
+        return super.addVertex(vertex);
+    }
 }
