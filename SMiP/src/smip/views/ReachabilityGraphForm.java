@@ -14,6 +14,7 @@ import model.*;
 import painter.ReachabilityGraphVertexColorPainter;
 import painter.ReachabilityGraphVertexShapePainter;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -143,7 +144,9 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
 
     public void calculateReachabilityGraph(PetriGraph graph) {
         Place[] places = graph.getPlaceSet().toArray(new Place[graph.getPlaceSet().size()]);
+        Arrays.sort(places);
         Transition[] transitions = graph.getTransitionSet().toArray(new Transition[graph.getTransitionSet().size()]);
+        Arrays.sort(transitions);
         int[][] incidenceMatrix = graph.getNincidence();
         int[] markers = new int[places.length];
         List<ReachabilityVertex> vertexList = new LinkedList<>();
