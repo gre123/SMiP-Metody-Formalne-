@@ -19,10 +19,10 @@ import painter.MyVertexColorPainter;
 import painter.MyVertexShapePainter;
 import simulation.RunnableSimulationPetriGraph;
 import smip.views.MatrixForm;
+import smip.views.ReachabilityGraphForm;
 
 import javax.swing.*;
 import java.awt.*;
-import smip.views.ReachabilityGraphForm;
 
 /**
  *
@@ -37,6 +37,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     VisualizationViewer vv;
     Thread simulationThread;
     MatrixForm matrixForm;
+    ReachabilityGraphForm reachabilityGraphForm;
     RunnableSimulationPetriGraph simulationPetriGraph;
     /**
      * Creates new form PetriGraphGUI
@@ -315,7 +316,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }
     
     private void jButtonActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActiveActionPerformed
-        System.out.println("Wszystkie przejścia są aktywe: "+graph.updateGraphTransitionStates());
+        System.out.println("Wszystkie przejścia są aktywe: " + graph.updateGraphTransitionStates());
     }//GEN-LAST:event_jButtonActiveActionPerformed
 
     private void jButtonNplusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNplusActionPerformed
@@ -329,7 +330,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonNminusActionPerformed
 
     private void jButtonIncidenceMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncidenceMatrixActionPerformed
-        System.out.println("Macierz incydencji: "+java.util.Arrays.deepToString(graph.getNincidence()));
+        System.out.println("Macierz incydencji: " + java.util.Arrays.deepToString(graph.getNincidence()));
         drawTable(graph.getNincidence());
     }//GEN-LAST:event_jButtonIncidenceMatrixActionPerformed
 
@@ -385,8 +386,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-       new ReachabilityGraphForm().setVisible(true);
-// TODO add your handling code here:
+        if (reachabilityGraphForm == null) {
+            reachabilityGraphForm = new ReachabilityGraphForm();
+        }
+
+        reachabilityGraphForm.setVisible(true);
+        reachabilityGraphForm.calculateReachabilityGraph(graph.getPlaceSet(), graph.getTransitionSet());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

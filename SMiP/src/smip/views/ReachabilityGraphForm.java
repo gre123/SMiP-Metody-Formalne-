@@ -5,17 +5,48 @@
  */
 package smip.views;
 
+import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.algorithms.layout.StaticLayout;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import edu.uci.ics.jung.visualization.renderers.Renderer;
+import model.*;
+import painter.ReachabilityGraphVertexColorPainter;
+import painter.ReachabilityGraphVertexShapePainter;
+
+import java.util.Set;
+
 /**
- *
  * @author Grzesiek
  */
 public class ReachabilityGraphForm extends javax.swing.JFrame {
+    ReachabilityGraph graph;
+    VisualizationViewer vv;
 
     /**
      * Creates new form ReachabilityGraphForm
      */
     public ReachabilityGraphForm() {
         initComponents();
+        graph = new ReachabilityGraph();
+        jPanel1.setSize(600, 400);
+        Layout<ReachabilityVertex, ReachabilityArc> layout = new StaticLayout(graph);
+        layout.setSize(this.jPanel1.getSize());
+
+        vv = new VisualizationViewer<>(layout);
+        vv.setPreferredSize(this.jPanel1.getSize());
+        // Show vertex and edge labels
+        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+        vv.getRenderContext().setLabelOffset(20);
+        vv.getRenderContext().setVertexFillPaintTransformer(new ReachabilityGraphVertexColorPainter());
+        vv.getRenderContext().setVertexShapeTransformer(new ReachabilityGraphVertexShapePainter());
+        vv.getRenderer().getVertexLabelRenderer().setPosition(Renderer.VertexLabel.Position.CNTR);
+        vv.setBackground(new java.awt.Color(204, 255, 255));
+
+        jPanel1.add(vv);
+        jPanel1.validate();
+        jPanel1.repaint();
     }
 
     /**
@@ -30,46 +61,48 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
+        setTitle("Graf osiągalności");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 153));
-        jLabel1.setText("POWODZENIA INŻYNIERZE !");
-        jLabel1.setOpaque(true);
+        //jLabel1.setBackground(new java.awt.Color(255, 255, 153));
+        //jLabel1.setText("POWODZENIA INŻYNIERZE !");
+        //jLabel1.setOpaque(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(186, 186, 186)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(237, Short.MAX_VALUE))
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(186, 186, 186)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(237, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(145, 145, 145)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(237, Short.MAX_VALUE))
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(145, 145, 145)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(237, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         pack();
@@ -108,6 +141,13 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
                 new ReachabilityGraphForm().setVisible(true);
             }
         });
+    }
+
+    public void calculateReachabilityGraph(Set<Place> placeSet, Set<Transition> transitionSet) {
+        int[] table = {1, 3, 4};
+        ReachabilityVertex reachabilityVertex = new ReachabilityVertex(table);
+        graph.addVertex(reachabilityVertex);
+        System.out.println("Added " + reachabilityVertex);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
