@@ -2,9 +2,18 @@
  */
 package model;
 
+import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.algorithms.layout.KKLayout;
+import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
+import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import java.awt.Dimension;
 import java.io.Serializable;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,9 +21,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.swing.JFrame;
 import org.apache.commons.collections15.MultiMap;
 
 /**
@@ -203,16 +214,18 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
 
     /**
      * Funkcja uaktualniająca stany przejść całego grafu
+     * teraz już faktycznie całego
      *
      * @return coś jak L4 żywotność
      */
     public boolean updateGraphTransitionStates() {
+        boolean alive=true;
         for (Object transition : this.transitionSet) {
             if (!updateTransitionState((Transition) transition)) {
-                return false;
+                alive = false;
             }
         }
-        return true;
+        return alive;
     }
 
     /**
@@ -351,5 +364,90 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
 //    public void setTransitionSet(Set<Transition> transitionSet) {
 //        this.transitionSet = transitionSet;
 //    }
+    
+//    java.util.List<java.util.Map.Entry<String,Integer>> pairList= new java.util.ArrayList<>();
+//
+//How can you fill it?
+//
+//java.util.Map.Entry<String,Integer> pair1=new java.util.AbstractMap.SimpleEntry<>("Not Unique key1",1);
+//java.util.Map.Entry<String,Integer> pair2=new java.util.AbstractMap.SimpleEntry<>("Not Unique key2",2);
+//pairList.add(pair1);
+//pairList.add(pair2);
+    public DirectedSparseGraph<Map<Place,Integer>, Transition> getReachabilityGraph(){
+        DirectedSparseGraph<Map<Place,Integer>, Transition> rg = new DirectedSparseGraph<>();
+        Map<Place,Integer> baseMarking = this.getMarking();
+        Map<Place,Integer> currentMarking = this.getMarking();//może niepotrzebne?
+        LinkedList<Map.Entry<Map<Place,Integer>,Transition>> transitionsToCheck= new java.util.LinkedList<>();
+        for (Transition t : this.getActiveTransitions()){
+            transitionsToCheck.add(new SimpleEntry<>(baseMarking,t));
+        }
+        rg.addVertex(baseMarking);
+        while (!transitionsToCheck.isEmpty()){
+            Map.Entry<Map<Place,Integer>,Transition> entry = transitionsToCheck.poll();
+            this.setMarking(entry.getKey());
+            this.executeTransition(entry.getValue());
+            if (!rg.containsVertex(this.getMarking())){
+                rg.addVertex(this.getMarking());
+            }
+            //może jakiś check by się ty przydał
+            rg.addEdge(entry.getValue(), entry.getKey(), this.getMarking());
+            for (Transition t : this.getActiveTransitions()){
+                transitionsToCheck.add(new SimpleEntry<>(this.getMarking(),t));
+            }
+        }
+        this.setMarking(baseMarking);
+        return rg;
+    }
+    
+        public DirectedSparseGraph<Map<Place,Integer>, String> getReachabilityGraphtestversion(){
+        DirectedSparseGraph<Map<Place,Integer>, String> rg = new DirectedSparseGraph<>();
+        Map<Place,Integer> baseMarking = this.getMarking();
+        Map<Place,Integer> currentMarking = this.getMarking();//może niepotrzebne?
+        LinkedList<Map.Entry<Map<Place,Integer>,Transition>> transitionsToCheck= new java.util.LinkedList<>();
+        
+        JFrame graphFrame = new JFrame();
+        graphFrame.setAlwaysOnTop(true);
+        Layout<Map<Place,Integer>, String> layout = new KKLayout<>(rg);
+        layout.setSize(new Dimension(300, 300));
+        VisualizationViewer<Map<Place,Integer>, String> vv;
+        vv = new VisualizationViewer<>(layout,
+                new Dimension(500, 500));
+        vv.setPreferredSize(new Dimension(500, 500));
+        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+        DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
+        gm.setMode(ModalGraphMouse.Mode.PICKING);
+        vv.setGraphMouse(gm);
+        graphFrame.getContentPane().add(vv);
+        graphFrame.pack();
+        graphFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        graphFrame.setTitle("Widok sieci");
+        graphFrame.setVisible(true);
+        
+        for (Transition t : this.getActiveTransitions()){
+            transitionsToCheck.add(new SimpleEntry<>(baseMarking,t));
+        }
+        rg.addVertex(baseMarking);
+        int count = 0;
+        while (!transitionsToCheck.isEmpty() && count <= 200){
+            Map.Entry<Map<Place,Integer>,Transition> entry = transitionsToCheck.poll();
+            this.setMarking(entry.getKey());
+            this.executeTransition(entry.getValue());
+            if (!rg.containsVertex(this.getMarking())){
+                rg.addVertex(this.getMarking());
+            }
+            //może jakiś check by się ty przydał
+            rg.addEdge(entry.getValue().toString()+" "+Integer.toString(count), entry.getKey(), this.getMarking());
+            vv.repaint();
+            for (Transition t : this.getActiveTransitions()){
+                System.out.println("dodaję nowe przejście, count= "+count++);
+                transitionsToCheck.add(new SimpleEntry<>(this.getMarking(),t));
+            }
+            vv.repaint();
+            System.out.println("kolejny krok");
+        }
+        this.setMarking(baseMarking);
+        return rg;
+    }
 
 }
