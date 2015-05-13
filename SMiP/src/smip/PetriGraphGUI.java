@@ -107,6 +107,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblDelayVal = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButtonReachabilityGraph = new javax.swing.JButton();
         jPanelGraph = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
@@ -187,6 +188,14 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
+        jButtonReachabilityGraph.setText("do not click");
+        jButtonReachabilityGraph.setToolTipText("prawie graf osiągalności");
+        jButtonReachabilityGraph.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReachabilityGraphActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelActionsLayout = new javax.swing.GroupLayout(jPanelActions);
         jPanelActions.setLayout(jPanelActionsLayout);
         jPanelActionsLayout.setHorizontalGroup(
@@ -204,7 +213,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblDelayVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonReachabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelActionsLayout.setVerticalGroup(
@@ -220,6 +230,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addComponent(jButtonIncidenceMatrix)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
+                .addGap(65, 65, 65)
+                .addComponent(jButtonReachabilityGraph)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -289,7 +301,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelActions, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                .addComponent(jPanelActions, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -394,6 +406,10 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         reachabilityGraphForm.calculateReachabilityGraph(graph.getPlaceSet(), graph.getTransitionSet());
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButtonReachabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReachabilityGraphActionPerformed
+        this.graph.getReachabilityGraphtestversion();
+    }//GEN-LAST:event_jButtonReachabilityGraphActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -436,6 +452,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonIncidenceMatrix;
     private javax.swing.JButton jButtonNminus;
     private javax.swing.JButton jButtonNplus;
+    private javax.swing.JButton jButtonReachabilityGraph;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;

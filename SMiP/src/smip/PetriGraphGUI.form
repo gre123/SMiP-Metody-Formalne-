@@ -92,7 +92,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelActions" pref="135" max="32767" attributes="0"/>
+              <Component id="jPanelActions" pref="169" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanelGraph" min="-2" pref="615" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -144,6 +144,7 @@
                           <Component id="lblDelayVal" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonReachabilityGraph" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -162,6 +163,8 @@
                   <Component id="jButtonIncidenceMatrix" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="jButtonReachabilityGraph" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -251,6 +254,15 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonReachabilityGraph">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="do not click"/>
+            <Property name="toolTipText" type="java.lang.String" value="prawie graf osi&#x105;galno&#x15b;ci"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonReachabilityGraphActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
