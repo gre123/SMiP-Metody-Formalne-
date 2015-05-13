@@ -167,20 +167,22 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
         while (!vertexList.isEmpty()) {
             ReachabilityVertex parentVertex = vertexList.remove(0);
 
-            for (int i = 0; i < places.length; i++) {
-                places[i].setResources(parentVertex.getMarker(i));
-            }
-
             Set<Transition> activeTransitions = parentVertex.getActiveTransitions();
             for (int i = 0; i < transitions.length; i++) {
                 if (activeTransitions.contains(transitions[i])) {
                     int[] newMarkers = new int[places.length];
                     for (int j = 0; j < places.length; j++) {
-                        places[j].incResources(incidenceMatrix[j][i]);
+                        places[j].setResources(parentVertex.getMarker(j) + incidenceMatrix[j][i]);
                         newMarkers[j] = places[j].getResources();
                     }
                     ReachabilityVertex newVertex = new ReachabilityVertex(newMarkers);
                     if (!reachabilityGraph.containsVertex(newVertex)) {
+                        graph.updateGraphTransitionStates();
+                        for (Transition transition : transitions) {
+                            if (transition.getActive()) {
+                                newVertex.addActiveTransition(transition);
+                            }
+                        }
                         reachabilityGraph.addVertex(newVertex);
                         vertexList.add(newVertex);
                     }
@@ -189,6 +191,12 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
             }
         }
         System.out.println(reachabilityGraph.toString());
+
+        //przywrócenie stanu początkowego
+        for (int i = 0; i < places.length; i++) {
+            places[i].setResources(markers[i]);
+        }
+        graph.updateGraphTransitionStates();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
