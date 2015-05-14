@@ -213,13 +213,13 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     }
 
     /**
-     * Funkcja uaktualniająca stany przejść całego grafu
-     * teraz już faktycznie całego
+     * Funkcja uaktualniająca stany przejść całego grafu teraz już faktycznie
+     * całego
      *
      * @return coś jak L4 żywotność
      */
     public boolean updateGraphTransitionStates() {
-        boolean alive=true;
+        boolean alive = true;
         for (Object transition : this.transitionSet) {
             if (!updateTransitionState((Transition) transition)) {
                 alive = false;
@@ -294,7 +294,9 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     public int[][] getNincidence() {
         int[][] nplus = this.getNplus();
         int[][] nminus = this.getNminus();
-        if( nplus.length==0 ||  nplus[0].length==0){return null;}
+        if (nplus.length == 0 || nplus[0].length == 0) {
+            return null;
+        }
         int[][] nincidence = new int[nplus.length][nplus[0].length];
 
         for (int i = 0; i < nplus.length; i++) {
@@ -352,99 +354,39 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return placeSet;
     }
 
-    // to tak nie zadziała, ten Set musi być zgodny ze stanem grafu
-//    public void setPlaceSet(Set<Place> placeSet) {
-//        this.placeSet = placeSet;
-//    }
-
     public Set<Transition> getTransitionSet() {
         return transitionSet;
     }
 
-//    public void setTransitionSet(Set<Transition> transitionSet) {
-//        this.transitionSet = transitionSet;
-//    }
-    
-//    java.util.List<java.util.Map.Entry<String,Integer>> pairList= new java.util.ArrayList<>();
-//
-//How can you fill it?
-//
-//java.util.Map.Entry<String,Integer> pair1=new java.util.AbstractMap.SimpleEntry<>("Not Unique key1",1);
-//java.util.Map.Entry<String,Integer> pair2=new java.util.AbstractMap.SimpleEntry<>("Not Unique key2",2);
-//pairList.add(pair1);
-//pairList.add(pair2);
-    public DirectedSparseGraph<Map<Place,Integer>, Transition> getReachabilityGraph(){
-        DirectedSparseGraph<Map<Place,Integer>, Transition> rg = new DirectedSparseGraph<>();
-        Map<Place,Integer> baseMarking = this.getMarking();
-        Map<Place,Integer> currentMarking = this.getMarking();//może niepotrzebne?
-        LinkedList<Map.Entry<Map<Place,Integer>,Transition>> transitionsToCheck= new java.util.LinkedList<>();
-        for (Transition t : this.getActiveTransitions()){
-            transitionsToCheck.add(new SimpleEntry<>(baseMarking,t));
-        }
-        rg.addVertex(baseMarking);
-        while (!transitionsToCheck.isEmpty()){
-            Map.Entry<Map<Place,Integer>,Transition> entry = transitionsToCheck.poll();
-            this.setMarking(entry.getKey());
-            this.executeTransition(entry.getValue());
-            if (!rg.containsVertex(this.getMarking())){
-                rg.addVertex(this.getMarking());
-            }
-            //może jakiś check by się ty przydał
-            rg.addEdge(entry.getValue(), entry.getKey(), this.getMarking());
-            for (Transition t : this.getActiveTransitions()){
-                transitionsToCheck.add(new SimpleEntry<>(this.getMarking(),t));
-            }
-        }
-        this.setMarking(baseMarking);
-        return rg;
-    }
-    
-        public DirectedSparseGraph<Map<Place,Integer>, String> getReachabilityGraphtestversion(){
-        DirectedSparseGraph<Map<Place,Integer>, String> rg = new DirectedSparseGraph<>();
-        Map<Place,Integer> baseMarking = this.getMarking();
-        Map<Place,Integer> currentMarking = this.getMarking();//może niepotrzebne?
-        LinkedList<Map.Entry<Map<Place,Integer>,Transition>> transitionsToCheck= new java.util.LinkedList<>();
-        
-        JFrame graphFrame = new JFrame();
-        graphFrame.setAlwaysOnTop(true);
-        Layout<Map<Place,Integer>, String> layout = new KKLayout<>(rg);
-        layout.setSize(new Dimension(300, 300));
-        VisualizationViewer<Map<Place,Integer>, String> vv;
-        vv = new VisualizationViewer<>(layout,
-                new Dimension(500, 500));
-        vv.setPreferredSize(new Dimension(500, 500));
-        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
-        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
-        DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
-        gm.setMode(ModalGraphMouse.Mode.PICKING);
-        vv.setGraphMouse(gm);
-        graphFrame.getContentPane().add(vv);
-        graphFrame.pack();
-        graphFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        graphFrame.setTitle("Widok sieci");
-        graphFrame.setVisible(true);
-        
-        for (Transition t : this.getActiveTransitions()){
-            transitionsToCheck.add(new SimpleEntry<>(baseMarking,t));
+    /**
+     * NIE sprawdziłem czy dla trudniejszych przypadków działa poprawnie, 
+     * wersja Piotrka z ReachabilitygraphForm jest lepsza, a do tego liczy żywotność itp
+     *
+     * @return graf osiągalności (if you are lucky)
+     */
+    public DirectedSparseGraph<Map<Place, Integer>, Transition> getReachabilityGraph() {
+        DirectedSparseGraph<Map<Place, Integer>, Transition> rg = new DirectedSparseGraph<>();
+        Map<Place, Integer> baseMarking = this.getMarking();
+        LinkedList<Map.Entry<Map<Place, Integer>, Transition>> transitionsToCheck = new java.util.LinkedList<>();
+
+        for (Transition t : this.getActiveTransitions()) {
+            transitionsToCheck.add(new SimpleEntry<>(baseMarking, t));
         }
         rg.addVertex(baseMarking);
         int count = 0;
-        while (!transitionsToCheck.isEmpty() && count <= 200){
-            Map.Entry<Map<Place,Integer>,Transition> entry = transitionsToCheck.poll();
+        while (!transitionsToCheck.isEmpty() && count <= 2000) {
+            Map.Entry<Map<Place, Integer>, Transition> entry = transitionsToCheck.poll();
             this.setMarking(entry.getKey());
             this.executeTransition(entry.getValue());
-            if (!rg.containsVertex(this.getMarking())){
+            if (!rg.containsVertex(this.getMarking())) {
                 rg.addVertex(this.getMarking());
+                for (Transition t : this.getActiveTransitions()) {
+                    transitionsToCheck.add(new SimpleEntry<>(this.getMarking(), t));
+                }
             }
-            //może jakiś check by się ty przydał
-            rg.addEdge(entry.getValue().toString()+" "+Integer.toString(count), entry.getKey(), this.getMarking());
-            vv.repaint();
-            for (Transition t : this.getActiveTransitions()){
-                System.out.println("dodaję nowe przejście, count= "+count++);
-                transitionsToCheck.add(new SimpleEntry<>(this.getMarking(),t));
-            }
-            vv.repaint();
-            System.out.println("kolejny krok");
+            //może jakiś check by się tu przydał
+            rg.addEdge(new Transition(entry.getValue().id), entry.getKey(), this.getMarking());
+            count++;
         }
         this.setMarking(baseMarking);
         return rg;
