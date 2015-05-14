@@ -5,6 +5,7 @@
  */
 package smip.views;
 
+import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -31,7 +32,8 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
         initComponents();
         reachabilityGraph = new ReachabilityGraph();
         jPanel1.setSize(600, 400);
-        Layout<ReachabilityVertex, ReachabilityArc> layout = new StaticLayout(reachabilityGraph);
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
+        Layout<ReachabilityVertex, ReachabilityArc> layout = new KKLayout<>(reachabilityGraph);
         layout.setSize(this.jPanel1.getSize());
 
         vv = new VisualizationViewer<>(layout);
