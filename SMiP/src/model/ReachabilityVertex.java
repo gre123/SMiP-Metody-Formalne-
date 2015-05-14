@@ -26,6 +26,10 @@ public class ReachabilityVertex {
         return markers[i];
     }
 
+    public int[] getMarkers() {
+        return markers;
+    }
+
     @Override
     public String toString() {
         String string = "";

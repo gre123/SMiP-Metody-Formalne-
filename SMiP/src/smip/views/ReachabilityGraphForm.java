@@ -14,10 +14,8 @@ import model.*;
 import painter.ReachabilityGraphVertexColorPainter;
 import painter.ReachabilityGraphVertexShapePainter;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * @author Grzesiek
@@ -200,6 +198,74 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
             places[i].setResources(markers[i]);
         }
         graph.updateGraphTransitionStates();
+
+        //żywotność
+        //////////////////////////////////////////////////////////////////
+        boolean liveness = true;
+        Collection<ReachabilityVertex> vertexes = reachabilityGraph.getVertices();
+        Collection<ReachabilityArc> edges = reachabilityGraph.getEdges();
+
+        //sprawdzanie martwych wierzchołków
+        for (ReachabilityVertex vertex : vertexes) {
+            if (vertex.getActiveTransitions().isEmpty()) {
+                liveness = false;
+                break;
+            }
+        }
+
+        //sprawdzanie czy użyte zostały wszystkie przejścia
+        if (liveness) {
+            List<Integer> transitionsUsed = new LinkedList<>();
+            for (ReachabilityArc edge : edges) {
+                int transitionId = edge.getTransitionId();
+                if (!transitionsUsed.contains(transitionId)) {
+                    transitionsUsed.add(transitionId);
+                }
+            }
+            if (transitionsUsed.size() != transitions.length) {
+                liveness = false;
+            }
+        }
+
+        System.out.println("Żywotnośc sieci: " + liveness);
+        /////////////////////////////////////////////////////
+
+        //zachowawczość
+        ///////////////////////////////////////////////////////
+        int sumOfInitialMarking = IntStream.of(markers).sum();
+        int sumOfVertexMarking;
+        boolean conservation = true;
+        for (ReachabilityVertex vertex : vertexes) {
+            sumOfVertexMarking = IntStream.of(vertex.getMarkers()).sum();
+            if (sumOfVertexMarking != sumOfInitialMarking) {
+                conservation = false;
+                break;
+            }
+        }
+
+        System.out.println("Zachowawczość: " + conservation);
+        ///////////////////////////////////////////////////////
+
+        //bezpieczeństwo
+        ////////////////////////////////////////////////////////
+        int[] vertexMarkers;
+        boolean safeness = true;
+        for (ReachabilityVertex vertex : vertexes) {
+            vertexMarkers = vertex.getMarkers();
+            for (int vertexMarker : vertexMarkers) {
+                if (vertexMarker > 1) {
+                    safeness = false;
+                    break;
+                }
+            }
+            if (!safeness) {
+                break;
+            }
+        }
+
+        System.out.println("Bezpieczeństwo: " + safeness);
+        ////////////////////////////////////////////////////////
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
