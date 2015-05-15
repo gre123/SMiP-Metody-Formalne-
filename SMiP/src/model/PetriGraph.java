@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import javax.swing.JFrame;
 import org.apache.commons.collections15.MultiMap;
@@ -323,6 +324,18 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
     }
 
+    public void setMarkingInf(Map<Place, Integer> marking) {
+        for (Map.Entry<Place, Integer> entry : marking.entrySet()) {
+            if (this.containsVertex(entry.getKey())) {
+                if (entry.getValue() != -1) {
+                    entry.getKey().setResources(entry.getValue());
+                } else {
+                    entry.getKey().setResources(100);
+                }
+            }
+        }
+    }
+
     public List<Transition> getActiveTransitions() {
         this.updateGraphTransitionStates();
         List<Transition> activetransitions = new ArrayList<>();
@@ -335,6 +348,10 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     }
 
     public boolean executeTransition(Transition t) {
+        if (!this.containsVertex(t)) {
+            System.out.println("Nie można wykonać przejścia którego nie ma w grafie!");
+            return false;
+        }
         if (updateTransitionState(t)) {
             for (Object place : this.getPredecessors(t)) {
                 Arc connectingEdge = this.findEdge((Place) place, t);
@@ -359,8 +376,9 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     }
 
     /**
-     * NIE sprawdziłem czy dla trudniejszych przypadków działa poprawnie, 
-     * wersja Piotrka z ReachabilitygraphForm jest lepsza, a do tego liczy żywotność itp
+     * NIE sprawdziłem czy dla trudniejszych przypadków działa poprawnie, wersja
+     * Piotrka z ReachabilitygraphForm jest lepsza, a do tego liczy żywotność
+     * itp
      *
      * @return graf osiągalności (if you are lucky)
      */
@@ -374,7 +392,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         rg.addVertex(baseMarking);
         int count = 0;
-        while (!transitionsToCheck.isEmpty() && count <= 2000) {
+        while (!transitionsToCheck.isEmpty() && count <= 300) {
             Map.Entry<Map<Place, Integer>, Transition> entry = transitionsToCheck.poll();
             this.setMarking(entry.getKey());
             this.executeTransition(entry.getValue());
@@ -390,6 +408,180 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         this.setMarking(baseMarking);
         return rg;
+    }
+
+    /**
+     * Testowa wersja, nie działa poprawnie Gdyby -1 się magicznie nie
+     * zamieniały na 100 to by było w porządku -1 == inf Zostawiam ten kod zeby
+     * moc sobie tu spojrzec jakby mi sie kiedys zaczelo wydawac ze umiem
+     * napisac prosta funkcje w javie
+     *
+     * @return graf pokrycia (tak serio to nie)
+     */
+    public DirectedSparseGraph<Map<Place, Integer>, Transition> getCoverabilityGraph() {
+        DirectedSparseGraph<Map<Place, Integer>, Transition> rg = new DirectedSparseGraph<>();
+        Map<Place, Integer> baseMarking = this.getMarking();
+        LinkedList<Map.Entry<Map<Place, Integer>, Transition>> transitionsToCheck = new java.util.LinkedList<>();
+
+        for (Transition t : this.getActiveTransitions()) {
+            transitionsToCheck.add(new SimpleEntry<>(baseMarking, t));
+        }
+        rg.addVertex(baseMarking);
+        int count = 0;
+        while (!transitionsToCheck.isEmpty() && count < 300) {
+            ArrayList<Place> infPlaces = new ArrayList<Place>();
+            Map.Entry<Map<Place, Integer>, Transition> entry = transitionsToCheck.poll();
+            System.out.println("Przerabiam przejście: " + entry.toString());
+            boolean minussto = false;
+            for (Entry<Place, Integer> m : entry.getKey().entrySet()) {
+                if (m.getValue().equals(-1)) {
+                    minussto = true;
+                    infPlaces.add(m.getKey());
+                    entry.getKey().put(m.getKey(), 100);//żeby nie ustawiać -1 w kolejnej linijce
+                }
+            }
+            if (minussto) {
+                System.out.println("  Zamieniłem -1 na 100: " + entry.toString());
+            }
+            this.setMarking(entry.getKey());
+            this.executeTransition(entry.getValue());
+            System.out.println("  Przejście wykonane: " + this.getMarking().toString());
+            Map<Place, Integer> currentMarking = this.getMarking();
+
+            boolean minusjeden = false;
+            for (Place p : infPlaces) {
+                if (!currentMarking.keySet().contains(p)) {
+                    System.out.println("jeśli widzisz ten tekst to coś jest nie tak");
+                }
+                System.out.println("  Przywracam -1 do p= " + p.toString());
+                currentMarking.put(p, -1);
+                minusjeden = true;
+            }
+            if (minusjeden) {
+                System.out.println("  Skonczylem przywracać -1:" + currentMarking.toString());
+            }
+            if (!rg.containsVertex(currentMarking)) {
+                System.out.println(" Takiego znakowania w grafi nie ma, bede wsadzać: " + currentMarking.toString());
+                System.out.println("              (bo graf zawiera: " + rg.getVertices().toString() + ")");
+                for (Map<Place, Integer> znakowanie : rg.getVertices()) {
+                    if (isMore(currentMarking, znakowanie)) {
+                        System.out.println("  ale jest mniejsze, więc ustawiam inf: " + currentMarking.toString());
+                    }
+                }
+                rg.addVertex(currentMarking);
+                for (Transition t : this.getActiveTransitions()) {
+                    transitionsToCheck.add(new SimpleEntry<>(currentMarking, t));
+                    System.out.println("    Dodaję przejście do sprawdzenia: " + currentMarking.toString() + "->" + t);
+                }
+            }
+            System.out.println(" Wsadzam połączenie: " + entry.getValue() + " między " + entry.getKey().toString() + " a " + currentMarking.toString());
+            System.out.println(" po czym graf ma takie wierzchołki: " + rg.getVertices().toString());
+            rg.addEdge(new Transition(entry.getValue().id), entry.getKey(), currentMarking);
+            infPlaces.clear();
+            count++;
+        }
+        this.setMarking(baseMarking);
+        return rg;
+    }
+
+    /**
+     * Chyba dziala dobrze -1 == inf
+     *
+     * @return graf pokrycia (if you are very lucky)
+     */
+    public DirectedSparseGraph<Map<Place, Integer>, Transition> getCoverabilityGraphv2() {
+        DirectedSparseGraph<Map<Place, Integer>, Transition> rg = new DirectedSparseGraph<>();
+        Map<Place, Integer> baseMarking = this.getMarking();
+        LinkedList<Map.Entry<Map<Place, Integer>, Transition>> transitionsToCheck = new java.util.LinkedList<>();
+
+        for (Transition t : this.getActiveTransitions()) {
+            transitionsToCheck.add(new SimpleEntry<>(baseMarking, t));
+        }
+        rg.addVertex(baseMarking);
+        int count = 0;
+        while (!transitionsToCheck.isEmpty() && count < 300) {
+            ArrayList<Place> infPlaces = new ArrayList<>();
+            Map.Entry<Map<Place, Integer>, Transition> entry = transitionsToCheck.poll();
+            for (Entry<Place, Integer> m : entry.getKey().entrySet()) {
+                if (m.getValue().equals(-1)) {
+                    infPlaces.add(m.getKey());
+                }
+            }
+            this.setMarkingInf(entry.getKey());
+            this.executeTransition(entry.getValue());
+            Map<Place, Integer> currentMarking = this.getMarking();
+
+            for (Place p : infPlaces) {
+                currentMarking.put(p, -1);
+            }
+            if (!rg.containsVertex(currentMarking)) {
+                for (Map<Place, Integer> znakowanie : rg.getVertices()) {
+                    isMore(currentMarking, znakowanie);
+                }
+                rg.addVertex(currentMarking);
+                for (Transition t : this.getActiveTransitions()) {
+                    transitionsToCheck.add(new SimpleEntry<>(currentMarking, t));
+                }
+            }
+            rg.addEdge(new Transition(entry.getValue().id), entry.getKey(), currentMarking);
+            infPlaces.clear();
+            count++;
+        }
+        this.setMarking(baseMarking);
+        return rg;
+    }
+
+    /**
+     * funkcja do porównywania znakowań przy liczeniu grafu pokrycia ustawia -1
+     * na większych miejscach jak trzeba
+     *
+     * @return true if m1>m2
+     */
+    public static boolean isMore(Map<Place, Integer> m1, Map<Place, Integer> m2) {
+        if (!(m1.keySet().equals(m2.keySet()))) {
+            System.out.println("Zbiory miejsc nie są takie same, nie będzie z tego dzieci");
+            System.out.println("m1: " + m1.keySet().toString());
+            System.out.println("m2: " + m1.keySet().toString());
+            return false;
+        }
+        for (Place p : m1.keySet()) {
+            if ((!m1.get(p).equals(-1)) && m1.get(p) < m2.get(p)) {
+                return false;
+            }
+        }
+//        Place[] places = m1.keySet().toArray(new Place[m1.keySet().size()]);
+//        Arrays.sort(places);
+//        for (Place p:places){
+//                }
+        //skoro jest większe, to tam gdzie jest większe ustawia się inf (-1)
+        for (Place p : m1.keySet()) {
+            if (m1.get(p) > m2.get(p)) {
+                m1.put(p, -1);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Funkcja do niczego nie potrzebna, zostawiam w podobnym celu jak
+     * getCoverabilityGraph
+     *
+     * @return same result as rg.containsVertex(currentMarking)
+     */
+    public static boolean doesReallyContainVertex(DirectedSparseGraph<Map<Place, Integer>, Transition> rg, Map<Place, Integer> currentMarking) {
+        boolean thesame = true;
+        for (Map<Place, Integer> marking : rg.getVertices()) {
+            for (Place p : marking.keySet()) {
+                if (marking.get(p) != currentMarking.get(p)) {
+                    thesame = false;
+                    break;
+                }
+            }
+            if (thesame) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

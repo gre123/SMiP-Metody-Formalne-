@@ -154,7 +154,7 @@ public class MatrixForm extends javax.swing.JFrame {
 
     public void drawTable(int[][] matrix, Set<Transition> transitons, Set<Place> places) {
 
-        //nag³ówek wiersza
+        //naglowek wiersza
         Object[] placesArray = places.toArray();
         DefaultTableModel rowHeaderTableModel = new DefaultTableModel(0, 1);
         for (int i = 0; i < places.size(); i++) {
@@ -168,7 +168,7 @@ public class MatrixForm extends javax.swing.JFrame {
         dispTableRowHeader.setDefaultRenderer(Object.class, dispTableRowHeader.getTableHeader().getDefaultRenderer());
         jScrollPane1.setRowHeaderView(dispTableRowHeader);
 
-        //róg tabelki
+        //rog tabelki
         //JTableHeader corner = dispTableRowHeader.getTableHeader();
         //corner.setReorderingAllowed(false);
         //corner.setResizingAllowed(false);

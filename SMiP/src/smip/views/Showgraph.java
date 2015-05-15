@@ -2,6 +2,7 @@
  */
 package smip.views;
 
+import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
@@ -24,7 +25,7 @@ public class Showgraph {
     public static <V, E> void showGraph(Graph<V, E> g, String windowName, int dimensionX, int dimensionY) {
         JFrame graphFrame = new JFrame();
         graphFrame.setAlwaysOnTop(true);
-        Layout<V, E> layout = new KKLayout<>(g);
+        Layout<V, E> layout = new ISOMLayout<>(g);
         layout.setSize(new Dimension(dimensionX, dimensionY));
         VisualizationViewer<V,E> vv;
         vv = new VisualizationViewer<>(layout,

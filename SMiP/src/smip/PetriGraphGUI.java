@@ -112,7 +112,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblDelayVal = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButtonReachabilityGraph = new javax.swing.JButton();
+        jButtonCoverabilityGraph = new javax.swing.JButton();
         jPanelGraph = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
@@ -193,11 +193,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
-        jButtonReachabilityGraph.setText("do not click");
-        jButtonReachabilityGraph.setToolTipText("prawie graf osiągalności");
-        jButtonReachabilityGraph.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCoverabilityGraph.setText("Graf pokrycia");
+        jButtonCoverabilityGraph.setToolTipText("prawie graf osiągalności");
+        jButtonCoverabilityGraph.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonReachabilityGraphActionPerformed(evt);
+                jButtonCoverabilityGraphActionPerformed(evt);
             }
         });
 
@@ -219,7 +219,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblDelayVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonReachabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonCoverabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelActionsLayout.setVerticalGroup(
@@ -235,9 +235,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addComponent(jButtonIncidenceMatrix)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addGap(65, 65, 65)
-                .addComponent(jButtonReachabilityGraph)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonCoverabilityGraph)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(lblDelayVal))
@@ -409,20 +409,21 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         reachabilityGraphForm.calculateReachabilityGraph(graph);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButtonReachabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReachabilityGraphActionPerformed
+    private void jButtonCoverabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCoverabilityGraphActionPerformed
         Transformer<Map<Place,Integer>, String> vlt = new Transformer<Map<Place,Integer>, String>(){
             public String transform(Map<Place,Integer> map){
                 String label="";
                 Place[] places = map.keySet().toArray(new Place[map.keySet().size()]);
                 Arrays.sort(places);
                 for (Place p:places){
-                    label+=","+/*Integer.toString(p.getId())+":"+*/map.get(p);
+                    label+=","+/*Integer.toString(p.getId())+":"+*/((map.get(p)==-1) ? "∞ " : map.get(p));
                 }
                 return label.substring(1);
             }
         };
-        Showgraph.showGraph(this.graph.getReachabilityGraph(), vlt, "ShowGraph", 500, 300);
-    }//GEN-LAST:event_jButtonReachabilityGraphActionPerformed
+        //Showgraph.showGraph(this.graph.getReachabilityGraph(), vlt, "ReachabilityGraph", 500, 300);
+        Showgraph.showGraph(this.graph.getCoverabilityGraphv2(), vlt, "CoverabilityGraph", 500, 300);
+    }//GEN-LAST:event_jButtonCoverabilityGraphActionPerformed
 
     /**
      * @param args the command line arguments
@@ -463,10 +464,10 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JMenu elmViews;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonActive;
+    private javax.swing.JButton jButtonCoverabilityGraph;
     private javax.swing.JButton jButtonIncidenceMatrix;
     private javax.swing.JButton jButtonNminus;
     private javax.swing.JButton jButtonNplus;
-    private javax.swing.JButton jButtonReachabilityGraph;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
