@@ -237,7 +237,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Op&#xf3;&#x17c;nienie:"/>
+            <Property name="text" type="java.lang.String" value="Op&#xf3;&#x17a;nienie:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblDelayVal">

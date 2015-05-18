@@ -34,9 +34,10 @@ import smip.views.Showgraph;
  * @author Elpidiusz
  */
 public class PetriGraphGUI extends javax.swing.JFrame {
+
     public PetriGraph graph;
-    Factory <MyVertex> vertexFactory;
-    Factory <Arc> edgeFactory;
+    Factory<MyVertex> vertexFactory;
+    Factory<Arc> edgeFactory;
     MyVertexChecker vCheck;
     ArcChecker eCheck;
     VisualizationViewer vv;
@@ -44,6 +45,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     MatrixForm matrixForm;
     ReachabilityGraphForm reachabilityGraphForm;
     RunnableSimulationPetriGraph simulationPetriGraph;
+
     /**
      * Creates new form PetriGraphGUI
      */
@@ -54,12 +56,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         edgeFactory = new ArcFactory();
         vCheck = new MyVertexChecker();
         eCheck = new ArcChecker();
-        
+
         jPanelGraph.setSize(600, 400);
-        
+
         Layout<MyVertex, Arc> layout = new StaticLayout(graph);
         layout.setSize(this.jPanelGraph.getSize());
-        
+
         vv = new VisualizationViewer<>(layout);
         vv.setPreferredSize(this.jPanelGraph.getSize());
         // Show vertex and edge labels
@@ -69,8 +71,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         vv.getRenderContext().setVertexFillPaintTransformer(new MyVertexColorPainter());
         vv.getRenderContext().setVertexShapeTransformer(new MyVertexShapePainter());
         // Create a graph mouse and add it to the visualization viewer
-        EditingModalGraphMouse2 gm = new EditingModalGraphMouse2(vv.getRenderContext(), 
-                 vertexFactory, edgeFactory); 
+        EditingModalGraphMouse2 gm = new EditingModalGraphMouse2(vv.getRenderContext(),
+                vertexFactory, edgeFactory);
         EditingCheckingGraphMousePlugin plugin = new EditingCheckingGraphMousePlugin(vertexFactory,
                 edgeFactory);
 
@@ -78,16 +80,16 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
         plugin.setVertexChecker(vCheck);
         plugin.setEdgeChecker(eCheck);
-        
+
         gm.setEditingPlugin(plugin);
         vv.setGraphMouse(gm);
-        
+
         createMenu(gm);
         gm.setMode(ModalGraphMouse.Mode.EDITING);
-        simulationPetriGraph=new RunnableSimulationPetriGraph(graph, vv);
-        simulationThread=new Thread(simulationPetriGraph);
+        simulationPetriGraph = new RunnableSimulationPetriGraph(graph, vv);
+        simulationThread = new Thread(simulationPetriGraph);
         vv.setBackground(new java.awt.Color(204, 255, 255));
-        
+
         jPanelGraph.add(vv);
         jPanelGraph.validate();
         jPanelGraph.repaint();
@@ -181,7 +183,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Opóżnienie:");
+        jLabel1.setText("Opóźnienie:");
 
         lblDelayVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblDelayVal.setText("1000 ms");
@@ -322,26 +324,26 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void createMenu(EditingModalGraphMouse2 gm){
+    private void createMenu(EditingModalGraphMouse2 gm) {
         JMenu modeMenu = gm.getModeMenu();
         modeMenu.setText("Mouse Mode");
         modeMenu.setIcon(null);
-        modeMenu.setPreferredSize(new Dimension(80,20));
+        modeMenu.setPreferredSize(new Dimension(80, 20));
         menuBar.add(modeMenu);
     }
-    
+
     private void jButtonActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActiveActionPerformed
         System.out.println("Wszystkie przejścia są aktywe: " + graph.updateGraphTransitionStates());
     }//GEN-LAST:event_jButtonActiveActionPerformed
 
     private void jButtonNplusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNplusActionPerformed
-        System.out.println("Macierz N+: "+java.util.Arrays.deepToString(graph.getNplus()));
+        System.out.println("Macierz N+: " + java.util.Arrays.deepToString(graph.getNplus()));
         drawTable(graph.getNplus());
     }//GEN-LAST:event_jButtonNplusActionPerformed
 
     private void jButtonNminusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNminusActionPerformed
-        System.out.println("Macierz N-: "+java.util.Arrays.deepToString(graph.getNminus()));
-         drawTable(graph.getNminus());
+        System.out.println("Macierz N-: " + java.util.Arrays.deepToString(graph.getNminus()));
+        drawTable(graph.getNminus());
     }//GEN-LAST:event_jButtonNminusActionPerformed
 
     private void jButtonIncidenceMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncidenceMatrixActionPerformed
@@ -349,20 +351,22 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         drawTable(graph.getNincidence());
     }//GEN-LAST:event_jButtonIncidenceMatrixActionPerformed
 
-    private void drawTable(int[][] matrix){       
-        if (matrixForm==null){
-            matrixForm=new MatrixForm();
+    private void drawTable(int[][] matrix) {
+        if (matrixForm == null) {
+            matrixForm = new MatrixForm();
         }
 
         matrixForm.setVisible(true);
-         if (matrix == null){return; }
+        if (matrix == null || matrix.length==0 || matrix[0].length==0) {
+            return;
+        }
         matrixForm.drawTable(matrix, graph.getTransitionSet(), graph.getPlaceSet());
     }
-    
+
     private void jToggleButtonSymulacjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonSymulacjaActionPerformed
         if (jToggleButtonSymulacja.isSelected()) {
             simulationThread.start();
-        } else{
+        } else {
             simulationThread.stop(); //tak się nie powinno robić, ale nie umiem tak jak się powinno
         }
     }//GEN-LAST:event_jToggleButtonSymulacjaActionPerformed
@@ -372,9 +376,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         JDialog authors = new JDialog(this, "Autorzy");
         authors.setSize(200, 100);
         JTextArea engineers = new JTextArea("pan inżynier Elpidiusz Wszołek \n"
-            + "pan inżynier Tomasz Gajda\n"
-            + "pan inżynier Piotr Knop\n"
-            + "pan inżynier Grzegorz Bylina");
+                + "pan inżynier Tomasz Gajda\n"
+                + "pan inżynier Piotr Knop\n"
+                + "pan inżynier Grzegorz Bylina");
         engineers.setEditable(false);
         engineers.setBackground(Color.LIGHT_GRAY);
         authors.add(engineers);
@@ -395,7 +399,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void sldDeleyStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldDeleyStateChanged
-        lblDelayVal.setText(Integer.toString(sldDeley.getValue())+ " ms");
+        lblDelayVal.setText(Integer.toString(sldDeley.getValue()) + " ms");
         simulationPetriGraph.setDelay(sldDeley.getValue());
     }//GEN-LAST:event_sldDeleyStateChanged
 
@@ -410,13 +414,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonCoverabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCoverabilityGraphActionPerformed
-        Transformer<Map<Place,Integer>, String> vlt = new Transformer<Map<Place,Integer>, String>(){
-            public String transform(Map<Place,Integer> map){
-                String label="";
+        Transformer<Map<Place, Integer>, String> vlt = new Transformer<Map<Place, Integer>, String>() {
+            public String transform(Map<Place, Integer> map) {
+                String label = "";
                 Place[] places = map.keySet().toArray(new Place[map.keySet().size()]);
                 Arrays.sort(places);
-                for (Place p:places){
-                    label+=","+/*Integer.toString(p.getId())+":"+*/((map.get(p)==-1) ? "∞ " : map.get(p));
+                for (Place p : places) {
+                    label += "," +/*Integer.toString(p.getId())+":"+*/ ((map.get(p) == -1) ? "∞ " : map.get(p));
                 }
                 return label.substring(1);
             }

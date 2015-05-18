@@ -1,5 +1,3 @@
-/*
- */
 package smip.views;
 
 import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
@@ -12,9 +10,7 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 import java.awt.Dimension;
-import java.util.Map;
 import javax.swing.JFrame;
-import model.Place;
 import org.apache.commons.collections15.Transformer;
 
 /**

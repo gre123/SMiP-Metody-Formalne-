@@ -4,14 +4,17 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/smip/PetriGraphGUI.java</file>
-            <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/CheckingMouse/ArcChecker.java</file>
             <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/smip/RaportConsole.java</file>
+            <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/factory/PlaceTransitionFactory.java</file>
+            <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/factory/EdgeFactory.java</file>
+            <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/factory/ArcFactory.java</file>
             <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/model/PetriGraph.java</file>
             <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/CheckingMouse/EditingCheckingGraphMousePlugin.java</file>
-            <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/smip/table/Cell.java</file>
-            <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/smip/table/Table.java</file>
             <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/model/MyVertex.java</file>
             <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/CheckingMouse/MyVertexChecker.java</file>
+            <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/factory/RectVertexFactory.java</file>
+            <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/simulation/RunnableSimulationPetriGraph.java</file>
+            <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/factory/CircVertexFactory.java</file>
             <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/CheckingMouse/EditingModalGraphMouse2.java</file>
             <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/smip/views/MatrixForm.java</file>
             <file>file:/E:/Nauka/programy/SMiP-Metody-Formalne-/SMiP/src/smip/SMiP.java</file>
