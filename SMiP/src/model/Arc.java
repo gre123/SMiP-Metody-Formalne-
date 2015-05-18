@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * @author Elpidiusz
  */
-public class Arc {
+public class Arc implements Serializable{
 
     int value = 1;
 

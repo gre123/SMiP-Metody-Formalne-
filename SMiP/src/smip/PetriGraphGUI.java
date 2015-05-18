@@ -4,6 +4,7 @@ import CheckingMouse.ArcChecker;
 import CheckingMouse.EditingCheckingGraphMousePlugin;
 import CheckingMouse.EditingModalGraphMouse2;
 import CheckingMouse.MyVertexChecker;
+import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -23,6 +24,13 @@ import smip.views.ReachabilityGraphForm;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Map;
 import model.Place;
@@ -272,6 +280,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
         jMenu4.setText("Sieć");
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Zapisz sieć");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,6 +289,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem2);
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Wczytaj sieć");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -370,7 +380,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         }
 
         matrixForm.setVisible(true);
-        if (matrix == null || matrix.length==0 || matrix[0].length==0) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
             return;
         }
         matrixForm.drawTable(matrix, graph.getTransitionSet(), graph.getPlaceSet());
@@ -400,11 +410,76 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        new SaveLoadGui('s').setVisible(true);
+        //new SaveLoadGui('s').setVisible(true);
+        JFrame parentFrame = new JFrame();
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Wybierz gdzie zapisać");
+        fileChooser.setSelectedFile(new File("PetriNet"));
+
+        int userSelection = fileChooser.showSaveDialog(parentFrame);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+            FileOutputStream fos = null;
+            ObjectOutputStream oos = null;
+            try {
+                fos = new FileOutputStream(fileToSave);
+                oos = new ObjectOutputStream(fos);
+
+                oos.writeObject(this.graph); //serializacja obiektu
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (oos != null) {
+                        oos.close();
+                    }
+                } catch (IOException e) {
+                }
+                try {
+                    if (fos != null) {
+                        fos.close();
+                    }
+                } catch (IOException e) {
+                }
+            }
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        new SaveLoadGui('l').setVisible(true);
+        //new SaveLoadGui('l').setVisible(true);
+        JFrame parentFrame = new JFrame();
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Wybierz skąd wczytać plik");
+        //fileChooser.setSelectedFile(new File(txtFileName.getText()));
+
+        int userSelection = fileChooser.showOpenDialog(parentFrame);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToOpen = fileChooser.getSelectedFile();
+            System.out.println("Read from file: " + fileToOpen.getAbsolutePath());
+            System.out.println(graph.toString());
+            try {
+                FileInputStream fileIn = new FileInputStream(fileToOpen);
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                this.graph = (PetriGraph) in.readObject();
+                vv.setGraphLayout(new KKLayout(graph));
+                in.close();
+                fileIn.close();
+            } catch (IOException i) {
+                i.printStackTrace();
+                return;
+            } catch (ClassNotFoundException c) {
+                System.out.println("PetriNet class not found");
+                c.printStackTrace();
+                return;
+            }
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -420,7 +495,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         drawRechabilityGrap();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void drawRechabilityGrap(){
+    private void drawRechabilityGrap() {
         if (reachabilityGraphForm == null) {
             reachabilityGraphForm = new ReachabilityGraphForm();
         }
@@ -428,7 +503,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         reachabilityGraphForm.setVisible(true);
         reachabilityGraphForm.calculateReachabilityGraph(graph);
     }
-    
+
     private void jButtonCoverabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCoverabilityGraphActionPerformed
         Transformer<Map<Place, Integer>, String> vlt = new Transformer<Map<Place, Integer>, String>() {
             public String transform(Map<Place, Integer> map) {
