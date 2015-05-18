@@ -601,12 +601,75 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         return boundaries;
     }
+
     public int getGraphBoundedness() {
         Map<Place, Integer> boundaries = this.getPlacesBoundedness();
-        if (boundaries.values().contains(-1)){
+        if (boundaries.values().contains(-1)) {
             return -1;
         }
         return Collections.max(boundaries.values());
+
+    }
+
+    public boolean getWeightedGraphConservation(Map<Place, Integer> weights) {
+        if (!weights.keySet().equals(this.placeSet)) {
+            System.out.println("Mapa wag nie odpowiada miejscom w grafie, nic z tego nie będzie");
+        }
+
+        int konserwa = 0;
+        for (Place place : this.placeSet) {
+            konserwa += weights.get(place) * place.resources;
+        }
+
+        Collection<Map<Place, Integer>> markings = getCoverabilityGraphv2().getVertices();
+        for (Map<Place, Integer> marking : markings) {
+            if (marking.containsValue(-1)) {
+                System.out.println("Graf pokrycia jest nieskończony, sieć nie jest zachowawcza");
+                return false;
+            }
+            int sum = 0;
+            for (Place place : this.placeSet) {
+                sum += weights.get(place) * marking.get(place);
+            }
+            if (sum != konserwa) {
+                System.out.println("Suma znaczników nie jest stała, sieć nie jest zachowawcza");
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    public boolean getSimpleGraphConservation() {
+        Map<Place, Integer> weights = new HashMap();
+        for (Place place : this.placeSet) {
+            weights.put(place, 1);
+        }
+        if (!weights.keySet().equals(this.placeSet)) {
+            System.out.println("Mapa wag nie odpowiada miejscom w grafie, nic z tego nie będzie");
+        }
+
+        int konserwa = 0;
+        for (Place place : this.placeSet) {
+            konserwa += weights.get(place) * place.resources;
+        }
+
+        Collection<Map<Place, Integer>> markings = getCoverabilityGraphv2().getVertices();
+        for (Map<Place, Integer> marking : markings) {
+            if (marking.containsValue(-1)) {
+                System.out.println("Graf pokrycia jest nieskończony, sieć nie jest zachowawcza");
+                return false;
+            }
+            int sum = 0;
+            for (Place place : this.placeSet) {
+                sum += weights.get(place) * marking.get(place);
+            }
+            if (sum != konserwa) {
+                System.out.println("Suma znaczników nie jest stała, sieć nie jest zachowawcza");
+                return false;
+            }
+        }
+        return true;
 
     }
 }

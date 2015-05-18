@@ -124,6 +124,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButtonCoverabilityGraph = new javax.swing.JButton();
         jButtonBoundedness = new javax.swing.JButton();
+        jButtonConservation = new javax.swing.JButton();
         jPanelGraph = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
@@ -221,6 +222,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
+        jButtonConservation.setText("Zachowawczość sieci");
+        jButtonConservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConservationActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelActionsLayout = new javax.swing.GroupLayout(jPanelActions);
         jPanelActions.setLayout(jPanelActionsLayout);
         jPanelActionsLayout.setHorizontalGroup(
@@ -240,7 +248,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                         .addComponent(lblDelayVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonCoverabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonBoundedness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonBoundedness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonConservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelActionsLayout.setVerticalGroup(
@@ -260,7 +269,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addComponent(jButtonCoverabilityGraph)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonBoundedness)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConservation)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(lblDelayVal))
@@ -367,7 +378,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }
 
     private void jButtonActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActiveActionPerformed
-        System.out.println("Wszystkie przejścia są aktywe: " + graph.updateGraphTransitionStates());
+        JOptionPane.showMessageDialog(vv, (graph.updateGraphTransitionStates() ? "Wszystkie" : "Nie wszystkie") + " przejścia są aktywne.",
+                "Aktywność sieci", JOptionPane.INFORMATION_MESSAGE);
+        //System.out.println("Wszystkie przejścia są aktywne: " + graph.updateGraphTransitionStates());
     }//GEN-LAST:event_jButtonActiveActionPerformed
 
     private void jButtonNplusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNplusActionPerformed
@@ -537,8 +550,16 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void jButtonBoundednessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBoundednessActionPerformed
         //System.out.println(graph.getPlacesBoundedness().toString());
-        System.out.println(graph.getGraphBoundedness());
+        int boundedness = graph.getGraphBoundedness();
+        JOptionPane.showMessageDialog(vv, "Sieć jest " + (boundedness == -1 ? "nie" : boundedness + "-") + "ograniczona.",
+                "Ograniczoność sieci", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButtonBoundednessActionPerformed
+
+    private void jButtonConservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConservationActionPerformed
+        boolean conservation = graph.getSimpleGraphConservation();
+        JOptionPane.showMessageDialog(vv, "Sieć " + (conservation ? "" : "nie ") + "jest zachowawcza.",
+                "Zachowawczość sieci", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButtonConservationActionPerformed
 
     /**
      * @param args the command line arguments
@@ -580,6 +601,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonActive;
     private javax.swing.JButton jButtonBoundedness;
+    private javax.swing.JButton jButtonConservation;
     private javax.swing.JButton jButtonCoverabilityGraph;
     private javax.swing.JButton jButtonIncidenceMatrix;
     private javax.swing.JButton jButtonNminus;
