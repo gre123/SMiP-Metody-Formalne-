@@ -16,6 +16,7 @@ import java.util.stream.IntStream;
  * @author Grzesiek
  */
 public class ReachabilityGraphForm extends javax.swing.JFrame {
+
     ReachabilityGraph reachabilityGraph;
     VisualizationViewer vv;
 
@@ -55,10 +56,30 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        pnlResult = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblVerticles = new javax.swing.JLabel();
+        lblEdges = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblLive = new javax.swing.JLabel();
+        lblZach = new javax.swing.JLabel();
+        lblSafty = new javax.swing.JLabel();
 
-        setTitle("Graf osiągalności");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -67,35 +88,106 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(186, 186, 186)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(237, Short.MAX_VALUE))
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 776, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(145, 145, 145)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(237, Short.MAX_VALUE))
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 457, Short.MAX_VALUE)
+        );
+
+        pnlResult.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel1.setText("Wierzchołki:");
+
+        jLabel2.setText("Krawędzie:");
+
+        lblVerticles.setText("0");
+
+        lblEdges.setText("0");
+
+        jLabel3.setText("Żywotnośc:");
+
+        jLabel4.setText("Zachowawczość:");
+
+        jLabel5.setText("Bezpieczeństwo");
+
+        lblLive.setText("-");
+
+        lblZach.setText("-");
+
+        lblSafty.setText("-");
+
+        javax.swing.GroupLayout pnlResultLayout = new javax.swing.GroupLayout(pnlResult);
+        pnlResult.setLayout(pnlResultLayout);
+        pnlResultLayout.setHorizontalGroup(
+            pnlResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlResultLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlResultLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblVerticles))
+                    .addGroup(pnlResultLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblEdges)))
+                .addGap(43, 43, 43)
+                .addGroup(pnlResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlResultLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(42, 42, 42)
+                        .addComponent(lblLive)
+                        .addGap(41, 41, 41)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblSafty))
+                    .addGroup(pnlResultLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblZach)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlResultLayout.setVerticalGroup(
+            pnlResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlResultLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lblVerticles)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(lblLive)
+                    .addComponent(lblSafty))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(lblEdges)
+                    .addComponent(jLabel4)
+                    .addComponent(lblZach))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -121,7 +213,7 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ReachabilityGraphForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
@@ -220,8 +312,13 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
         }
 
         System.out.println("Żywotnośc sieci: " + liveness);
-        /////////////////////////////////////////////////////
+        if (liveness) {
+            lblLive.setText("true");
+        } else {
+            lblLive.setText("false");
+        }
 
+        /////////////////////////////////////////////////////
         //zachowawczość
         ///////////////////////////////////////////////////////
         int sumOfInitialMarking = IntStream.of(markers).sum();
@@ -236,8 +333,13 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
         }
 
         System.out.println("Zachowawczość: " + conservation);
-        ///////////////////////////////////////////////////////
+        if (conservation) {
+            lblZach.setText("true");
+        } else {
+            lblZach.setText("false");
+        }
 
+        ///////////////////////////////////////////////////////
         //bezpieczeństwo
         ////////////////////////////////////////////////////////
         int[] vertexMarkers;
@@ -256,12 +358,28 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
         }
 
         System.out.println("Bezpieczeństwo: " + safeness);
+        if (safeness) {
+            lblSafty.setText("true");
+        } else {
+            lblSafty.setText("false");
+        }
         ////////////////////////////////////////////////////////
 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblEdges;
+    private javax.swing.JLabel lblLive;
+    private javax.swing.JLabel lblSafty;
+    private javax.swing.JLabel lblVerticles;
+    private javax.swing.JLabel lblZach;
+    private javax.swing.JPanel pnlResult;
     // End of variables declaration//GEN-END:variables
 }

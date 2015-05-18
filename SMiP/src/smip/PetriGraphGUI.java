@@ -125,6 +125,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         elmViews = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
+        mitOsi = new javax.swing.JMenuItem();
+        mitPokrycia = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sieć miejsc i przejsć");
@@ -298,6 +300,17 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         });
         elmViews.add(jMenuItem5);
 
+        mitOsi.setText("Osiągalność");
+        mitOsi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitOsiActionPerformed(evt);
+            }
+        });
+        elmViews.add(mitOsi);
+
+        mitPokrycia.setText("Pokrycie");
+        elmViews.add(mitPokrycia);
+
         menuBar.add(elmViews);
 
         setJMenuBar(menuBar);
@@ -404,15 +417,18 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_sldDeleyStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        drawRechabilityGrap();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void drawRechabilityGrap(){
         if (reachabilityGraphForm == null) {
             reachabilityGraphForm = new ReachabilityGraphForm();
         }
 
         reachabilityGraphForm.setVisible(true);
         reachabilityGraphForm.calculateReachabilityGraph(graph);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    }
+    
     private void jButtonCoverabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCoverabilityGraphActionPerformed
         Transformer<Map<Place, Integer>, String> vlt = new Transformer<Map<Place, Integer>, String>() {
             public String transform(Map<Place, Integer> map) {
@@ -428,6 +444,10 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         //Showgraph.showGraph(this.graph.getReachabilityGraph(), vlt, "ReachabilityGraph", 500, 300);
         Showgraph.showGraph(this.graph.getCoverabilityGraphv2(), vlt, "CoverabilityGraph", 500, 300);
     }//GEN-LAST:event_jButtonCoverabilityGraphActionPerformed
+
+    private void mitOsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitOsiActionPerformed
+        drawRechabilityGrap();
+    }//GEN-LAST:event_mitOsiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -485,6 +505,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButtonSymulacja;
     private javax.swing.JLabel lblDelayVal;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem mitOsi;
+    private javax.swing.JMenuItem mitPokrycia;
     private javax.swing.JSlider sldDeley;
     // End of variables declaration//GEN-END:variables
 }
