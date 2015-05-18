@@ -584,4 +584,29 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return false;
     }
 
+    public Map<Place, Integer> getPlacesBoundedness() {
+        DirectedSparseGraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraphv2();
+        Map<Place, Integer> boundaries = new HashMap<>();
+        for (Place p : this.placeSet) {
+            boundaries.put(p, Integer.MIN_VALUE);
+        }
+        for (Map<Place, Integer> marking : cg.getVertices()) {
+            for (Place p : boundaries.keySet()) {
+                if (boundaries.get(p) == -1 || marking.get(p) == -1) {
+                    boundaries.put(p, -1);
+                } else if (marking.get(p) > boundaries.get(p)) {
+                    boundaries.put(p, marking.get(p));
+                }
+            }
+        }
+        return boundaries;
+    }
+    public int getGraphBoundedness() {
+        Map<Place, Integer> boundaries = this.getPlacesBoundedness();
+        if (boundaries.values().contains(-1)){
+            return -1;
+        }
+        return Collections.max(boundaries.values());
+
+    }
 }

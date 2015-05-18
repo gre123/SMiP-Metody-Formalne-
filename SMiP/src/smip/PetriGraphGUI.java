@@ -123,6 +123,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         lblDelayVal = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButtonCoverabilityGraph = new javax.swing.JButton();
+        jButtonBoundedness = new javax.swing.JButton();
         jPanelGraph = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
@@ -213,6 +214,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
+        jButtonBoundedness.setText("Ograniczoność sieci");
+        jButtonBoundedness.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBoundednessActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelActionsLayout = new javax.swing.GroupLayout(jPanelActions);
         jPanelActions.setLayout(jPanelActionsLayout);
         jPanelActionsLayout.setHorizontalGroup(
@@ -231,7 +239,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblDelayVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonCoverabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonCoverabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonBoundedness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelActionsLayout.setVerticalGroup(
@@ -249,7 +258,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCoverabilityGraph)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonBoundedness)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
                 .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(lblDelayVal))
@@ -524,6 +535,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         drawRechabilityGrap();
     }//GEN-LAST:event_mitOsiActionPerformed
 
+    private void jButtonBoundednessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBoundednessActionPerformed
+        //System.out.println(graph.getPlacesBoundedness().toString());
+        System.out.println(graph.getGraphBoundedness());
+    }//GEN-LAST:event_jButtonBoundednessActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -563,6 +579,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JMenu elmViews;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonActive;
+    private javax.swing.JButton jButtonBoundedness;
     private javax.swing.JButton jButtonCoverabilityGraph;
     private javax.swing.JButton jButtonIncidenceMatrix;
     private javax.swing.JButton jButtonNminus;

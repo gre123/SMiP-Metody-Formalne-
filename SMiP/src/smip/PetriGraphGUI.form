@@ -162,6 +162,7 @@
                       </Group>
                       <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonCoverabilityGraph" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonBoundedness" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -182,7 +183,9 @@
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonCoverabilityGraph" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="136" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jButtonBoundedness" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="107" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblDelayVal" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -280,6 +283,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCoverabilityGraphActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonBoundedness">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ograniczono&#x15b;&#x107; sieci"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBoundednessActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
