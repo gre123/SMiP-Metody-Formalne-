@@ -28,7 +28,6 @@ public class SimulateGraphMousePlugin<V,E> extends PickingGraphMousePlugin<V,E> 
                 {
                     PetriGraphGUI.graph.executeTransition((Transition) selectedTransition);
                 }
-                SMiP.viewer.repaint();  
             }
         }
     }

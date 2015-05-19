@@ -11,6 +11,7 @@ public class RunnableSimulationPetriGraph implements Runnable{
     PetriGraph graph;
     VisualizationViewer vv;
     int delay=1000;
+    boolean isItReallyTheEndOfThisThread = false;
     
     public RunnableSimulationPetriGraph(PetriGraph graph, VisualizationViewer vv){
         this.graph = graph;
@@ -32,12 +33,22 @@ public class RunnableSimulationPetriGraph implements Runnable{
        {
            try {
                Thread.sleep(delay);
-           } catch (InterruptedException ex) {}
+           } catch (InterruptedException ex) {
+               return;
+           }
            List<Transition> transitions = graph.getActiveTransitions();
            if (!transitions.isEmpty()){
                graph.executeTransition(transitions.get(rn.nextInt(transitions.size())));
                vv.repaint();
            }
        }
-    }    
+    }
+    
+    
+    public void stopItNow()
+    {
+        isItReallyTheEndOfThisThread = true;
+    }
+    
+    
 }
