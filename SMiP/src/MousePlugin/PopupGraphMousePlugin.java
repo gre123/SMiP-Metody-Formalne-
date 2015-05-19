@@ -3,7 +3,6 @@ package MousePlugin;
 
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin;
 import factory.CircVertexFactory;
@@ -15,7 +14,7 @@ import java.awt.geom.Point2D;
 import javax.swing.AbstractAction;
 import javax.swing.JPopupMenu;
 import model.node;
-import smip.SMiP;
+import trash.SMiP;
 
 public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 implements MouseListener {

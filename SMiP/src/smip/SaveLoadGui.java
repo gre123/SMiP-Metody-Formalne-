@@ -5,6 +5,7 @@
  */
 package smip;
 
+import trash.SMiP;
 import Struktura_jung.SaveNetUtil;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;

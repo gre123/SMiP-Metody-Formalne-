@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import model.node;
-import smip.SMiP;
+import trash.SMiP;
 
 public class MarkGraphMousePlugin extends PickingGraphMousePlugin
 implements MouseListener {

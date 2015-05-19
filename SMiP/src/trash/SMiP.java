@@ -1,8 +1,9 @@
-package smip;
+package trash;
 
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import model.node;
+import smip.MainGUI;
 
 public class SMiP {
 

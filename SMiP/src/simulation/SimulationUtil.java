@@ -2,7 +2,7 @@ package simulation;
 
 import java.util.Collection;
 import model.node;
-import smip.SMiP;
+import trash.SMiP;
 
 public class SimulationUtil {
     

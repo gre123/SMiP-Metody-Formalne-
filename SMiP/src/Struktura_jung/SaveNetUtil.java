@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import model.node;
-import smip.SMiP;
+import trash.SMiP;
 
 
 public class SaveNetUtil {

@@ -5,6 +5,7 @@
  */
 package smip;
 
+import trash.SMiP;
 import MousePlugin.MarkGraphMousePlugin;
 import MousePlugin.PopupGraphMousePlugin;
 import NetProperties.NetProperties;

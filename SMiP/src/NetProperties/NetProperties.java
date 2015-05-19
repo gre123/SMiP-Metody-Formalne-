@@ -1,7 +1,7 @@
 package NetProperties;
 
 import model.node;
-import smip.SMiP;
+import trash.SMiP;
 
 import java.util.ArrayList;
 import java.util.Collection;

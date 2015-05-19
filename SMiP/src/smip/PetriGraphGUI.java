@@ -4,11 +4,13 @@ import CheckingMouse.ArcChecker;
 import CheckingMouse.EditingCheckingGraphMousePlugin;
 import CheckingMouse.EditingModalGraphMouse2;
 import CheckingMouse.MyVertexChecker;
+import MousePlugin.SimulateGraphMousePlugin;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import factory.ArcFactory;
 import factory.PlaceTransitionFactory;
@@ -43,7 +45,7 @@ import smip.views.Showgraph;
  */
 public class PetriGraphGUI extends javax.swing.JFrame {
 
-    public PetriGraph graph;
+    public static PetriGraph graph;
     Factory<MyVertex> vertexFactory;
     Factory<Arc> edgeFactory;
     MyVertexChecker vCheck;
@@ -53,7 +55,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     MatrixForm matrixForm;
     ReachabilityGraphForm reachabilityGraphForm;
     RunnableSimulationPetriGraph simulationPetriGraph;
-
+    
+    public SimulateGraphMousePlugin simulateGraphMousePlugin = new SimulateGraphMousePlugin();
     /**
      * Creates new form PetriGraphGUI
      */
@@ -83,6 +86,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 vertexFactory, edgeFactory);
         EditingCheckingGraphMousePlugin plugin = new EditingCheckingGraphMousePlugin(vertexFactory,
                 edgeFactory);
+        
 
         gm.remove(gm.getEditingPlugin());
 
@@ -125,6 +129,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         jButtonCoverabilityGraph = new javax.swing.JButton();
         jButtonBoundedness = new javax.swing.JButton();
         jButtonConservation = new javax.swing.JButton();
+        isSelectionByUser = new javax.swing.JCheckBox();
         jPanelGraph = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
@@ -133,6 +138,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         elmViews = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         mitOsi = new javax.swing.JMenuItem();
@@ -229,6 +235,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
+        isSelectionByUser.setText("Możliwość wyboru przejścia");
+        isSelectionByUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isSelectionByUserActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelActionsLayout = new javax.swing.GroupLayout(jPanelActions);
         jPanelActions.setLayout(jPanelActionsLayout);
         jPanelActionsLayout.setHorizontalGroup(
@@ -239,7 +252,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                     .addComponent(jButtonActive, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonNplus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonNminus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonIncidenceMatrix, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                    .addComponent(jButtonIncidenceMatrix, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jToggleButtonSymulacja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sldDeley, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelActionsLayout.createSequentialGroup()
@@ -249,7 +262,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonCoverabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonBoundedness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonConservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonConservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(isSelectionByUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelActionsLayout.setVerticalGroup(
@@ -271,7 +285,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addComponent(jButtonBoundedness)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonConservation)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(isSelectionByUser)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(lblDelayVal))
@@ -319,6 +335,14 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem1);
+
+        jMenuItem6.setText("Wyczyść");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem6);
 
         menuBar.add(jMenu4);
 
@@ -411,11 +435,21 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }
 
     private void jToggleButtonSymulacjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonSymulacjaActionPerformed
-        if (jToggleButtonSymulacja.isSelected()) {
+        if (jToggleButtonSymulacja.isSelected() && !isSelectionByUser.isSelected()) {
             simulationThread.start();
-        } else {
-            simulationThread.stop(); //tak się nie powinno robić, ale nie umiem tak jak się powinno
         }
+        else{
+                if(!jToggleButtonSymulacja.isSelected()){
+                    simulationThread.stop(); //tak się nie powinno robić, ale nie umiem tak jak się powinno
+                }
+                else{
+                    isSelectionByUser.setEnabled(false);
+                    PluggableGraphMouse simulationGraphMouse = new PluggableGraphMouse();
+                    simulationGraphMouse.add(simulateGraphMousePlugin);
+                    vv.setGraphMouse(simulationGraphMouse);
+                }
+        }
+        
     }//GEN-LAST:event_jToggleButtonSymulacjaActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -561,6 +595,16 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 "Zachowawczość sieci", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButtonConservationActionPerformed
 
+    private void isSelectionByUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isSelectionByUserActionPerformed
+
+    }//GEN-LAST:event_isSelectionByUserActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -598,6 +642,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu elmViews;
+    private javax.swing.JCheckBox isSelectionByUser;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonActive;
     private javax.swing.JButton jButtonBoundedness;
@@ -614,6 +659,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanelActions;
     private javax.swing.JPanel jPanelGraph;
     private javax.swing.JToggleButton jToggleButtonSymulacja;

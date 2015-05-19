@@ -2,16 +2,8 @@
  */
 package model;
 
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.algorithms.layout.KKLayout;
-import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
-import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
-import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -26,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.swing.JFrame;
 import org.apache.commons.collections15.MultiMap;
 
 /**

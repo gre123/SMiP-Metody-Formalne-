@@ -1,7 +1,7 @@
 
 package simulation;
 
-import smip.SMiP;
+import trash.SMiP;
 
 public class RunnableSimulation implements Runnable{
     

@@ -51,6 +51,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Wyczy&#x15b;&#x107;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem6ActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="elmViews">
@@ -152,7 +160,7 @@
                       <Component id="jButtonActive" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonNplus" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonNminus" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jButtonIncidenceMatrix" alignment="1" pref="147" max="32767" attributes="0"/>
+                      <Component id="jButtonIncidenceMatrix" alignment="1" max="32767" attributes="0"/>
                       <Component id="jToggleButtonSymulacja" alignment="0" max="32767" attributes="0"/>
                       <Component id="sldDeley" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
@@ -164,6 +172,7 @@
                       <Component id="jButtonCoverabilityGraph" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonBoundedness" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonConservation" alignment="0" max="32767" attributes="0"/>
+                      <Component id="isSelectionByUser" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -188,7 +197,9 @@
                   <Component id="jButtonBoundedness" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonConservation" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="78" max="32767" attributes="0"/>
+                  <EmptySpace pref="48" max="32767" attributes="0"/>
+                  <Component id="isSelectionByUser" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblDelayVal" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -302,6 +313,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonConservationActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="isSelectionByUser">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Mo&#x17c;liwo&#x15b;&#x107; wyboru przej&#x15b;cia"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="isSelectionByUserActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

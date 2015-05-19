@@ -4,10 +4,8 @@ package simulation;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import model.PetriGraph;
 import model.Transition;
-import smip.SMiP;
 
 public class RunnableSimulationPetriGraph implements Runnable{
     PetriGraph graph;

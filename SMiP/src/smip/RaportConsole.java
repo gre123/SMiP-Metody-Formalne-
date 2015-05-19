@@ -1,6 +1,7 @@
 
 package smip;
 
+import trash.SMiP;
 import java.util.Date;
 import javax.swing.JTextArea;
 
