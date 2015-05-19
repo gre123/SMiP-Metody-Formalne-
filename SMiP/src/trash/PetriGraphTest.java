@@ -12,9 +12,12 @@ import CheckingMouse.ArcChecker;
 import CheckingMouse.EditingCheckingGraphMousePlugin;
 import CheckingMouse.EditingModalGraphMouse2;
 import CheckingMouse.MyVertexChecker;
+import MousePlugin.PopupGraphMousePlugin;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.GraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
@@ -70,15 +73,21 @@ public class PetriGraphTest {
         vv.getRenderContext().setVertexFillPaintTransformer(new MyVertexColorPainter());
         vv.getRenderContext().setVertexShapeTransformer(new MyVertexShapePainter());
         // Create a graph mouse and add it to the visualization viewer
-        EditingModalGraphMouse2 gm = new EditingModalGraphMouse2(vv.getRenderContext(), 
-                 sgv.vertexFactory, sgv.edgeFactory); 
-        EditingCheckingGraphMousePlugin plugin = new EditingCheckingGraphMousePlugin(sgv.vertexFactory,
-                sgv.edgeFactory);
-        GraphMousePlugin oldPlugin = gm.getEditingPlugin(); //Remove current plugin
-        gm.remove(oldPlugin);
-        plugin.setVertexChecker(sgv.vCheck);
-        plugin.setEdgeChecker(sgv.eCheck);
-        gm.setEditingPlugin(plugin);
+        //EditingModalGraphMouse2 gm = new EditingModalGraphMouse2(vv.getRenderContext(), 
+        //        sgv.vertexFactory, sgv.edgeFactory); 
+        //EditingCheckingGraphMousePlugin plugin = new EditingCheckingGraphMousePlugin(sgv.vertexFactory,
+        //        sgv.edgeFactory);
+        //GraphMousePlugin oldPlugin = gm.getEditingPlugin(); //Remove current plugin
+        //gm.remove(oldPlugin);
+        //plugin.setVertexChecker(sgv.vCheck);
+        //plugin.setEdgeChecker(sgv.eCheck);
+        //gm.setEditingPlugin(plugin);
+        EditingModalGraphMouse gm = new EditingModalGraphMouse<MyVertex, Arc>(vv.getRenderContext(), new PlaceTransitionFactory(), new ArcFactory());
+        //tutaj usuwa się plugin pod prawoklikiem i dodaje się wybrany plugin
+        gm.remove(gm.getPopupEditingPlugin());
+        gm.add(new PopupGraphMousePlugin());
+        
+        gm.setMode(ModalGraphMouse.Mode.EDITING);
         vv.setGraphMouse(gm);
 
         
