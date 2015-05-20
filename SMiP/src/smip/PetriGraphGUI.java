@@ -129,6 +129,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         jButtonBoundedness = new javax.swing.JButton();
         jButtonConservation = new javax.swing.JButton();
         isSelectionByUser = new javax.swing.JCheckBox();
+        jButtonReversibility = new javax.swing.JButton();
         jPanelGraph = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
@@ -241,6 +242,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
+        jButtonReversibility.setText("Odwracalność sieci");
+        jButtonReversibility.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReversibilityActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelActionsLayout = new javax.swing.GroupLayout(jPanelActions);
         jPanelActions.setLayout(jPanelActionsLayout);
         jPanelActionsLayout.setHorizontalGroup(
@@ -262,7 +270,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                     .addComponent(jButtonCoverabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonBoundedness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonConservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(isSelectionByUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(isSelectionByUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonReversibility, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelActionsLayout.setVerticalGroup(
@@ -284,7 +293,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addComponent(jButtonBoundedness)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonConservation)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonReversibility)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(isSelectionByUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -631,6 +642,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    private void jButtonReversibilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReversibilityActionPerformed
+        boolean reversibility = graph.getGraphReversibility();
+        JOptionPane.showMessageDialog(vv, "Sieć " + (reversibility ? "" : "nie ") + "jest odwracalna.",
+                "Odwracalność sieci", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButtonReversibilityActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -677,6 +694,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonNminus;
     private javax.swing.JButton jButtonNplus;
     private javax.swing.JButton jButtonReachabilityGraph;
+    private javax.swing.JButton jButtonReversibility;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;

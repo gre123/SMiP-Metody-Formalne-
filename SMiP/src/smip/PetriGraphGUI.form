@@ -173,6 +173,7 @@
                       <Component id="jButtonBoundedness" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonConservation" alignment="0" max="32767" attributes="0"/>
                       <Component id="isSelectionByUser" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonReversibility" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -197,7 +198,9 @@
                   <Component id="jButtonBoundedness" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonConservation" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="48" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jButtonReversibility" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="19" max="32767" attributes="0"/>
                   <Component id="isSelectionByUser" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -321,6 +324,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="isSelectionByUserActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonReversibility">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Odwracalno&#x15b;&#x107; sieci"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonReversibilityActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

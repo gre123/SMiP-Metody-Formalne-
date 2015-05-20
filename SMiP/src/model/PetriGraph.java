@@ -2,6 +2,7 @@
  */
 package model;
 
+import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import java.io.Serializable;
@@ -662,5 +663,17 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         return true;
 
+    }
+
+    public boolean getGraphReversibility() {
+        DirectedSparseGraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraphv2();
+        DijkstraShortestPath<Map<Place, Integer>, Transition> alg = new DijkstraShortestPath(cg);
+        Map<Place, Integer> currentmarking = this.getMarking();
+        for (Map<Place, Integer> marking:cg.getVertices()){
+            if (alg.getPath(marking, currentmarking).isEmpty() && !marking.equals(currentmarking)){
+                return false;
+            }
+        }
+        return true;
     }
 }
