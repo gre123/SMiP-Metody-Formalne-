@@ -1,5 +1,5 @@
 package model;
 
-public enum nodeShape {
+public enum NodeShape {
         CIRCLE, RECTANGLE
     }

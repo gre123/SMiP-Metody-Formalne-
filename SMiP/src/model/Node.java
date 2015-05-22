@@ -1,4 +1,3 @@
-
 package model;
 
 import java.io.Serializable;
@@ -9,35 +8,33 @@ import java.io.Serializable;
  *
  * @author Epifaniusz
  */
-
-
-public class node implements Serializable{
+public class Node implements Serializable {
 
     private final int nID;
     private float x;
     private float y;
-    
-    private int nKolor;
-    private nodeShape shape;
-    private int markCount=0;
-    
-    private boolean markWillBeAdded=false;
-    private boolean markWillBeRemoved=false;
 
-    public node(int x, nodeShape _shape) {
+    private int nKolor;
+    private NodeShape shape;
+    private int markCount = 0;
+
+    private boolean markWillBeAdded = false;
+    private boolean markWillBeRemoved = false;
+
+    public Node(int x, NodeShape _shape) {
         nID = x;
         nKolor = 0;
         shape = _shape;
     }
 
-    public node(int id, float iks, float ygr, nodeShape _shape) {
+    public Node(int id, float iks, float ygr, NodeShape _shape) {
         nID = id;
         x = iks;
         y = ygr;
         nKolor = 0;
         shape = _shape;
     }
-    
+
     public int getID() {
         return nID;
     }
@@ -53,7 +50,8 @@ public class node implements Serializable{
     public void setX(float iks) {
         x = iks;
     }
-        public void setY(float iks) {
+
+    public void setY(float iks) {
         y = iks;
     }
 
@@ -68,57 +66,56 @@ public class node implements Serializable{
     public int getColor() {
         return (nKolor);
     }
-    
-    public nodeShape getShape()
-    {
+
+    public NodeShape getShape() {
         return shape;
     }
 
-    public void planAddingMark()
-    {
+    public void planAddingMark() {
         markWillBeAdded = true;
     }
-    public void planRemovingMark()
-    {
+
+    public void planRemovingMark() {
         markWillBeRemoved = true;
     }
-    
-    private void resetPlanningMarks()
-    {
+
+    private void resetPlanningMarks() {
         markWillBeAdded = false;
         markWillBeRemoved = false;
     }
-    
-    public void applyMarkChanges()
-    {
-        if(markWillBeAdded) addMark();
-        if(markWillBeRemoved) removeMark();
+
+    public void applyMarkChanges() {
+        if (markWillBeAdded) {
+            addMark();
+        }
+        if (markWillBeRemoved) {
+            removeMark();
+        }
         resetPlanningMarks();
     }
-    
-    public void addMark()
-    {
+
+    public void addMark() {
         markCount++;
     }
-    public void removeMark()
-    {
-        if(markCount>0) markCount--;
+
+    public void removeMark() {
+        if (markCount > 0) {
+            markCount--;
+        }
     }
-    
-    public boolean hasMark()
-    {
-        return markCount>0;
+
+    public boolean hasMark() {
+        return markCount > 0;
     }
-    public int getMarkCount()
-    {
+
+    public int getMarkCount() {
         return markCount;
     }
-    
-    public boolean isTransition()
-    {
-        return this.shape==nodeShape.RECTANGLE;
+
+    public boolean isTransition() {
+        return this.shape == NodeShape.RECTANGLE;
     }
-    
+
     @Override
     public String toString() {
         return (Integer.toString(this.getID()));

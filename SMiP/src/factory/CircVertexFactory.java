@@ -1,8 +1,8 @@
 
 package factory;
 
-import model.node;
-import model.nodeShape;
+import model.Node;
+import model.NodeShape;
 import org.apache.commons.collections15.Factory;
 
 /**
@@ -19,10 +19,10 @@ public class CircVertexFactory implements Factory {
     }
 
     @Override
-    public node create() {
-        return new node((n++), nodeShape.CIRCLE);
+    public Node create() {
+        return new Node((n++), NodeShape.CIRCLE);
     }
-    public node create(float iks, float ygr) {
-        return new node((n++), iks, ygr, nodeShape.CIRCLE);
+    public Node create(float iks, float ygr) {
+        return new Node((n++), iks, ygr, NodeShape.CIRCLE);
     }
 }

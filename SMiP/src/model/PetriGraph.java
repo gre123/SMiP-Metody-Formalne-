@@ -421,7 +421,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         rg.addVertex(baseMarking);
         int count = 0;
         while (!transitionsToCheck.isEmpty() && count < 300) {
-            ArrayList<Place> infPlaces = new ArrayList<Place>();
+            ArrayList<Place> infPlaces = new ArrayList<>();
             Map.Entry<Map<Place, Integer>, Transition> entry = transitionsToCheck.poll();
             System.out.println("Przerabiam przejście: " + entry.toString());
             boolean minussto = false;

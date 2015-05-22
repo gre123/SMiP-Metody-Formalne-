@@ -9,7 +9,6 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import model.Transition;
 import smip.PetriGraphGUI;
-import trash.SMiP;
 
 public class SimulateGraphMousePlugin<V,E> extends PickingGraphMousePlugin<V,E> implements MouseListener{
     

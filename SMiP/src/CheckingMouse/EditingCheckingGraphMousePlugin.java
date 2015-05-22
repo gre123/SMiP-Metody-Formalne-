@@ -83,6 +83,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
      * polu, to zależnie od przycisku myszy zrób tam Place (lewy) albo
      * Transition(środkowy)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void mousePressed(MouseEvent e) {
         if (checkModifiers(e)) {
@@ -150,6 +151,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
      * puszczona nad tym samym wierchołkiem, to jeśli to jest Place to: 1. lewy
      * klawisz - znakowanie++ 2. środkowy klawisz - znakowanie--
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void mouseReleased(MouseEvent e) {
         if (checkModifiers(e)) {
@@ -161,8 +163,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
             if (pickSupport != null) {
                 final V vertex = pickSupport.getVertex(layout, p.getX(), p.getY());
                 if (vertex != null && startVertex != null) {
-                    Graph<V, E> graph
-                            = (Graph<V, E>) vv.getGraphLayout().getGraph();
+                    Graph<V, E> graph = vv.getGraphLayout().getGraph();
                     if ((startVertex == vertex) && vertex.getClass() == Place.class) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             ((Place) vertex).incResources();
@@ -205,6 +206,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
      * If startVertex is non-null, stretch an edge shape between startVertex and
      * the mouse pointer to simulate edge creation
      */
+    @Override
     public void mouseDragged(MouseEvent e) {
         if (checkModifiers(e)) {
             if (startVertex != null) {
@@ -218,7 +220,8 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
             vv.repaint();
         }
     }
-
+    
+    @Override
     @SuppressWarnings("unchecked")
     public void mouseClicked(MouseEvent e) {
         if (checkModifiers(e)) {
@@ -231,12 +234,11 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                 final V vertex = pickSupport.getVertex(vv.getModel().getGraphLayout(), p.getX(), p.getY());
                 final E edge = pickSupport.getEdge(layout, p.getX(), p.getY());
                 if (vertex == null && edge != null) {
-                    Graph<V, E> graph
-                            = (Graph<V, E>) vv.getGraphLayout().getGraph();
+                    Graph<V, E> graph = vv.getGraphLayout().getGraph();
                     if (edge.getClass() == Arc.class) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             ((Arc) edge).incValue();
-                            //wypadałoby aktualizować stany tylko sąsiednich wierzchołków a nie całości
+                            //TODO wypadałoby aktualizować stany tylko sąsiednich wierzchołków a nie całości
                             ((PetriGraph) graph).updateGraphTransitionStates();
                         } else if (e.getButton() == MouseEvent.BUTTON2) {
                             ((Arc) edge).decValue();
@@ -297,7 +299,8 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
      * Used for the edge creation visual effect during mouse drag
      */
     class EdgePaintable implements VisualizationServer.Paintable {
-
+        
+        @Override
         public void paint(Graphics g) {
             if (edgeShape != null) {
                 Color oldColor = g.getColor();
@@ -306,7 +309,8 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                 g.setColor(oldColor);
             }
         }
-
+        
+        @Override
         public boolean useTransform() {
             return false;
         }
@@ -317,6 +321,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
      */
     class ArrowPaintable implements VisualizationServer.Paintable {
 
+        @Override
         public void paint(Graphics g) {
             if (arrowShape != null) {
                 Color oldColor = g.getColor();
@@ -325,7 +330,8 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                 g.setColor(oldColor);
             }
         }
-
+        
+        @Override
         public boolean useTransform() {
             return false;
         }

@@ -11,7 +11,7 @@ public class RunnableSimulationPetriGraph implements Runnable{
     PetriGraph graph;
     VisualizationViewer vv;
     int delay=1000;
-    boolean isItReallyTheEndOfThisThread = false;
+
     
     public RunnableSimulationPetriGraph(PetriGraph graph, VisualizationViewer vv){
         this.graph = graph;
@@ -43,12 +43,7 @@ public class RunnableSimulationPetriGraph implements Runnable{
            }
        }
     }
-    
-    
-    public void stopItNow()
-    {
-        isItReallyTheEndOfThisThread = true;
-    }
+
     
     
 }

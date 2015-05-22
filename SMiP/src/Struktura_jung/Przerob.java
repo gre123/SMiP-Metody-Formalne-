@@ -1,6 +1,6 @@
 package Struktura_jung;
 
-import model.node;
+import model.Node;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
@@ -19,12 +19,12 @@ import painter.*;
 
 public class Przerob {
 
-    public static DirectedSparseGraph<node, Integer> getGraph() {  
+    public static DirectedSparseGraph<Node, Integer> getGraph() {  
         return new DirectedSparseGraph<>();
     }
 
-    public static VisualizationViewer<node, Integer> getViewer(Graph g, String layout, int width, int height) {
-        Layout<node, Integer> lay = null;
+    public static VisualizationViewer<Node, Integer> getViewer(Graph g, String layout, int width, int height) {
+        Layout<Node, Integer> lay = null;
         if (layout.equalsIgnoreCase("ISOM")) {
             lay = new ISOMLayout(g);
         } else if (layout.equalsIgnoreCase("KK")) {
@@ -38,17 +38,17 @@ public class Przerob {
         } else if (layout.equalsIgnoreCase("SPRING2")) {
             lay = new SpringLayout(g);
         } else if (layout.equalsIgnoreCase("static")) {
-            lay=new StaticLayout<>(g, new lokator());
+            lay=new StaticLayout<>(g, new Lokator());
         }
         
         lay.setSize(new Dimension(width, height));
-        VisualizationViewer<node, Integer> vv =
+        VisualizationViewer<Node, Integer> vv =
                 new VisualizationViewer<>(lay,
                 new Dimension(width, height));
         DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
         gm.setMode(ModalGraphMouse.Mode.TRANSFORMING);
         vv.setGraphMouse(gm);
-        vv.getRenderContext().setEdgeShapeTransformer(new EdgeShape.Line<node, Integer>());
+        vv.getRenderContext().setEdgeShapeTransformer(new EdgeShape.Line<>());
         vv.getRenderContext().setVertexFillPaintTransformer(new VertexColorPainter());
         vv.getRenderContext().setVertexShapeTransformer(new VertexShapePainter());
         return vv;

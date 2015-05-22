@@ -1,6 +1,6 @@
 package painter;
 
-import model.node;
+import model.Node;
 import org.apache.commons.collections15.Transformer;
 
 import java.awt.*;
@@ -9,12 +9,12 @@ import java.awt.*;
 // value. So we write a vertex painter which we will pass to our VisualizationViewer. This way when Jung goes to draw our
 // nodes, it will check this function and paint the nodes accordingly.
 
-public class VertexColorPainter implements Transformer<node, Paint> {
+public class VertexColorPainter implements Transformer<Node, Paint> {
 
     @Override
-    public Paint transform(node v) //So for each node that we draw...
+    public Paint transform(Node v) //So for each Node that we draw...
     {
-        Color color = null;
+        Color color;
         int kolor = v.getColor();
         switch (kolor) {
             case 0:

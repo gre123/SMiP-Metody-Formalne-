@@ -2,7 +2,6 @@ package smip.table;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -38,9 +37,9 @@ public class Table extends DefaultTableCellRenderer {
                 isSelected, hasFocus,
                 row, column);
         c.setBackground(new Color(255, 255, 255));
-        for (int i = 0; i < colloredCell.size(); i++) {
-            if (colloredCell.get(i).x == column && colloredCell.get(i).y == row) {
-                c.setBackground(colloredCell.get(i).color);
+        for (Cell colloredCell1 : colloredCell) {
+            if (colloredCell1.x == column && colloredCell1.y == row) {
+                c.setBackground(colloredCell1.color);
             }
         }
         return c;

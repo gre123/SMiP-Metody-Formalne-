@@ -40,12 +40,11 @@ import org.apache.commons.collections15.Transformer;
 import smip.views.Showgraph;
 
 /**
- *
  * @author Elpidiusz
  */
 public class PetriGraphGUI extends javax.swing.JFrame {
 
-    public static PetriGraph graph;
+    private PetriGraph graph;
     Factory<MyVertex> vertexFactory;
     Factory<Arc> edgeFactory;
     MyVertexChecker vCheck;
@@ -57,7 +56,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     RunnableSimulationPetriGraph simulationPetriGraph;
     EditingModalGraphMouse2 gm;
     
-    public SimulateGraphMousePlugin simulateGraphMousePlugin = new SimulateGraphMousePlugin();
+    private SimulateGraphMousePlugin simulateGraphMousePlugin = new SimulateGraphMousePlugin();
     /**
      * Creates new form PetriGraphGUI
      */
@@ -568,11 +567,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 fileIn.close();
             } catch (IOException i) {
                 i.printStackTrace();
-                return;
             } catch (ClassNotFoundException c) {
                 System.out.println("PetriNet class not found");
                 c.printStackTrace();
-                return;
             }
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -664,15 +661,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PetriGraphGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PetriGraphGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PetriGraphGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PetriGraphGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
