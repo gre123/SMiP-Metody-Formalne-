@@ -1,4 +1,3 @@
-
 package jung;
 
 import model.Node;

@@ -1,9 +1,9 @@
-package gui.views;
+package smip.views;
 
 import model.Place;
 import model.Transition;
-import gui.table.Cell;
-import gui.table.Table;
+import smip.table.Cell;
+import smip.table.Table;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

@@ -1,4 +1,4 @@
-package gui.table;
+package smip.table;
 
 import java.awt.Color;
 

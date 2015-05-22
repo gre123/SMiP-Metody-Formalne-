@@ -1,4 +1,4 @@
-package gui;
+package smip;
 
 import mouse.CheckingMouse.ArcChecker;
 import mouse.CheckingMouse.EditingCheckingGraphMousePlugin;
