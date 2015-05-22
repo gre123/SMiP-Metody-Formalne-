@@ -37,7 +37,7 @@ import java.util.Arrays;
 import java.util.Map;
 import model.Place;
 import org.apache.commons.collections15.Transformer;
-import gui.views.ShowGraph;
+import smip.views.ShowGraph;
 
 /**
  * @author Elpidiusz
