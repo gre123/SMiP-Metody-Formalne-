@@ -21,8 +21,8 @@ import org.apache.commons.collections15.Factory;
 import painter.MyVertexColorPainter;
 import painter.MyVertexShapePainter;
 import simulation.RunnableSimulationPetriGraph;
-import gui.views.MatrixForm;
-import gui.views.ReachabilityGraphForm;
+import smip.views.MatrixForm;
+import smip.views.ReachabilityGraphForm;
 
 import javax.swing.*;
 import java.awt.*;
