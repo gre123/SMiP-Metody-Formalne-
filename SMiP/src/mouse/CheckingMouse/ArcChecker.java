@@ -1,9 +1,9 @@
-package CheckingMouse;
+package mouse.CheckingMouse;
 
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
-import CheckingMouse.EditingCheckingGraphMousePlugin.EdgeChecker;
+import mouse.CheckingMouse.EditingCheckingGraphMousePlugin.EdgeChecker;
 import javax.swing.JOptionPane;
 import model.Arc;
 import model.MyVertex;

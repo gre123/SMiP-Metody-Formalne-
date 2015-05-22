@@ -1,5 +1,5 @@
 
-package factory;
+package model.factory;
 
 import model.Arc;
 import org.apache.commons.collections15.Factory;

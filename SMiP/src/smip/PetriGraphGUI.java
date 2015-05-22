@@ -1,10 +1,10 @@
-package smip;
+package gui;
 
-import CheckingMouse.ArcChecker;
-import CheckingMouse.EditingCheckingGraphMousePlugin;
-import CheckingMouse.EditingModalGraphMouse2;
-import CheckingMouse.MyVertexChecker;
-import MousePlugin.SimulateGraphMousePlugin;
+import mouse.CheckingMouse.ArcChecker;
+import mouse.CheckingMouse.EditingCheckingGraphMousePlugin;
+import mouse.CheckingMouse.EditingModalGraphMouse2;
+import mouse.CheckingMouse.MyVertexChecker;
+import mouse.MousePlugin.SimulateGraphMousePlugin;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
@@ -12,8 +12,8 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import factory.ArcFactory;
-import factory.PlaceTransitionFactory;
+import model.factory.ArcFactory;
+import model.factory.PlaceTransitionFactory;
 import model.Arc;
 import model.MyVertex;
 import model.PetriGraph;
@@ -21,8 +21,8 @@ import org.apache.commons.collections15.Factory;
 import painter.MyVertexColorPainter;
 import painter.MyVertexShapePainter;
 import simulation.RunnableSimulationPetriGraph;
-import smip.views.MatrixForm;
-import smip.views.ReachabilityGraphForm;
+import gui.views.MatrixForm;
+import gui.views.ReachabilityGraphForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +37,7 @@ import java.util.Arrays;
 import java.util.Map;
 import model.Place;
 import org.apache.commons.collections15.Transformer;
-import smip.views.Showgraph;
+import gui.views.ShowGraph;
 
 /**
  * @author Elpidiusz
@@ -55,14 +55,16 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     ReachabilityGraphForm reachabilityGraphForm;
     RunnableSimulationPetriGraph simulationPetriGraph;
     EditingModalGraphMouse2 gm;
-    
-    private SimulateGraphMousePlugin simulateGraphMousePlugin = new SimulateGraphMousePlugin();
+
+    private SimulateGraphMousePlugin simulateGraphMousePlugin;
+
     /**
      * Creates new form PetriGraphGUI
      */
     public PetriGraphGUI() {
         initComponents();
         graph = new PetriGraph();
+        simulateGraphMousePlugin = new SimulateGraphMousePlugin(graph);
         vertexFactory = new PlaceTransitionFactory();
         edgeFactory = new ArcFactory();
         vCheck = new MyVertexChecker();
@@ -82,11 +84,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         vv.getRenderContext().setVertexFillPaintTransformer(new MyVertexColorPainter());
         vv.getRenderContext().setVertexShapeTransformer(new MyVertexShapePainter());
         // Create a graph mouse and add it to the visualization viewer
-        
+
         EditingCheckingGraphMousePlugin plugin = new EditingCheckingGraphMousePlugin(vertexFactory,
                 edgeFactory);
-        
-        gm = new EditingModalGraphMouse2(vv.getRenderContext(),vertexFactory, edgeFactory);
+
+        gm = new EditingModalGraphMouse2(vv.getRenderContext(), vertexFactory, edgeFactory);
         gm.remove(gm.getEditingPlugin());
 
         plugin.setVertexChecker(vCheck);
@@ -413,39 +415,34 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private void btnActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActiveActionPerformed
         JOptionPane.showMessageDialog(vv, (graph.updateGraphTransitionStates() ? "Wszystkie" : "Nie wszystkie") + " przejścia są aktywne.",
                 "Aktywność sieci", JOptionPane.INFORMATION_MESSAGE);
-        //System.out.println("Wszystkie przejścia są aktywne: " + graph.updateGraphTransitionStates());
     }//GEN-LAST:event_btnActiveActionPerformed
 
     private void btnNplusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNplusActionPerformed
-        System.out.println("Macierz N+: " + java.util.Arrays.deepToString(graph.getNplus()));
         drawTable(graph.getNplus());
     }//GEN-LAST:event_btnNplusActionPerformed
 
     private void btnNminusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNminusActionPerformed
-        System.out.println("Macierz N-: " + java.util.Arrays.deepToString(graph.getNminus()));
         drawTable(graph.getNminus());
     }//GEN-LAST:event_btnNminusActionPerformed
 
     private void btnIncidenceMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncidenceMatrixActionPerformed
-        System.out.println("Macierz incydencji: " + java.util.Arrays.deepToString(graph.getNincidence()));
         drawTable(graph.getNincidence());
     }//GEN-LAST:event_btnIncidenceMatrixActionPerformed
 
-    private void blockOptions(boolean doWeBlock)
-    {
-            btnActive.setEnabled(!doWeBlock);
-            btnNplus.setEnabled(!doWeBlock);
-            btnNminus.setEnabled(!doWeBlock);
-            btnIncidenceMatrix.setEnabled(!doWeBlock);
-            btnReachabilityGraph.setEnabled(!doWeBlock);
-            btnCoverabilityGraph.setEnabled(!doWeBlock);
-            btnBoundedness.setEnabled(!doWeBlock);
-            btnConservation.setEnabled(!doWeBlock);
-            elmNet.setEnabled(!doWeBlock);
-            elmViews.setEnabled(!doWeBlock);
-            chkIsSelectionByUser.setEnabled(!doWeBlock);
-
+    private void blockOptions(boolean doWeBlock) {
+        btnActive.setEnabled(!doWeBlock);
+        btnNplus.setEnabled(!doWeBlock);
+        btnNminus.setEnabled(!doWeBlock);
+        btnIncidenceMatrix.setEnabled(!doWeBlock);
+        btnReachabilityGraph.setEnabled(!doWeBlock);
+        btnCoverabilityGraph.setEnabled(!doWeBlock);
+        btnBoundedness.setEnabled(!doWeBlock);
+        btnConservation.setEnabled(!doWeBlock);
+        elmNet.setEnabled(!doWeBlock);
+        elmViews.setEnabled(!doWeBlock);
+        chkIsSelectionByUser.setEnabled(!doWeBlock);
     }
+
     private void drawTable(int[][] matrix) {
         if (matrixForm == null) {
             matrixForm = new MatrixForm();
@@ -461,35 +458,29 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private void tbnSymulacjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnSymulacjaActionPerformed
         if (tbnSymulacja.isSelected()) {
             blockOptions(true);
-            if(!chkIsSelectionByUser.isSelected()) {
+            if (!chkIsSelectionByUser.isSelected()) {
                 simulationThread = new Thread(simulationPetriGraph);
                 simulationThread.start();
-            }
-            else{
+            } else {
                 PluggableGraphMouse simulationGraphMouse = new PluggableGraphMouse();
                 simulationGraphMouse.add(simulateGraphMousePlugin);
                 vv.setGraphMouse(simulationGraphMouse);
             }
-        }
-        else{
-                blockOptions(false);
-                if(!tbnSymulacja.isSelected()){
-                    
-                    if(!chkIsSelectionByUser.isSelected()){ 
-                        simulationThread.interrupt();
-                    }
-                    else{
-                        chkIsSelectionByUser.setEnabled(true);
-                        vv.setGraphMouse(gm);
-                    }
-                }
+        } else {
+            blockOptions(false);
+            if (!tbnSymulacja.isSelected()) {
 
+                if (!chkIsSelectionByUser.isSelected()) {
+                    simulationThread.interrupt();
+                } else {
+                    chkIsSelectionByUser.setEnabled(true);
+                    vv.setGraphMouse(gm);
+                }
+            }
         }
-        
     }//GEN-LAST:event_tbnSymulacjaActionPerformed
 
     private void mitAuthorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitAuthorsActionPerformed
-
         JDialog authors = new JDialog(this, "Autorzy");
         authors.setSize(200, 100);
         JTextArea engineers = new JTextArea("pan inżynier Elpidiusz Wszołek \n"
@@ -608,7 +599,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 return label.substring(1);
             }
         };
-        Showgraph.showGraph(this.graph.getCoverabilityGraphv2(), vlt, "CoverabilityGraph", 500, 300);
+        ShowGraph.showGraph(this.graph.getCoverabilityGraphv2(), vlt, "CoverabilityGraph", 500, 300);
     }//GEN-LAST:event_btnCoverabilityGraphActionPerformed
 
     private void mitOsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitOsiActionPerformed
@@ -633,7 +624,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void mitClearNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitClearNetActionPerformed
 
-        
 // TODO add your handling code here:
     }//GEN-LAST:event_mitClearNetActionPerformed
 
@@ -642,6 +632,14 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(vv, "Sieć " + (reversibility ? "" : "nie ") + "jest odwracalna.",
                 "Odwracalność sieci", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnReversibilityActionPerformed
+
+    public PetriGraph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(PetriGraph graph) {
+        this.graph = graph;
+    }
 
     /**
      * @param args the command line arguments
@@ -663,7 +661,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(PetriGraphGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */

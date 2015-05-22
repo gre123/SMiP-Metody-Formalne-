@@ -1,4 +1,4 @@
-package CheckingMouse;
+package mouse.CheckingMouse;
 
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;

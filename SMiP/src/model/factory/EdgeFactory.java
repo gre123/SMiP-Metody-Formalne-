@@ -1,4 +1,4 @@
-package factory;
+package model.factory;
 
 import org.apache.commons.collections15.Factory;
 

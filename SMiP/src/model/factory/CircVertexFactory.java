@@ -1,5 +1,5 @@
 
-package factory;
+package model.factory;
 
 import model.Node;
 import model.NodeShape;

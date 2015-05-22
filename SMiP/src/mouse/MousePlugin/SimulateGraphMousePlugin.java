@@ -1,5 +1,4 @@
-
-package MousePlugin;
+package mouse.MousePlugin;
 
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -7,11 +6,16 @@ import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
+import model.PetriGraph;
 import model.Transition;
-import smip.PetriGraphGUI;
 
 public class SimulateGraphMousePlugin<V,E> extends PickingGraphMousePlugin<V,E> implements MouseListener{
     
+    private final PetriGraph graph;
+    public SimulateGraphMousePlugin(PetriGraph _graph){
+        super();
+        graph=_graph;
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -25,7 +29,7 @@ public class SimulateGraphMousePlugin<V,E> extends PickingGraphMousePlugin<V,E> 
             if(selectedTransition != null && selectedTransition.getClass()==Transition.class) {
                 if(e.getButton()==MouseEvent.BUTTON1)
                 {
-                    PetriGraphGUI.graph.executeTransition((Transition) selectedTransition);
+                    graph.executeTransition((Transition) selectedTransition);
                 }
             }
         }

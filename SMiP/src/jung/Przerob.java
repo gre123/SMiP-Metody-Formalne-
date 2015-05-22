@@ -1,4 +1,4 @@
-package Struktura_jung;
+package jung;
 
 import model.Node;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;

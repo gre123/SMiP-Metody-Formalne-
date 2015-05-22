@@ -1,5 +1,5 @@
 
-package factory;
+package model.factory;
 
 import model.MyVertex;
 import model.Place;

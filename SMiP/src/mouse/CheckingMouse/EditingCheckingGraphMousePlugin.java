@@ -1,4 +1,4 @@
-package CheckingMouse;
+package mouse.CheckingMouse;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -20,7 +20,7 @@ import edu.uci.ics.jung.visualization.util.ArrowFactory;
 import edu.uci.ics.jung.visualization.VisualizationServer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
-import factory.PlaceTransitionFactory;
+import model.factory.PlaceTransitionFactory;
 import model.Arc;
 import model.PetriGraph;
 import model.Place;

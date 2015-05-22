@@ -1,5 +1,5 @@
 
-package Struktura_jung;
+package jung;
 
 import model.Node;
 import org.apache.commons.collections15.Transformer;

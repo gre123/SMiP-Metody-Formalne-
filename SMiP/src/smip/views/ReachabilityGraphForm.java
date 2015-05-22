@@ -1,4 +1,4 @@
-package smip.views;
+package gui.views;
 
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;

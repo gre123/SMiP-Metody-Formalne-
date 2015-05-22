@@ -1,4 +1,4 @@
-package smip.views;
+package gui.views;
 
 import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
@@ -17,7 +17,7 @@ import org.apache.commons.collections15.Transformer;
  *
  * @author Elpidiusz
  */
-public class Showgraph {
+public class ShowGraph {
     public static <V, E> void showGraph(Graph<V, E> g, String windowName, int dimensionX, int dimensionY) {
         JFrame graphFrame = new JFrame();
         graphFrame.setAlwaysOnTop(true);
