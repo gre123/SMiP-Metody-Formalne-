@@ -158,8 +158,6 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jButtonActive" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonNplus" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonNminus" alignment="1" max="32767" attributes="0"/>
                       <Component id="jButtonIncidenceMatrix" alignment="1" max="32767" attributes="0"/>
                       <Component id="jToggleButtonSymulacja" alignment="0" max="32767" attributes="0"/>
                       <Component id="sldDeley" alignment="0" max="32767" attributes="0"/>
@@ -174,6 +172,16 @@
                       <Component id="jButtonConservation" alignment="0" max="32767" attributes="0"/>
                       <Component id="isSelectionByUser" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonReversibility" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jButtonNplus" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jButtonNminus" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jButtonL1Liveness" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jButtonL4Liveness" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -185,9 +193,10 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonActive" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonNplus" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonNminus" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jButtonNplus" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonNminus" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonIncidenceMatrix" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -200,6 +209,11 @@
                   <Component id="jButtonConservation" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonReversibility" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jButtonL1Liveness" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonL4Liveness" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace pref="19" max="32767" attributes="0"/>
                   <Component id="isSelectionByUser" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -227,7 +241,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonNplus">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Macierz wej&#x15b;&#x107;"/>
+            <Property name="text" type="java.lang.String" value="M. wej&#x15b;&#x107;"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNplusActionPerformed"/>
@@ -235,7 +249,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonNminus">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Macierz wyj&#x15b;&#x107;"/>
+            <Property name="text" type="java.lang.String" value="M. wyj&#x15b;&#x107;"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNminusActionPerformed"/>
@@ -332,6 +346,22 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonReversibilityActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonL1Liveness">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="L1-&#x17c;ywotno&#x15b;&#x107;"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonL1LivenessActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonL4Liveness">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="L4"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonL4LivenessActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
