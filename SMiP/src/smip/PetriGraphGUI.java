@@ -1,10 +1,10 @@
 package smip;
 
-import mouse.CheckingMouse.ArcChecker;
-import mouse.CheckingMouse.EditingCheckingGraphMousePlugin;
-import mouse.CheckingMouse.EditingModalGraphMouse2;
-import mouse.CheckingMouse.MyVertexChecker;
-import mouse.MousePlugin.SimulateGraphMousePlugin;
+import CheckingMouse.ArcChecker;
+import CheckingMouse.EditingCheckingGraphMousePlugin;
+import CheckingMouse.EditingModalGraphMouse2;
+import CheckingMouse.MyVertexChecker;
+import MousePlugin.SimulateGraphMousePlugin;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
@@ -12,8 +12,8 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import model.factory.ArcFactory;
-import model.factory.PlaceTransitionFactory;
+import factory.ArcFactory;
+import factory.PlaceTransitionFactory;
 import model.Arc;
 import model.MyVertex;
 import model.PetriGraph;
@@ -37,14 +37,15 @@ import java.util.Arrays;
 import java.util.Map;
 import model.Place;
 import org.apache.commons.collections15.Transformer;
-import smip.views.ShowGraph;
+import smip.views.Showgraph;
 
 /**
+ *
  * @author Elpidiusz
  */
 public class PetriGraphGUI extends javax.swing.JFrame {
 
-    private PetriGraph graph;
+    public static PetriGraph graph;
     Factory<MyVertex> vertexFactory;
     Factory<Arc> edgeFactory;
     MyVertexChecker vCheck;
@@ -56,7 +57,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     RunnableSimulationPetriGraph simulationPetriGraph;
     EditingModalGraphMouse2 gm;
 
-    private SimulateGraphMousePlugin simulateGraphMousePlugin;
+    public SimulateGraphMousePlugin simulateGraphMousePlugin = new SimulateGraphMousePlugin();
 
     /**
      * Creates new form PetriGraphGUI
@@ -64,19 +65,18 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     public PetriGraphGUI() {
         initComponents();
         graph = new PetriGraph();
-        simulateGraphMousePlugin = new SimulateGraphMousePlugin(graph);
         vertexFactory = new PlaceTransitionFactory();
         edgeFactory = new ArcFactory();
         vCheck = new MyVertexChecker();
         eCheck = new ArcChecker();
 
-        pnlGraph.setSize(600, 400);
+        jPanelGraph.setSize(600, 400);
 
         Layout<MyVertex, Arc> layout = new StaticLayout(graph);
-        layout.setSize(this.pnlGraph.getSize());
+        layout.setSize(this.jPanelGraph.getSize());
 
         vv = new VisualizationViewer<>(layout);
-        vv.setPreferredSize(this.pnlGraph.getSize());
+        vv.setPreferredSize(this.jPanelGraph.getSize());
         // Show vertex and edge labels
         vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
         vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
@@ -102,9 +102,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         simulationPetriGraph = new RunnableSimulationPetriGraph(graph, vv);
         vv.setBackground(new java.awt.Color(204, 255, 255));
 
-        pnlGraph.add(vv);
-        pnlGraph.validate();
-        pnlGraph.repaint();
+        jPanelGraph.add(vv);
+        jPanelGraph.validate();
+        jPanelGraph.repaint();
     }
 
     /**
@@ -116,32 +116,34 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlActions = new javax.swing.JPanel();
-        btnActive = new javax.swing.JButton();
-        btnNplus = new javax.swing.JButton();
-        btnNminus = new javax.swing.JButton();
-        btnIncidenceMatrix = new javax.swing.JButton();
-        tbnSymulacja = new javax.swing.JToggleButton();
+        jPanelActions = new javax.swing.JPanel();
+        jButtonActive = new javax.swing.JButton();
+        jButtonNplus = new javax.swing.JButton();
+        jButtonNminus = new javax.swing.JButton();
+        jButtonIncidenceMatrix = new javax.swing.JButton();
+        jToggleButtonSymulacja = new javax.swing.JToggleButton();
         sldDeley = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
         lblDelayVal = new javax.swing.JLabel();
-        btnReachabilityGraph = new javax.swing.JButton();
-        btnCoverabilityGraph = new javax.swing.JButton();
-        btnBoundedness = new javax.swing.JButton();
-        btnConservation = new javax.swing.JButton();
-        chkIsSelectionByUser = new javax.swing.JCheckBox();
-        btnReversibility = new javax.swing.JButton();
-        pnlGraph = new javax.swing.JPanel();
+        jButtonReachabilityGraph = new javax.swing.JButton();
+        jButtonCoverabilityGraph = new javax.swing.JButton();
+        jButtonBoundedness = new javax.swing.JButton();
+        jButtonConservation = new javax.swing.JButton();
+        isSelectionByUser = new javax.swing.JCheckBox();
+        jButtonReversibility = new javax.swing.JButton();
+        jButtonL1Liveness = new javax.swing.JButton();
+        jButtonL4Liveness = new javax.swing.JButton();
+        jPanelGraph = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
-        elmAbout = new javax.swing.JMenu();
-        mitAuthors = new javax.swing.JMenuItem();
-        mitLicence = new javax.swing.JMenuItem();
-        elmNet = new javax.swing.JMenu();
-        mitSaveNet = new javax.swing.JMenuItem();
-        mitLoadNet = new javax.swing.JMenuItem();
-        mitClearNet = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         elmViews = new javax.swing.JMenu();
-        mitMatrix = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         mitOsi = new javax.swing.JMenuItem();
         mitPokrycia = new javax.swing.JMenuItem();
 
@@ -149,42 +151,42 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         setTitle("Sieć miejsc i przejsć");
         setName("main_frame"); // NOI18N
 
-        pnlActions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlActions.setToolTipText("Panel z akcjami do wykonania na grafie");
-        pnlActions.setPreferredSize(new java.awt.Dimension(112, 400));
+        jPanelActions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelActions.setToolTipText("Panel z akcjami do wykonania na grafie");
+        jPanelActions.setPreferredSize(new java.awt.Dimension(112, 400));
 
-        btnActive.setText("Aktywność");
-        btnActive.addActionListener(new java.awt.event.ActionListener() {
+        jButtonActive.setText("Aktywność");
+        jButtonActive.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActiveActionPerformed(evt);
+                jButtonActiveActionPerformed(evt);
             }
         });
 
-        btnNplus.setText("Macierz wejść");
-        btnNplus.addActionListener(new java.awt.event.ActionListener() {
+        jButtonNplus.setText("M. wejść");
+        jButtonNplus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNplusActionPerformed(evt);
+                jButtonNplusActionPerformed(evt);
             }
         });
 
-        btnNminus.setText("Macierz wyjść");
-        btnNminus.addActionListener(new java.awt.event.ActionListener() {
+        jButtonNminus.setText("M. wyjść");
+        jButtonNminus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNminusActionPerformed(evt);
+                jButtonNminusActionPerformed(evt);
             }
         });
 
-        btnIncidenceMatrix.setText("Macierz incydecji");
-        btnIncidenceMatrix.addActionListener(new java.awt.event.ActionListener() {
+        jButtonIncidenceMatrix.setText("Macierz incydecji");
+        jButtonIncidenceMatrix.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIncidenceMatrixActionPerformed(evt);
+                jButtonIncidenceMatrixActionPerformed(evt);
             }
         });
 
-        tbnSymulacja.setText("Symuluj");
-        tbnSymulacja.addActionListener(new java.awt.event.ActionListener() {
+        jToggleButtonSymulacja.setText("Symuluj");
+        jToggleButtonSymulacja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tbnSymulacjaActionPerformed(evt);
+                jToggleButtonSymulacjaActionPerformed(evt);
             }
         });
 
@@ -207,165 +209,189 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         lblDelayVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblDelayVal.setText("1000 ms");
 
-        btnReachabilityGraph.setText("Graf osiągalności");
-        btnReachabilityGraph.addActionListener(new java.awt.event.ActionListener() {
+        jButtonReachabilityGraph.setText("Graf osiągalności");
+        jButtonReachabilityGraph.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReachabilityGraphActionPerformed(evt);
+                jButtonReachabilityGraphActionPerformed(evt);
             }
         });
 
-        btnCoverabilityGraph.setText("Graf pokrycia");
-        btnCoverabilityGraph.setToolTipText("prawie graf osiągalności");
-        btnCoverabilityGraph.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCoverabilityGraph.setText("Graf pokrycia");
+        jButtonCoverabilityGraph.setToolTipText("prawie graf osiągalności");
+        jButtonCoverabilityGraph.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCoverabilityGraphActionPerformed(evt);
+                jButtonCoverabilityGraphActionPerformed(evt);
             }
         });
 
-        btnBoundedness.setText("Ograniczoność sieci");
-        btnBoundedness.addActionListener(new java.awt.event.ActionListener() {
+        jButtonBoundedness.setText("Ograniczoność sieci");
+        jButtonBoundedness.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBoundednessActionPerformed(evt);
+                jButtonBoundednessActionPerformed(evt);
             }
         });
 
-        btnConservation.setText("Zachowawczość sieci");
-        btnConservation.addActionListener(new java.awt.event.ActionListener() {
+        jButtonConservation.setText("Zachowawczość sieci");
+        jButtonConservation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConservationActionPerformed(evt);
+                jButtonConservationActionPerformed(evt);
             }
         });
 
-        chkIsSelectionByUser.setText("Możliwość wyboru przejścia");
-        chkIsSelectionByUser.addActionListener(new java.awt.event.ActionListener() {
+        isSelectionByUser.setText("Możliwość wyboru przejścia");
+        isSelectionByUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkIsSelectionByUserActionPerformed(evt);
+                isSelectionByUserActionPerformed(evt);
             }
         });
 
-        btnReversibility.setText("Odwracalność sieci");
-        btnReversibility.addActionListener(new java.awt.event.ActionListener() {
+        jButtonReversibility.setText("Odwracalność sieci");
+        jButtonReversibility.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReversibilityActionPerformed(evt);
+                jButtonReversibilityActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout pnlActionsLayout = new javax.swing.GroupLayout(pnlActions);
-        pnlActions.setLayout(pnlActionsLayout);
-        pnlActionsLayout.setHorizontalGroup(
-            pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlActionsLayout.createSequentialGroup()
+        jButtonL1Liveness.setText("L1-żywotność");
+        jButtonL1Liveness.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonL1LivenessActionPerformed(evt);
+            }
+        });
+
+        jButtonL4Liveness.setText("L4");
+        jButtonL4Liveness.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonL4LivenessActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelActionsLayout = new javax.swing.GroupLayout(jPanelActions);
+        jPanelActions.setLayout(jPanelActionsLayout);
+        jPanelActionsLayout.setHorizontalGroup(
+            jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelActionsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnActive, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNplus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNminus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnIncidenceMatrix, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tbnSymulacja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonActive, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonIncidenceMatrix, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jToggleButtonSymulacja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sldDeley, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(pnlActionsLayout.createSequentialGroup()
+                    .addGroup(jPanelActionsLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblDelayVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btnReachabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCoverabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnBoundedness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnConservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chkIsSelectionByUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnReversibility, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonReachabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonCoverabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonBoundedness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonConservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(isSelectionByUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonReversibility, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelActionsLayout.createSequentialGroup()
+                        .addComponent(jButtonNplus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonNminus))
+                    .addGroup(jPanelActionsLayout.createSequentialGroup()
+                        .addComponent(jButtonL1Liveness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonL4Liveness)))
                 .addContainerGap())
         );
-        pnlActionsLayout.setVerticalGroup(
-            pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlActionsLayout.createSequentialGroup()
+        jPanelActionsLayout.setVerticalGroup(
+            jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelActionsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnActive)
+                .addComponent(jButtonActive)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNplus)
+                .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonNplus)
+                    .addComponent(jButtonNminus))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNminus)
+                .addComponent(jButtonIncidenceMatrix)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnIncidenceMatrix)
+                .addComponent(jButtonReachabilityGraph)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnReachabilityGraph)
+                .addComponent(jButtonCoverabilityGraph)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCoverabilityGraph)
+                .addComponent(jButtonBoundedness)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBoundedness)
+                .addComponent(jButtonConservation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnConservation)
+                .addComponent(jButtonReversibility)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnReversibility)
+                .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonL1Liveness)
+                    .addComponent(jButtonL4Liveness))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(chkIsSelectionByUser)
+                .addComponent(isSelectionByUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(lblDelayVal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sldDeley, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tbnSymulacja)
+                .addComponent(jToggleButtonSymulacja)
                 .addContainerGap())
         );
 
-        pnlGraph.setToolTipText("Panel z grafem");
-        pnlGraph.setPreferredSize(new java.awt.Dimension(600, 400));
+        jPanelGraph.setToolTipText("Panel z grafem");
+        jPanelGraph.setPreferredSize(new java.awt.Dimension(600, 400));
 
-        elmAbout.setText("O programie");
+        jMenu3.setText("O programie");
 
-        mitAuthors.setText("Autorzy");
-        mitAuthors.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem3.setText("Autorzy");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mitAuthorsActionPerformed(evt);
+                jMenuItem3ActionPerformed(evt);
             }
         });
-        elmAbout.add(mitAuthors);
+        jMenu3.add(jMenuItem3);
 
-        mitLicence.setText("Licencja");
-        elmAbout.add(mitLicence);
+        jMenuItem4.setText("Licencja");
+        jMenu3.add(jMenuItem4);
 
-        menuBar.add(elmAbout);
+        menuBar.add(jMenu3);
 
-        elmNet.setText("Sieć");
+        jMenu4.setText("Sieć");
 
-        mitSaveNet.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        mitSaveNet.setText("Zapisz sieć");
-        mitSaveNet.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Zapisz sieć");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mitSaveNetActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
-        elmNet.add(mitSaveNet);
+        jMenu4.add(jMenuItem2);
 
-        mitLoadNet.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        mitLoadNet.setText("Wczytaj sieć");
-        mitLoadNet.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Wczytaj sieć");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mitLoadNetActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        elmNet.add(mitLoadNet);
+        jMenu4.add(jMenuItem1);
 
-        mitClearNet.setText("Wyczyść");
-        mitClearNet.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem6.setText("Wyczyść");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mitClearNetActionPerformed(evt);
+                jMenuItem6ActionPerformed(evt);
             }
         });
-        elmNet.add(mitClearNet);
+        jMenu4.add(jMenuItem6);
 
-        menuBar.add(elmNet);
+        menuBar.add(jMenu4);
 
         elmViews.setText("Widok");
 
-        mitMatrix.setText("Macierz");
-        mitMatrix.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem5.setText("Macierz");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mitMatrixActionPerformed(evt);
+                jMenuItem5ActionPerformed(evt);
             }
         });
-        elmViews.add(mitMatrix);
+        elmViews.add(jMenuItem5);
 
         mitOsi.setText("Osiągalność");
         mitOsi.addActionListener(new java.awt.event.ActionListener() {
@@ -388,17 +414,17 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlActions, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelActions, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanelGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlActions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanelActions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -412,35 +438,40 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         menuBar.add(modeMenu);
     }
 
-    private void btnActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActiveActionPerformed
+    private void jButtonActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActiveActionPerformed
         JOptionPane.showMessageDialog(vv, (graph.updateGraphTransitionStates() ? "Wszystkie" : "Nie wszystkie") + " przejścia są aktywne.",
                 "Aktywność sieci", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_btnActiveActionPerformed
+        //System.out.println("Wszystkie przejścia są aktywne: " + graph.updateGraphTransitionStates());
+    }//GEN-LAST:event_jButtonActiveActionPerformed
 
-    private void btnNplusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNplusActionPerformed
+    private void jButtonNplusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNplusActionPerformed
+        System.out.println("Macierz N+: " + java.util.Arrays.deepToString(graph.getNplus()));
         drawTable(graph.getNplus());
-    }//GEN-LAST:event_btnNplusActionPerformed
+    }//GEN-LAST:event_jButtonNplusActionPerformed
 
-    private void btnNminusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNminusActionPerformed
+    private void jButtonNminusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNminusActionPerformed
+        System.out.println("Macierz N-: " + java.util.Arrays.deepToString(graph.getNminus()));
         drawTable(graph.getNminus());
-    }//GEN-LAST:event_btnNminusActionPerformed
+    }//GEN-LAST:event_jButtonNminusActionPerformed
 
-    private void btnIncidenceMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncidenceMatrixActionPerformed
+    private void jButtonIncidenceMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncidenceMatrixActionPerformed
+        System.out.println("Macierz incydencji: " + java.util.Arrays.deepToString(graph.getNincidence()));
         drawTable(graph.getNincidence());
-    }//GEN-LAST:event_btnIncidenceMatrixActionPerformed
+    }//GEN-LAST:event_jButtonIncidenceMatrixActionPerformed
 
     private void blockOptions(boolean doWeBlock) {
-        btnActive.setEnabled(!doWeBlock);
-        btnNplus.setEnabled(!doWeBlock);
-        btnNminus.setEnabled(!doWeBlock);
-        btnIncidenceMatrix.setEnabled(!doWeBlock);
-        btnReachabilityGraph.setEnabled(!doWeBlock);
-        btnCoverabilityGraph.setEnabled(!doWeBlock);
-        btnBoundedness.setEnabled(!doWeBlock);
-        btnConservation.setEnabled(!doWeBlock);
-        elmNet.setEnabled(!doWeBlock);
+        jButtonActive.setEnabled(!doWeBlock);
+        jButtonNplus.setEnabled(!doWeBlock);
+        jButtonNminus.setEnabled(!doWeBlock);
+        jButtonIncidenceMatrix.setEnabled(!doWeBlock);
+        jButtonReachabilityGraph.setEnabled(!doWeBlock);
+        jButtonCoverabilityGraph.setEnabled(!doWeBlock);
+        jButtonBoundedness.setEnabled(!doWeBlock);
+        jButtonConservation.setEnabled(!doWeBlock);
+        jMenu4.setEnabled(!doWeBlock);
         elmViews.setEnabled(!doWeBlock);
-        chkIsSelectionByUser.setEnabled(!doWeBlock);
+        isSelectionByUser.setEnabled(!doWeBlock);
+
     }
 
     private void drawTable(int[][] matrix) {
@@ -455,10 +486,10 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         matrixForm.drawTable(matrix, graph.getTransitionSet(), graph.getPlaceSet());
     }
 
-    private void tbnSymulacjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnSymulacjaActionPerformed
-        if (tbnSymulacja.isSelected()) {
+    private void jToggleButtonSymulacjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonSymulacjaActionPerformed
+        if (jToggleButtonSymulacja.isSelected()) {
             blockOptions(true);
-            if (!chkIsSelectionByUser.isSelected()) {
+            if (!isSelectionByUser.isSelected()) {
                 simulationThread = new Thread(simulationPetriGraph);
                 simulationThread.start();
             } else {
@@ -468,19 +499,22 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         } else {
             blockOptions(false);
-            if (!tbnSymulacja.isSelected()) {
+            if (!jToggleButtonSymulacja.isSelected()) {
 
-                if (!chkIsSelectionByUser.isSelected()) {
+                if (!isSelectionByUser.isSelected()) {
                     simulationThread.interrupt();
                 } else {
-                    chkIsSelectionByUser.setEnabled(true);
+                    isSelectionByUser.setEnabled(true);
                     vv.setGraphMouse(gm);
                 }
             }
-        }
-    }//GEN-LAST:event_tbnSymulacjaActionPerformed
 
-    private void mitAuthorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitAuthorsActionPerformed
+        }
+
+    }//GEN-LAST:event_jToggleButtonSymulacjaActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+
         JDialog authors = new JDialog(this, "Autorzy");
         authors.setSize(200, 100);
         JTextArea engineers = new JTextArea("pan inżynier Elpidiusz Wszołek \n"
@@ -492,9 +526,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         authors.add(engineers);
         authors.setAlwaysOnTop(true);
         authors.setVisible(true);
-    }//GEN-LAST:event_mitAuthorsActionPerformed
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void mitSaveNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSaveNetActionPerformed
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         //new SaveLoadGui('s').setVisible(true);
         JFrame parentFrame = new JFrame();
 
@@ -533,9 +567,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 }
             }
         }
-    }//GEN-LAST:event_mitSaveNetActionPerformed
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void mitLoadNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitLoadNetActionPerformed
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         //new SaveLoadGui('l').setVisible(true);
         JFrame parentFrame = new JFrame();
 
@@ -558,25 +592,27 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 fileIn.close();
             } catch (IOException i) {
                 i.printStackTrace();
+                return;
             } catch (ClassNotFoundException c) {
                 System.out.println("PetriNet class not found");
                 c.printStackTrace();
+                return;
             }
         }
-    }//GEN-LAST:event_mitLoadNetActionPerformed
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void mitMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitMatrixActionPerformed
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         drawTable(null);
-    }//GEN-LAST:event_mitMatrixActionPerformed
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void sldDeleyStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldDeleyStateChanged
         lblDelayVal.setText(Integer.toString(sldDeley.getValue()) + " ms");
         simulationPetriGraph.setDelay(sldDeley.getValue());
     }//GEN-LAST:event_sldDeleyStateChanged
 
-    private void btnReachabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReachabilityGraphActionPerformed
+    private void jButtonReachabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReachabilityGraphActionPerformed
         drawRechabilityGrap();
-    }//GEN-LAST:event_btnReachabilityGraphActionPerformed
+    }//GEN-LAST:event_jButtonReachabilityGraphActionPerformed
 
     private void drawRechabilityGrap() {
         if (reachabilityGraphForm == null) {
@@ -587,7 +623,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         reachabilityGraphForm.calculateReachabilityGraph(graph);
     }
 
-    private void btnCoverabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCoverabilityGraphActionPerformed
+    private void jButtonCoverabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCoverabilityGraphActionPerformed
         Transformer<Map<Place, Integer>, String> vlt = new Transformer<Map<Place, Integer>, String>() {
             public String transform(Map<Place, Integer> map) {
                 String label = "";
@@ -599,47 +635,52 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 return label.substring(1);
             }
         };
-        ShowGraph.showGraph(this.graph.getCoverabilityGraphv2(), vlt, "CoverabilityGraph", 500, 300);
-    }//GEN-LAST:event_btnCoverabilityGraphActionPerformed
+        Showgraph.showGraph(this.graph.getCoverabilityGraph(), vlt, "CoverabilityGraph", 500, 300);
+    }//GEN-LAST:event_jButtonCoverabilityGraphActionPerformed
 
     private void mitOsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitOsiActionPerformed
         drawRechabilityGrap();
     }//GEN-LAST:event_mitOsiActionPerformed
 
-    private void btnBoundednessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoundednessActionPerformed
+    private void jButtonBoundednessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBoundednessActionPerformed
+        //System.out.println(graph.getPlacesBoundedness().toString());
         int boundedness = graph.getGraphBoundedness();
         JOptionPane.showMessageDialog(vv, "Sieć jest " + (boundedness == -1 ? "nie" : boundedness + "-") + "ograniczona.",
                 "Ograniczoność sieci", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_btnBoundednessActionPerformed
+    }//GEN-LAST:event_jButtonBoundednessActionPerformed
 
-    private void btnConservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConservationActionPerformed
+    private void jButtonConservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConservationActionPerformed
         boolean conservation = graph.getSimpleGraphConservation();
         JOptionPane.showMessageDialog(vv, "Sieć " + (conservation ? "" : "nie ") + "jest zachowawcza.",
                 "Zachowawczość sieci", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_btnConservationActionPerformed
+    }//GEN-LAST:event_jButtonConservationActionPerformed
 
-    private void chkIsSelectionByUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkIsSelectionByUserActionPerformed
+    private void isSelectionByUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isSelectionByUserActionPerformed
 
-    }//GEN-LAST:event_chkIsSelectionByUserActionPerformed
+    }//GEN-LAST:event_isSelectionByUserActionPerformed
 
-    private void mitClearNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitClearNetActionPerformed
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
 
 // TODO add your handling code here:
-    }//GEN-LAST:event_mitClearNetActionPerformed
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
-    private void btnReversibilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReversibilityActionPerformed
+    private void jButtonReversibilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReversibilityActionPerformed
         boolean reversibility = graph.getGraphReversibility();
         JOptionPane.showMessageDialog(vv, "Sieć " + (reversibility ? "" : "nie ") + "jest odwracalna.",
                 "Odwracalność sieci", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_btnReversibilityActionPerformed
+    }//GEN-LAST:event_jButtonReversibilityActionPerformed
 
-    public PetriGraph getGraph() {
-        return graph;
-    }
+    private void jButtonL1LivenessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonL1LivenessActionPerformed
+        boolean l1Liveness = graph.getGraphL1Liveness();
+        JOptionPane.showMessageDialog(vv, "Sieć " + (l1Liveness ? "" : "nie ") + "jest L1 - żywotna.",
+                "L1 - żywotność sieci", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButtonL1LivenessActionPerformed
 
-    public void setGraph(PetriGraph graph) {
-        this.graph = graph;
-    }
+    private void jButtonL4LivenessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonL4LivenessActionPerformed
+        boolean l4Liveness = graph.getGraphL4Liveness();
+        JOptionPane.showMessageDialog(vv, "Sieć " + (l4Liveness ? "" : "nie ") + "jest L4 - żywotna.",
+                "L4 - żywotność sieci", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButtonL4LivenessActionPerformed
 
     /**
      * @param args the command line arguments
@@ -657,11 +698,15 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(PetriGraphGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(PetriGraphGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(PetriGraphGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PetriGraphGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
         //</editor-fold>
 
         /* Create and display the form */
@@ -673,33 +718,35 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActive;
-    private javax.swing.JButton btnBoundedness;
-    private javax.swing.JButton btnConservation;
-    private javax.swing.JButton btnCoverabilityGraph;
-    private javax.swing.JButton btnIncidenceMatrix;
-    private javax.swing.JButton btnNminus;
-    private javax.swing.JButton btnNplus;
-    private javax.swing.JButton btnReachabilityGraph;
-    private javax.swing.JButton btnReversibility;
-    private javax.swing.JCheckBox chkIsSelectionByUser;
-    private javax.swing.JMenu elmAbout;
-    private javax.swing.JMenu elmNet;
     private javax.swing.JMenu elmViews;
+    private javax.swing.JCheckBox isSelectionByUser;
+    private javax.swing.JButton jButtonActive;
+    private javax.swing.JButton jButtonBoundedness;
+    private javax.swing.JButton jButtonConservation;
+    private javax.swing.JButton jButtonCoverabilityGraph;
+    private javax.swing.JButton jButtonIncidenceMatrix;
+    private javax.swing.JButton jButtonL1Liveness;
+    private javax.swing.JButton jButtonL4Liveness;
+    private javax.swing.JButton jButtonNminus;
+    private javax.swing.JButton jButtonNplus;
+    private javax.swing.JButton jButtonReachabilityGraph;
+    private javax.swing.JButton jButtonReversibility;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JPanel jPanelActions;
+    private javax.swing.JPanel jPanelGraph;
+    private javax.swing.JToggleButton jToggleButtonSymulacja;
     private javax.swing.JLabel lblDelayVal;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem mitAuthors;
-    private javax.swing.JMenuItem mitClearNet;
-    private javax.swing.JMenuItem mitLicence;
-    private javax.swing.JMenuItem mitLoadNet;
-    private javax.swing.JMenuItem mitMatrix;
     private javax.swing.JMenuItem mitOsi;
     private javax.swing.JMenuItem mitPokrycia;
-    private javax.swing.JMenuItem mitSaveNet;
-    private javax.swing.JPanel pnlActions;
-    private javax.swing.JPanel pnlGraph;
     private javax.swing.JSlider sldDeley;
-    private javax.swing.JToggleButton tbnSymulacja;
     // End of variables declaration//GEN-END:variables
 }
