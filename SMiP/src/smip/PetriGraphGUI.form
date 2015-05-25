@@ -4,32 +4,32 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="menuBar">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenu3">
+        <Menu class="javax.swing.JMenu" name="elmAbout">
           <Properties>
             <Property name="text" type="java.lang.String" value="O programie"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+            <MenuItem class="javax.swing.JMenuItem" name="mitAuthors">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Autorzy"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mitAuthorsActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
+            <MenuItem class="javax.swing.JMenuItem" name="mitLicence">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Licencja"/>
               </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu4">
+        <Menu class="javax.swing.JMenu" name="elmNet">
           <Properties>
             <Property name="text" type="java.lang.String" value="Sie&#x107;"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="mitSaveNet">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+S"/>
@@ -37,10 +37,10 @@
                 <Property name="text" type="java.lang.String" value="Zapisz sie&#x107;"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mitSaveNetActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="mitLoadNet">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+O"/>
@@ -48,15 +48,15 @@
                 <Property name="text" type="java.lang.String" value="Wczytaj sie&#x107;"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mitLoadNetActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
+            <MenuItem class="javax.swing.JMenuItem" name="mitClearNet">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Wyczy&#x15b;&#x107;"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem6ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mitClearNetActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -66,12 +66,12 @@
             <Property name="text" type="java.lang.String" value="Widok"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
+            <MenuItem class="javax.swing.JMenuItem" name="mitMatrix">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Macierz"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem5ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mitMatrixActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mitOsi">
@@ -119,7 +119,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelActions" min="-2" pref="179" max="-2" attributes="0"/>
+              <Component id="pnlActions" min="-2" pref="179" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanelGraph" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -130,7 +130,7 @@
           <Group type="102" attributes="0">
               <EmptySpace min="11" pref="11" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanelActions" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlActions" min="-2" max="-2" attributes="0"/>
                   <Component id="jPanelGraph" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -138,7 +138,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanelActions">
+    <Container class="javax.swing.JPanel" name="pnlActions">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -157,25 +157,25 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButtonActive" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonIncidenceMatrix" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jToggleButtonSymulacja" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnActivness" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnIncidenceMatrix" alignment="1" max="32767" attributes="0"/>
+                      <Component id="tbnSimulate" alignment="0" max="32767" attributes="0"/>
                       <Component id="sldDeley" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="lblDelayVal" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jButtonReachabilityGraph" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonCoverabilityGraph" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jButtonBoundedness" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnReachabilityGraph" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnCoverabilityGraph" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnBoundedness" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonConservation" alignment="0" max="32767" attributes="0"/>
                       <Component id="isSelectionByUser" alignment="0" max="32767" attributes="0"/>
                       <Component id="jButtonReversibility" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jButtonNplus" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnNplus" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jButtonNminus" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnNminus" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jButtonL1Liveness" max="32767" attributes="0"/>
@@ -191,20 +191,20 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonActive" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnActivness" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButtonNplus" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonNminus" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnNplus" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnNminus" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonIncidenceMatrix" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnIncidenceMatrix" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonReachabilityGraph" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnReachabilityGraph" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonCoverabilityGraph" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCoverabilityGraph" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonBoundedness" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnBoundedness" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonConservation" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -224,51 +224,51 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="sldDeley" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jToggleButtonSymulacja" min="-2" max="-2" attributes="0"/>
+                  <Component id="tbnSimulate" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButtonActive">
+        <Component class="javax.swing.JButton" name="btnActivness">
           <Properties>
             <Property name="text" type="java.lang.String" value="Aktywno&#x15b;&#x107;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonActiveActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActivnessActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonNplus">
+        <Component class="javax.swing.JButton" name="btnNplus">
           <Properties>
             <Property name="text" type="java.lang.String" value="M. wej&#x15b;&#x107;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNplusActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNplusActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonNminus">
+        <Component class="javax.swing.JButton" name="btnNminus">
           <Properties>
             <Property name="text" type="java.lang.String" value="M. wyj&#x15b;&#x107;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNminusActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNminusActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonIncidenceMatrix">
+        <Component class="javax.swing.JButton" name="btnIncidenceMatrix">
           <Properties>
             <Property name="text" type="java.lang.String" value="Macierz incydecji"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonIncidenceMatrixActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIncidenceMatrixActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="jToggleButtonSymulacja">
+        <Component class="javax.swing.JToggleButton" name="tbnSimulate">
           <Properties>
             <Property name="text" type="java.lang.String" value="Symuluj"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButtonSymulacjaActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tbnSimulateActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JSlider" name="sldDeley">
@@ -299,29 +299,29 @@
             <Property name="text" type="java.lang.String" value="1000 ms"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonReachabilityGraph">
+        <Component class="javax.swing.JButton" name="btnReachabilityGraph">
           <Properties>
             <Property name="text" type="java.lang.String" value="Graf osi&#x105;galno&#x15b;ci"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonReachabilityGraphActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReachabilityGraphActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonCoverabilityGraph">
+        <Component class="javax.swing.JButton" name="btnCoverabilityGraph">
           <Properties>
             <Property name="text" type="java.lang.String" value="Graf pokrycia"/>
             <Property name="toolTipText" type="java.lang.String" value="prawie graf osi&#x105;galno&#x15b;ci"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCoverabilityGraphActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCoverabilityGraphActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonBoundedness">
+        <Component class="javax.swing.JButton" name="btnBoundedness">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ograniczono&#x15b;&#x107; sieci"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBoundednessActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBoundednessActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonConservation">
