@@ -11,6 +11,7 @@ import painter.ReachabilityGraphVertexShapePainter;
 
 import java.util.*;
 import java.util.stream.IntStream;
+import smip.rechabilityGraph.ReachabilityGraphCalculator;
 
 /**
  * @author Grzesiek
@@ -20,12 +21,15 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
     ReachabilityGraph reachabilityGraph;
     VisualizationViewer vv;
 
+    ReachabilityGraphCalculator reachabilityGraphCalculator;
     /**
      * Creates new form ReachabilityGraphForm
      */
     public ReachabilityGraphForm() {
         initComponents();
         reachabilityGraph = new ReachabilityGraph();
+        reachabilityGraphCalculator=new ReachabilityGraphCalculator(reachabilityGraph);
+                
         jPanel1.setSize(600, 400);
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
         Layout<ReachabilityVertex, ReachabilityArc> layout = new KKLayout<>(reachabilityGraph);
@@ -225,146 +229,7 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
     }
 
     public void calculateReachabilityGraph(PetriGraph graph) {
-        Place[] places = graph.getPlaceSet().toArray(new Place[graph.getPlaceSet().size()]);
-        Arrays.sort(places);
-        Transition[] transitions = graph.getTransitionSet().toArray(new Transition[graph.getTransitionSet().size()]);
-        Arrays.sort(transitions);
-        int[][] incidenceMatrix = graph.getNincidence();
-        int[] markers = new int[places.length];
-        List<ReachabilityVertex> vertexList = new LinkedList<>();
-
-        for (int i = 0; i < places.length; i++) {
-            markers[i] = places[i].getResources();
-        }
-
-        ReachabilityVertex startVertex = new ReachabilityVertex(markers);
-        for (Transition transition : transitions) {
-            if (transition.getActive()) {
-                startVertex.addActiveTransition(transition);
-            }
-        }
-        if (!startVertex.getActiveTransitions().isEmpty()) {
-            reachabilityGraph.addVertex(startVertex);
-            vertexList.add(startVertex);
-            System.out.print("Start vertex: " + startVertex);
-        }
-
-        while (!vertexList.isEmpty()) {
-            ReachabilityVertex parentVertex = vertexList.remove(0);
-
-            Set<Transition> activeTransitions = parentVertex.getActiveTransitions();
-            for (int i = 0; i < transitions.length; i++) {
-                if (activeTransitions.contains(transitions[i])) {
-                    int[] newMarkers = new int[places.length];
-                    for (int j = 0; j < places.length; j++) {
-                        places[j].setResources(parentVertex.getMarker(j) + incidenceMatrix[j][i]);
-                        newMarkers[j] = places[j].getResources();
-                    }
-                    ReachabilityVertex newVertex = new ReachabilityVertex(newMarkers);
-                    if (!reachabilityGraph.containsVertex(newVertex)) {
-                        graph.updateGraphTransitionStates();
-                        for (Transition transition : transitions) {
-                            if (transition.getActive()) {
-                                newVertex.addActiveTransition(transition);
-                            }
-                        }
-                        reachabilityGraph.addVertex(newVertex);
-                        vertexList.add(newVertex);
-                    }
-                    reachabilityGraph.addEdge(new ReachabilityArc(transitions[i].getId()), parentVertex, newVertex);
-                }
-            }
-        }
-        System.out.println(reachabilityGraph.toString());
-
-        //przywrócenie stanu początkowego
-        for (int i = 0; i < places.length; i++) {
-            places[i].setResources(markers[i]);
-        }
-        graph.updateGraphTransitionStates();
-
-        //żywotność
-        //////////////////////////////////////////////////////////////////
-        boolean liveness = true;
-        Collection<ReachabilityVertex> vertexes = reachabilityGraph.getVertices();
-        Collection<ReachabilityArc> edges = reachabilityGraph.getEdges();
-
-        //sprawdzanie martwych wierzchołków
-        for (ReachabilityVertex vertex : vertexes) {
-            if (vertex.getActiveTransitions().isEmpty()) {
-                liveness = false;
-                break;
-            }
-        }
-
-        //sprawdzanie czy użyte zostały wszystkie przejścia
-        if (liveness) {
-            List<Integer> transitionsUsed = new LinkedList<>();
-            for (ReachabilityArc edge : edges) {
-                int transitionId = edge.getTransitionId();
-                if (!transitionsUsed.contains(transitionId)) {
-                    transitionsUsed.add(transitionId);
-                }
-            }
-            if (transitionsUsed.size() != transitions.length) {
-                liveness = false;
-            }
-        }
-
-        System.out.println("Żywotnośc sieci: " + liveness);
-        if (liveness) {
-            lblLive.setText("true");
-        } else {
-            lblLive.setText("false");
-        }
-
-        /////////////////////////////////////////////////////
-        //zachowawczość
-        ///////////////////////////////////////////////////////
-        int sumOfInitialMarking = IntStream.of(markers).sum();
-        int sumOfVertexMarking;
-        boolean conservation = true;
-        for (ReachabilityVertex vertex : vertexes) {
-            sumOfVertexMarking = IntStream.of(vertex.getMarkers()).sum();
-            if (sumOfVertexMarking != sumOfInitialMarking) {
-                conservation = false;
-                break;
-            }
-        }
-
-        System.out.println("Zachowawczość: " + conservation);
-        if (conservation) {
-            lblZach.setText("true");
-        } else {
-            lblZach.setText("false");
-        }
-
-        ///////////////////////////////////////////////////////
-        //bezpieczeństwo
-        ////////////////////////////////////////////////////////
-        int[] vertexMarkers;
-        boolean safeness = true;
-        for (ReachabilityVertex vertex : vertexes) {
-            vertexMarkers = vertex.getMarkers();
-            for (int vertexMarker : vertexMarkers) {
-                if (vertexMarker > 1) {
-                    safeness = false;
-                    break;
-                }
-            }
-            if (!safeness) {
-                break;
-            }
-        }
-
-        System.out.println("Bezpieczeństwo: " + safeness);
-        if (safeness) {
-            lblSafty.setText("true");
-        } else {
-            lblSafty.setText("false");
-        }
-        ////////////////////////////////////////////////////////
-
+        reachabilityGraphCalculator.calculateReachabilityGraph(graph);   
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
