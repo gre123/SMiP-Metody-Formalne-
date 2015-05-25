@@ -418,7 +418,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(pnlActions, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnlGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,7 +427,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlActions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(pnlGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -447,18 +449,17 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActivnessActionPerformed
 
     private void btnNplusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNplusActionPerformed
-        System.out.println("Macierz N+: " + java.util.Arrays.deepToString(graph.getNplus()));
-        drawTable(graph.getNplus());
+      
     }//GEN-LAST:event_btnNplusActionPerformed
 
     private void btnNminusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNminusActionPerformed
-        System.out.println("Macierz N-: " + java.util.Arrays.deepToString(graph.getNminus()));
-        drawTable(graph.getNminus());
+        
+       
     }//GEN-LAST:event_btnNminusActionPerformed
 
     private void btnIncidenceMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncidenceMatrixActionPerformed
-        System.out.println("Macierz incydencji: " + java.util.Arrays.deepToString(graph.getNincidence()));
-        drawTable(graph.getNincidence());
+       
+        drawTables(graph.getNincidence(),graph.getNplus(),graph.getNminus());
     }//GEN-LAST:event_btnIncidenceMatrixActionPerformed
 
     private void blockOptions(boolean doWeBlock) {
@@ -476,17 +477,21 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     }
 
-    private void drawTable(int[][] matrix) {
+    private void drawTables(int[][] inc,int[][] nPlus,int[][] nMinus) {
         if (matrixForm == null) {
             matrixForm = new MatrixForm();
         }
 
         matrixForm.setVisible(true);
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+        if (inc == null || inc.length == 0 || inc[0].length == 0) {
             return;
         }
-        matrixForm.drawTable(matrix, graph.getTransitionSet(), graph.getPlaceSet());
+        matrixForm.drawInc(inc, graph.getTransitionSet(), graph.getPlaceSet());
+        matrixForm.drawNplus(nPlus, graph.getTransitionSet(), graph.getPlaceSet());
+        matrixForm.drawNminus(nMinus, graph.getTransitionSet(), graph.getPlaceSet());
+        
     }
+    
 
     private void tbnSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnSimulateActionPerformed
         if (tbnSimulate.isSelected()) {
@@ -604,7 +609,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mitLoadNetActionPerformed
 
     private void mitMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitMatrixActionPerformed
-        drawTable(null);
+        drawTables(null,null,null);
     }//GEN-LAST:event_mitMatrixActionPerformed
 
     private void sldDeleyStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldDeleyStateChanged

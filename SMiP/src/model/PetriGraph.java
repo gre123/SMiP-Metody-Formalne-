@@ -1,5 +1,3 @@
-/*
- */
 package model;
 
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;

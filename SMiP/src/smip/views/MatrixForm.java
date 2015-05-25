@@ -29,30 +29,22 @@ public class MatrixForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableMatrix = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lblColNum = new javax.swing.JLabel();
         lblRowNum = new javax.swing.JLabel();
+        tplMatrixes = new javax.swing.JTabbedPane();
+        splInc = new javax.swing.JScrollPane();
+        tabInc = new javax.swing.JTable();
+        splNplus = new javax.swing.JScrollPane();
+        tabNplus = new javax.swing.JTable();
+        splNminus = new javax.swing.JScrollPane();
+        tabNminus = new javax.swing.JTable();
 
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        tableMatrix.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane1.setViewportView(tableMatrix);
 
         jLabel2.setText("Kolumn:");
 
@@ -68,30 +60,73 @@ public class MatrixForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblColNum))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblRowNum)))
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(lblColNum)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblRowNum)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(lblColNum))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(lblRowNum))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(lblRowNum))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(lblColNum)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        tabInc.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        splInc.setViewportView(tabInc);
+
+        tplMatrixes.addTab("Macierz incydencji", splInc);
+
+        tabNplus.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        splNplus.setViewportView(tabNplus);
+
+        tplMatrixes.addTab("Macierz N plus", splNplus);
+
+        tabNminus.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        splNminus.setViewportView(tabNminus);
+
+        tplMatrixes.addTab("Macierz N minus", splNminus);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,7 +135,7 @@ public class MatrixForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                    .addComponent(tplMatrixes, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -108,8 +143,8 @@ public class MatrixForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tplMatrixes, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -137,7 +172,7 @@ public class MatrixForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MatrixForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
@@ -148,9 +183,7 @@ public class MatrixForm extends javax.swing.JFrame {
         });
     }
 
-    public void drawTable(int[][] matrix, Set<Transition> transitons, Set<Place> places) {
-
-        //naglowek wiersza
+    private JTable prepareHeader(Set<Place> places) {
         Object[] placesArray = places.toArray();
         DefaultTableModel rowHeaderTableModel = new DefaultTableModel(0, 1);
         for (int i = 0; i < places.size(); i++) {
@@ -162,42 +195,76 @@ public class MatrixForm extends javax.swing.JFrame {
         dispTableRowHeader.getColumnModel().getColumn(0).setMaxWidth(40);
         dispTableRowHeader.setPreferredScrollableViewportSize(dispTableRowHeader.getPreferredSize());
         dispTableRowHeader.setDefaultRenderer(Object.class, dispTableRowHeader.getTableHeader().getDefaultRenderer());
-        jScrollPane1.setRowHeaderView(dispTableRowHeader);
+        return dispTableRowHeader;
+    }
+    private void fillTable(int[][] matrix,JTable table){
+        Table renderer = new Table();
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] < 0) {
+                    renderer.addColloredCells(new Cell(i, j, new Color(255, 0, 0)));
+                } else if (matrix[i][j] > 0) {
+                    renderer.addColloredCells(new Cell(i, j, new Color(0, 255, 0)));
+                } else {
+                    renderer.addColloredCells(new Cell(i, j, new Color(255, 255, 255)));
+                }
+                table.getModel().setValueAt(matrix[i][j], i, j);
+            }
+        }
+        table.setDefaultRenderer(table.getColumnClass(1), renderer);
+    }
+    public void drawInc(int[][] matrix, Set<Transition> transitons, Set<Place> places) {
+        JTable dispTableRowHeader = prepareHeader(places);
+        splInc.setRowHeaderView(dispTableRowHeader);
 
-        //rog tabelki
-        //JTableHeader corner = dispTableRowHeader.getTableHeader();
-        //corner.setReorderingAllowed(false);
-        //corner.setResizingAllowed(false);
-        //jScrollPane1.setCorner(JScrollPane.UPPER_LEFT_CORNER, corner);
-
-
-        DefaultTableModel dtm = (DefaultTableModel) tableMatrix.getModel();
+        DefaultTableModel dtm = (DefaultTableModel) tabInc.getModel();
 
         dtm.setRowCount(matrix.length);
         lblRowNum.setText(Integer.toString(matrix.length));
         dtm.setColumnCount(matrix[0].length);
         lblColNum.setText(Integer.toString(matrix[0].length));
         dtm.setColumnIdentifiers(transitons.toArray());
-        tableMatrix.setModel(dtm);
-        for(int i=0;i< tableMatrix.getColumnModel().getColumnCount();i++){
-            tableMatrix.getColumnModel().getColumn(i).setMaxWidth(30);
+        tabInc.setModel(dtm);
+        for (int i = 0; i < tabInc.getColumnModel().getColumnCount(); i++) {
+            tabInc.getColumnModel().getColumn(i).setMaxWidth(30);
         }
-       
-        Table renderer=new Table();
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                if(matrix[i][j]<0){
-                    renderer.addColloredCells(new Cell(i,j,new Color(255,0,0)));
-                }else if (matrix[i][j]>0){
-                    renderer.addColloredCells(new Cell(i,j,new Color(0,255,0)));
-                }else{
-                    renderer.addColloredCells(new Cell(i,j,new Color(255,255,255)));
-                }
-                
-                tableMatrix.getModel().setValueAt(matrix[i][j], i, j);
-            }
+        fillTable(matrix,tabInc);
+    }
+    
+    public void drawNplus(int[][] matrix, Set<Transition> transitons, Set<Place> places) {
+        JTable dispTableRowHeader = prepareHeader(places);
+        splInc.setRowHeaderView(dispTableRowHeader);
+
+        DefaultTableModel dtm = (DefaultTableModel) tabNplus.getModel();
+
+        dtm.setRowCount(matrix.length);
+        lblRowNum.setText(Integer.toString(matrix.length));
+        dtm.setColumnCount(matrix[0].length);
+        lblColNum.setText(Integer.toString(matrix[0].length));
+        dtm.setColumnIdentifiers(transitons.toArray());
+        tabNplus.setModel(dtm);
+        for (int i = 0; i < tabNplus.getColumnModel().getColumnCount(); i++) {
+            tabNplus.getColumnModel().getColumn(i).setMaxWidth(30);
         }
-          this.tableMatrix.setDefaultRenderer(this.tableMatrix.getColumnClass(1),renderer);
+        fillTable(matrix,tabNplus);
+    }
+    
+    public void drawNminus(int[][] matrix, Set<Transition> transitons, Set<Place> places) {
+        JTable dispTableRowHeader = prepareHeader(places);
+        splInc.setRowHeaderView(dispTableRowHeader);
+
+        DefaultTableModel dtm = (DefaultTableModel) tabNminus.getModel();
+
+        dtm.setRowCount(matrix.length);
+        lblRowNum.setText(Integer.toString(matrix.length));
+        dtm.setColumnCount(matrix[0].length);
+        lblColNum.setText(Integer.toString(matrix[0].length));
+        dtm.setColumnIdentifiers(transitons.toArray());
+        tabNminus.setModel(dtm);
+        for (int i = 0; i < tabNminus.getColumnModel().getColumnCount(); i++) {
+            tabNminus.getColumnModel().getColumn(i).setMaxWidth(30);
+        }
+        fillTable(matrix,tabNminus);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -205,9 +272,14 @@ public class MatrixForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblColNum;
     private javax.swing.JLabel lblRowNum;
-    private javax.swing.JTable tableMatrix;
+    private javax.swing.JScrollPane splInc;
+    private javax.swing.JScrollPane splNminus;
+    private javax.swing.JScrollPane splNplus;
+    private javax.swing.JTable tabInc;
+    private javax.swing.JTable tabNminus;
+    private javax.swing.JTable tabNplus;
+    private javax.swing.JTabbedPane tplMatrixes;
     // End of variables declaration//GEN-END:variables
 }
