@@ -23,22 +23,9 @@ public class ReachabilityGraphCalculator {
     public ReachabilityGraphCalculator(ReachabilityGraph reachabilityGraph) {
         this.reachabilityGraph = reachabilityGraph;
     }
-    
-    public void calculateReachabilityGraph(PetriGraph graph) {
-        Place[] places = graph.getPlaceSet().toArray(new Place[graph.getPlaceSet().size()]);
-        Arrays.sort(places);
-        Transition[] transitions = graph.getTransitionSet().toArray(new Transition[graph.getTransitionSet().size()]);
-        Arrays.sort(transitions);
+
+    private void calculateReachabilityGraph(List<ReachabilityVertex> vertexList, PetriGraph graph, Transition[] transitions, Place[] places) {
         int[][] incidenceMatrix = graph.getNincidence();
-        int[] markers = new int[places.length];
-        
-
-        for (int i = 0; i < places.length; i++) {
-            markers[i] = places[i].getResources();
-        }
-
-        List<ReachabilityVertex> vertexList=getVertexList(transitions, markers);
-
         while (!vertexList.isEmpty()) {
             ReachabilityVertex parentVertex = vertexList.remove(0);
 
@@ -66,6 +53,23 @@ public class ReachabilityGraphCalculator {
             }
         }
         System.out.println(reachabilityGraph.toString());
+    }
+
+    public void calculateAll(PetriGraph graph) {
+        Place[] places = graph.getPlaceSet().toArray(new Place[graph.getPlaceSet().size()]);
+        Arrays.sort(places);
+        Transition[] transitions = graph.getTransitionSet().toArray(new Transition[graph.getTransitionSet().size()]);
+        Arrays.sort(transitions);
+
+        int[] markers = new int[places.length];
+
+        for (int i = 0; i < places.length; i++) {
+            markers[i] = places[i].getResources();
+        }
+
+        List<ReachabilityVertex> vertexList = getVertexList(transitions, markers);
+
+        calculateReachabilityGraph(vertexList, graph, transitions, places);
 
         restoreResources(markers, places);
         graph.updateGraphTransitionStates();
@@ -75,8 +79,8 @@ public class ReachabilityGraphCalculator {
         calculateSafeness();
     }
 
-    private List<ReachabilityVertex> getVertexList(Transition[] transitions,int[] markers){
-        List<ReachabilityVertex> vertexList= new LinkedList<>();
+    private List<ReachabilityVertex> getVertexList(Transition[] transitions, int[] markers) {
+        List<ReachabilityVertex> vertexList = new LinkedList<>();
         ReachabilityVertex startVertex = new ReachabilityVertex(markers);
         for (Transition transition : transitions) {
             if (transition.getActive()) {
@@ -90,7 +94,7 @@ public class ReachabilityGraphCalculator {
         }
         return vertexList;
     }
-    
+
     private void restoreResources(int[] markers, Place[] places) {
         for (int i = 0; i < places.length; i++) {
             places[i].setResources(markers[i]);

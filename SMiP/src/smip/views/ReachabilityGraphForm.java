@@ -229,7 +229,7 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
     }
 
     public void calculateReachabilityGraph(PetriGraph graph) {
-        reachabilityGraphCalculator.calculateReachabilityGraph(graph);   
+        reachabilityGraphCalculator.calculateAll(graph);   
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
