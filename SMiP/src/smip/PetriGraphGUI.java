@@ -21,6 +21,7 @@ import smip.views.ReachabilityGraphForm;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -212,6 +213,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         lblDelayVal.setText("1000 ms");
 
         btnReachabilityGraph.setText("Graf osiągalności");
+        btnReachabilityGraph.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnReachabilityGraphMouseClicked(evt);
+            }
+        });
         btnReachabilityGraph.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReachabilityGraphActionPerformed(evt);
@@ -642,7 +648,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 return label.substring(1);
             }
         };
-        ShowGraph.showGraph(this.graph.getCoverabilityGraph(), vlt, "CoverabilityGraph", 500, 300);
+        ShowGraph.showRCGraph(this.graph.getCoverabilityGraph(), vlt, "Graf pokrycia", 500, 300);
     }//GEN-LAST:event_btnCoverabilityGraphActionPerformed
 
     private void mitOsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitOsiActionPerformed
@@ -688,6 +694,21 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(vv, "Sieć " + (l4Liveness ? "" : "nie ") + "jest L4 - żywotna.",
                 "L4 - żywotność sieci", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnL4LivenessActionPerformed
+
+    private void btnReachabilityGraphMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReachabilityGraphMouseClicked
+        if (evt.getButton() == MouseEvent.BUTTON3) {
+            Transformer<Map<Place, Integer>, String> vlt = (Map<Place, Integer> map) -> {
+                String label = "";
+                Place[] places = map.keySet().toArray(new Place[map.keySet().size()]);
+                Arrays.sort(places);
+                for (Place p : places) {
+                    label += "," + map.get(p);
+                }
+                return label.substring(1);
+            };
+            ShowGraph.showRCGraph(this.graph.getReachabilityGraph(), vlt, "Graf osiągalności", 500, 300);
+        }
+    }//GEN-LAST:event_btnReachabilityGraphMouseClicked
 
     /**
      * @param args the command line arguments
