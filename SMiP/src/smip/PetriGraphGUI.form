@@ -156,9 +156,10 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="tgbtnL1TransitionsLiveness" max="32767" attributes="0"/>
                       <Component id="btnActivness" alignment="0" max="32767" attributes="0"/>
                       <Component id="btnIncidenceMatrix" alignment="1" max="32767" attributes="0"/>
                       <Component id="tbnSimulate" alignment="0" max="32767" attributes="0"/>
@@ -219,6 +220,8 @@
                       <Component id="btnL1Liveness" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnL4Liveness" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="tgbtnL1TransitionsLiveness" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="chkIsSelectionByUser" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -377,6 +380,14 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tgbtnBoundednessPlacesActionPerformed"/>
             <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tgbtnBoundednessPlacesPropertyChange"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JToggleButton" name="tgbtnL1TransitionsLiveness">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="L1-&#x17c;ywotno&#x15b;&#x107; miejsc"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tgbtnL1TransitionsLivenessActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

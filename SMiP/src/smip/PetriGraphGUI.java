@@ -42,6 +42,7 @@ import mouse.CheckingMouse.MyVertexChecker;
 import mouse.MousePlugin.SimulateGraphMousePlugin;
 import org.apache.commons.collections15.Transformer;
 import painter.BoundednessLabeller;
+import painter.TransitionAlivenessColorPainter;
 import smip.views.ShowGraph;
 
 /**
@@ -139,6 +140,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         btnL1Liveness = new javax.swing.JButton();
         btnL4Liveness = new javax.swing.JButton();
         tgbtnBoundednessPlaces = new javax.swing.JToggleButton();
+        tgbtnL1TransitionsLiveness = new javax.swing.JToggleButton();
         pnlGraph = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         elmAbout = new javax.swing.JMenu();
@@ -289,6 +291,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
+        tgbtnL1TransitionsLiveness.setText("L1-żywotność miejsc");
+        tgbtnL1TransitionsLiveness.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tgbtnL1TransitionsLivenessActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlActionsLayout = new javax.swing.GroupLayout(pnlActions);
         pnlActions.setLayout(pnlActionsLayout);
         pnlActionsLayout.setHorizontalGroup(
@@ -296,6 +305,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             .addGroup(pnlActionsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tgbtnL1TransitionsLiveness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnActivness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnIncidenceMatrix, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tbnSimulate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -348,7 +358,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnL1Liveness)
                     .addComponent(btnL4Liveness))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tgbtnL1TransitionsLiveness)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(chkIsSelectionByUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -503,6 +515,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         btnL1Liveness.setEnabled(!doWeBlock);
         btnL4Liveness.setEnabled(!doWeBlock);
         tbnSimulate.setEnabled(!doWeBlock);
+        tgbtnL1TransitionsLiveness.setEnabled(!doWeBlock);
     }
 
     private void drawTables(int[][] inc, int[][] nPlus, int[][] nMinus) {
@@ -753,6 +766,20 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tgbtnBoundednessPlacesPropertyChange
 
+    private void tgbtnL1TransitionsLivenessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgbtnL1TransitionsLivenessActionPerformed
+        if (this.tgbtnL1TransitionsLiveness.isSelected()) {
+            blockOptions(true);
+            tgbtnL1TransitionsLiveness.setEnabled(true);
+            graph.calculateAndSetGraphL1Liveness();
+            vv.getRenderContext().setVertexFillPaintTransformer(new TransitionAlivenessColorPainter());
+            vv.repaint();
+        } else {
+            blockOptions(false);
+            vv.getRenderContext().setVertexFillPaintTransformer(new MyVertexColorPainter());
+            vv.repaint();
+        }
+    }//GEN-LAST:event_tgbtnL1TransitionsLivenessActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -820,5 +847,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JSlider sldDeley;
     private javax.swing.JToggleButton tbnSimulate;
     private javax.swing.JToggleButton tgbtnBoundednessPlaces;
+    private javax.swing.JToggleButton tgbtnL1TransitionsLiveness;
     // End of variables declaration//GEN-END:variables
 }

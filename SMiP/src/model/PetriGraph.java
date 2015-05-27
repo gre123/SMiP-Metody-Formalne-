@@ -695,6 +695,20 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         return true;
     }
+    
+    public void calculateAndSetGraphL1Liveness() {
+        DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
+        Set<Transition> transitions = this.transitionSet;
+        for (Transition transition : transitions) {
+            //tak się nie da bo w grafie pokrycia są nowe obiekty
+            //if (!cg.getEdges().contains(transition)) {
+            if (!PetriGraph.isTransitionInSetById(cg.getEdges(), transition)) {
+                transition.setL1alive(false);
+            } else {
+                transition.setL1alive(true);
+            }
+        }
+    }
 
     /**
      * L4 żywotność (czyli pełna żywotność) - dla każdego przejścia zawsze (z
