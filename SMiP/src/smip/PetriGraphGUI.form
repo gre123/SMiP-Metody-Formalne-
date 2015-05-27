@@ -128,13 +128,13 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="11" pref="11" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="pnlActions" min="-2" max="-2" attributes="0"/>
-                  <Component id="pnlGraph" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="pnlGraph" max="32767" attributes="0"/>
+                  <Component id="pnlActions" pref="457" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -184,6 +184,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnL4Liveness" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="tgbtnBoundednessPlaces" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -208,6 +209,8 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnBoundedness" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="tgbtnBoundednessPlaces" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonConservation" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnReversibility" min="-2" max="-2" attributes="0"/>
@@ -216,7 +219,7 @@
                       <Component id="btnL1Liveness" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnL4Liveness" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="19" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="chkIsSelectionByUser" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -367,13 +370,22 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnL4LivenessActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JToggleButton" name="tgbtnBoundednessPlaces">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ograniczono&#x15b;&#x107; miejsc"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tgbtnBoundednessPlacesActionPerformed"/>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tgbtnBoundednessPlacesPropertyChange"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="pnlGraph">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Panel z grafem"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[600, 400]"/>
+          <Dimension value="[600, 457]"/>
         </Property>
       </Properties>
 

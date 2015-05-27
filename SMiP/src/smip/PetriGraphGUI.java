@@ -1,6 +1,5 @@
 package smip;
 
-
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
@@ -8,6 +7,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
 import model.Arc;
 import model.MyVertex;
@@ -21,6 +21,7 @@ import smip.views.ReachabilityGraphForm;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +41,7 @@ import mouse.CheckingMouse.EditingModalGraphMouse2;
 import mouse.CheckingMouse.MyVertexChecker;
 import mouse.MousePlugin.SimulateGraphMousePlugin;
 import org.apache.commons.collections15.Transformer;
+import painter.BoundednessLabeller;
 import smip.views.ShowGraph;
 
 /**
@@ -60,7 +62,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     RunnableSimulationPetriGraph simulationPetriGraph;
     EditingModalGraphMouse2 gm;
 
-     private SimulateGraphMousePlugin simulateGraphMousePlugin;
+    private SimulateGraphMousePlugin simulateGraphMousePlugin;
 
     /**
      * Creates new form PetriGraphGUI
@@ -73,7 +75,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         vCheck = new MyVertexChecker();
         eCheck = new ArcChecker();
 
-        pnlGraph.setSize(600, 400);
+        //pnlGraph.setSize(600, 400);
 
         Layout<MyVertex, Arc> layout = new StaticLayout(graph);
         layout.setSize(this.pnlGraph.getSize());
@@ -136,6 +138,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         btnReversibility = new javax.swing.JButton();
         btnL1Liveness = new javax.swing.JButton();
         btnL4Liveness = new javax.swing.JButton();
+        tgbtnBoundednessPlaces = new javax.swing.JToggleButton();
         pnlGraph = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         elmAbout = new javax.swing.JMenu();
@@ -274,6 +277,18 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
+        tgbtnBoundednessPlaces.setText("Ograniczoność miejsc");
+        tgbtnBoundednessPlaces.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tgbtnBoundednessPlacesActionPerformed(evt);
+            }
+        });
+        tgbtnBoundednessPlaces.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tgbtnBoundednessPlacesPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlActionsLayout = new javax.swing.GroupLayout(pnlActions);
         pnlActions.setLayout(pnlActionsLayout);
         pnlActionsLayout.setHorizontalGroup(
@@ -302,7 +317,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                     .addGroup(pnlActionsLayout.createSequentialGroup()
                         .addComponent(btnL1Liveness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnL4Liveness)))
+                        .addComponent(btnL4Liveness))
+                    .addComponent(tgbtnBoundednessPlaces, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlActionsLayout.setVerticalGroup(
@@ -323,6 +339,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBoundedness)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tgbtnBoundednessPlaces)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonConservation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnReversibility)
@@ -330,7 +348,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnL1Liveness)
                     .addComponent(btnL4Liveness))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(chkIsSelectionByUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -344,7 +362,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         );
 
         pnlGraph.setToolTipText("Panel z grafem");
-        pnlGraph.setPreferredSize(new java.awt.Dimension(600, 400));
+        pnlGraph.setPreferredSize(new java.awt.Dimension(600, 457));
 
         elmAbout.setText("O programie");
 
@@ -429,12 +447,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlActions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlActions, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -455,17 +473,17 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActivnessActionPerformed
 
     private void btnNplusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNplusActionPerformed
-      
+
     }//GEN-LAST:event_btnNplusActionPerformed
 
     private void btnNminusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNminusActionPerformed
-        
-       
+
+
     }//GEN-LAST:event_btnNminusActionPerformed
 
     private void btnIncidenceMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncidenceMatrixActionPerformed
-       
-        drawTables(graph.getNincidence(),graph.getNplus(),graph.getNminus());
+
+        drawTables(graph.getNincidence(), graph.getNplus(), graph.getNminus());
     }//GEN-LAST:event_btnIncidenceMatrixActionPerformed
 
     private void blockOptions(boolean doWeBlock) {
@@ -480,10 +498,14 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         elmNet.setEnabled(!doWeBlock);
         elmViews.setEnabled(!doWeBlock);
         chkIsSelectionByUser.setEnabled(!doWeBlock);
-
+        tgbtnBoundednessPlaces.setEnabled(!doWeBlock);
+        btnReversibility.setEnabled(!doWeBlock);
+        btnL1Liveness.setEnabled(!doWeBlock);
+        btnL4Liveness.setEnabled(!doWeBlock);
+        tbnSimulate.setEnabled(!doWeBlock);
     }
 
-    private void drawTables(int[][] inc,int[][] nPlus,int[][] nMinus) {
+    private void drawTables(int[][] inc, int[][] nPlus, int[][] nMinus) {
         if (matrixForm == null) {
             matrixForm = new MatrixForm();
         }
@@ -495,13 +517,14 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         matrixForm.drawInc(inc, graph.getTransitionSet(), graph.getPlaceSet());
         matrixForm.drawNplus(nPlus, graph.getTransitionSet(), graph.getPlaceSet());
         matrixForm.drawNminus(nMinus, graph.getTransitionSet(), graph.getPlaceSet());
-        
+
     }
-    
+
 
     private void tbnSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnSimulateActionPerformed
         if (tbnSimulate.isSelected()) {
             blockOptions(true);
+            tbnSimulate.setEnabled(true);
             if (!chkIsSelectionByUser.isSelected()) {
                 simulationThread = new Thread(simulationPetriGraph);
                 simulationThread.start();
@@ -615,7 +638,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mitLoadNetActionPerformed
 
     private void mitMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitMatrixActionPerformed
-        drawTables(null,null,null);
+        drawTables(null, null, null);
     }//GEN-LAST:event_mitMatrixActionPerformed
 
     private void sldDeleyStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldDeleyStateChanged
@@ -710,6 +733,26 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnReachabilityGraphMouseClicked
 
+    private void tgbtnBoundednessPlacesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgbtnBoundednessPlacesActionPerformed
+        if (this.tgbtnBoundednessPlaces.isSelected()) {
+            blockOptions(true);
+            tgbtnBoundednessPlaces.setEnabled(true);
+            graph.calculateAndSetPlacesBoundedness();
+            vv.getRenderContext().setVertexLabelTransformer(new BoundednessLabeller());
+            vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
+            vv.repaint();
+        } else {
+            blockOptions(false);
+            vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+            vv.getRenderer().getVertexLabelRenderer().setPosition(Position.AUTO);
+            vv.repaint();
+        }
+    }//GEN-LAST:event_tgbtnBoundednessPlacesActionPerformed
+
+    private void tgbtnBoundednessPlacesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tgbtnBoundednessPlacesPropertyChange
+
+    }//GEN-LAST:event_tgbtnBoundednessPlacesPropertyChange
+
     /**
      * @param args the command line arguments
      */
@@ -776,5 +819,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JPanel pnlGraph;
     private javax.swing.JSlider sldDeley;
     private javax.swing.JToggleButton tbnSimulate;
+    private javax.swing.JToggleButton tgbtnBoundednessPlaces;
     // End of variables declaration//GEN-END:variables
 }

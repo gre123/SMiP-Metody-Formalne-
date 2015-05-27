@@ -529,28 +529,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return true;
     }
 
-    /**
-     * Funkcja do niczego nie potrzebna, zostawiam w podobnym celu jak
-     * getCoverabilityGraph
-     *
-     * @return same result as cg.containsVertex(currentMarking)
-     */
-    public static boolean doesReallyContainVertex(DirectedSparseGraph<Map<Place, Integer>, Transition> rg, Map<Place, Integer> currentMarking) {
-        boolean thesame = true;
-        for (Map<Place, Integer> marking : rg.getVertices()) {
-            for (Place p : marking.keySet()) {
-                if (marking.get(p) != currentMarking.get(p)) {
-                    thesame = false;
-                    break;
-                }
-            }
-            if (thesame) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public Map<Place, Integer> getPlacesBoundedness() {
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Map<Place, Integer> boundaries = new HashMap<>();
@@ -567,6 +545,26 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
             }
         }
         return boundaries;
+    }
+    
+    public void calculateAndSetPlacesBoundedness() {
+        DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
+        Map<Place, Integer> boundaries = new HashMap<>();
+        for (Place p : this.placeSet) {
+            boundaries.put(p, Integer.MIN_VALUE);
+        }
+        for (Map<Place, Integer> marking : cg.getVertices()) {
+            for (Place p : boundaries.keySet()) {
+                if (boundaries.get(p) == -1 || marking.get(p) == -1) {
+                    boundaries.put(p, -1);
+                } else if (marking.get(p) > boundaries.get(p)) {
+                    boundaries.put(p, marking.get(p));
+                }
+            }
+        }
+        for (Place p : boundaries.keySet()) {
+            p.setBoundary(boundaries.get(p));
+        }
     }
 
     public int getGraphBoundedness() {

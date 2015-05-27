@@ -8,6 +8,7 @@ public class Place extends MyVertex {
     boolean isAlive;
     int resources;
     int capacity;
+    int boundary;
 
     public Place(int id) {
         super(id, "Place");
@@ -67,6 +68,14 @@ public class Place extends MyVertex {
         } else {
             throw new IllegalArgumentException("nie można ustawić ujemnej pojemności");
         }
+    }
+
+    public int getBoundary() {
+        return boundary;
+    }
+
+    public void setBoundary(int boundedness) {
+        this.boundary = boundedness;
     }
 
     public String toString() {
