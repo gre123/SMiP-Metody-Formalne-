@@ -5,10 +5,6 @@ import model.Place;
 import model.Transition;
 import org.apache.commons.collections15.Transformer;
 
-/**
- *
- * @author Elpidiusz
- */
 public class BoundednessLabeller implements Transformer<MyVertex, String> {
 
     @Override
@@ -16,8 +12,7 @@ public class BoundednessLabeller implements Transformer<MyVertex, String> {
         if (i.getClass() == Transition.class) {
             return i.toString();
         }
-        //return /*"P" + i.getId() + ":" +*/ ""+((Place) i).getBoundary();
-        return ""+ ((((Place) i).getBoundary() == -1) ? "∞ " : ((Place) i).getBoundary());
+        return "" + ((((Place) i).getBoundary() == -1) ? "∞ " : ((Place) i).getBoundary());
     }
 
 }
