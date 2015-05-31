@@ -150,7 +150,6 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                 }
             }
             vv.repaint();
-            properites.refreshProperties();
         }
     }
 
@@ -210,8 +209,9 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
             edgeIsDirected = EdgeType.UNDIRECTED;
             vv.removePostRenderPaintable(edgePaintable);
             vv.removePostRenderPaintable(arrowPaintable);
-            properites.refreshProperties();
+            
         }
+        properites.refreshProperties();
     }
 
     /**
@@ -230,7 +230,6 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
             VisualizationViewer<V, E> vv
                     = (VisualizationViewer<V, E>) e.getSource();
             vv.repaint();
-            properites.refreshProperties();
         }
     }
     

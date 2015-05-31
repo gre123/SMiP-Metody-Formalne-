@@ -1,8 +1,15 @@
 package smip;
 
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.Map;
 import javax.swing.JLabel;
 import model.PetriGraph;
+import model.Place;
+import org.apache.commons.collections15.Transformer;
+import static smip.PetriGraphGUI.graph;
+import smip.views.MatrixForm;
+import smip.views.ShowGraph;
 
 /**
  * @author Tomek
@@ -17,9 +24,14 @@ public class Properties {
     private JLabel lblL1Liveness;
     private JLabel lblL4Liveness;
     private boolean refresh;
+    private MatrixForm matrixForm;
 
     public PetriGraph getGraph() {
         return graph;
+    }
+
+    public void setMatrixForm(MatrixForm matrixForm) {
+        this.matrixForm = matrixForm;
     }
 
     public void setRefresh(boolean refresh) {
@@ -149,6 +161,33 @@ public class Properties {
         setColor(lblL4Liveness, l4Liveness);
     }
 
+    private void refreshMatrix() {
+        if (matrixForm != null) {
+            // matrixForm.setVisible(true);
+            if (graph.getNincidence() == null || graph.getNincidence().length == 0 || graph.getNincidence()[0].length == 0) {
+                return;
+            }
+            matrixForm.drawInc(graph.getNincidence(), graph.getTransitionSet(), graph.getPlaceSet());
+            matrixForm.drawNplus(graph.getNplus(), graph.getTransitionSet(), graph.getPlaceSet());
+            matrixForm.drawNminus(graph.getNminus(), graph.getTransitionSet(), graph.getPlaceSet());
+        }
+    }
+
+    private void refreshCoverability() {
+        Transformer<Map<Place, Integer>, String> vlt = new Transformer<Map<Place, Integer>, String>() {
+            public String transform(Map<Place, Integer> map) {
+                String label = "";
+                Place[] places = map.keySet().toArray(new Place[map.keySet().size()]);
+                Arrays.sort(places);
+                for (Place p : places) {
+                    label += "," +/*Integer.toString(p.getId())+":"+*/ ((map.get(p) == -1) ? "∞ " : map.get(p));
+                }
+                return label.substring(1);
+            }
+        };
+        ShowGraph.showRCGraph(this.graph.getCoverabilityGraph(), vlt, "Graf pokrycia", 500, 300);
+    }
+
     public void refreshProperties() {
         if (refresh) {
             refreshActivity();
@@ -157,6 +196,8 @@ public class Properties {
             refreshReversibility();
             refreshL1Liveness();
             refreshL4Liveness();
+            refreshMatrix();
+           // refreshCoverability();
         }
 
     }

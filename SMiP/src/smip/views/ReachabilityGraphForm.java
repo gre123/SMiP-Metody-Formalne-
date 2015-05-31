@@ -9,8 +9,6 @@ import model.*;
 import painter.ReachabilityGraphVertexColorPainter;
 import painter.ReachabilityGraphVertexShapePainter;
 
-import java.util.*;
-import java.util.stream.IntStream;
 import smip.rechabilityGraph.ReachabilityGraphCalculator;
 
 /**
@@ -229,7 +227,9 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
     }
 
     public void calculateReachabilityGraph(PetriGraph graph) {
-        reachabilityGraphCalculator.calculateAll(graph);   
+         vv.repaint();
+        reachabilityGraphCalculator.calculateAll(graph); 
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

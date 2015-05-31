@@ -78,7 +78,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         properties=new Properties(graph);
         
         setProperties();
-        //pnlGraph.setSize(600, 400);
         Layout<MyVertex, Arc> layout = new StaticLayout(graph);
         layout.setSize(this.pnlGraph.getSize());
 
@@ -128,7 +127,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         pnlGraph = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnlActions = new javax.swing.JPanel();
-        btnIncidenceMatrix = new javax.swing.JButton();
         btnReachabilityGraph = new javax.swing.JButton();
         btnCoverabilityGraph = new javax.swing.JButton();
         tgbtnBoundednessPlaces = new javax.swing.JToggleButton();
@@ -181,13 +179,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
         pnlActions.setToolTipText("Panel z akcjami do wykonania na grafie");
         pnlActions.setPreferredSize(new java.awt.Dimension(112, 400));
-
-        btnIncidenceMatrix.setLabel("M. wejść,wyjść, incydecji");
-        btnIncidenceMatrix.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIncidenceMatrixActionPerformed(evt);
-            }
-        });
 
         btnReachabilityGraph.setText("Graf osiągalności");
         btnReachabilityGraph.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -279,7 +270,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tgbtnL1TransitionsLiveness, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnIncidenceMatrix, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnReachabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCoverabilityGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tgbtnBoundednessPlaces, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -341,9 +331,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(lblL4Liveness))
-                .addGap(122, 122, 122)
-                .addComponent(btnIncidenceMatrix)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(151, 151, 151)
                 .addComponent(btnReachabilityGraph)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCoverabilityGraph)
@@ -353,8 +341,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addComponent(tgbtnL1TransitionsLiveness)
                 .addGap(29, 29, 29))
         );
-
-        btnIncidenceMatrix.getAccessibleContext().setAccessibleName("M. wejść,wyjść, incydecji");
 
         jTabbedPane1.addTab("Właściwości", pnlActions);
 
@@ -518,6 +504,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         elmViews.add(mitOsi);
 
         mitPokrycia.setText("Pokrycie");
+        mitPokrycia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitPokryciaActionPerformed(evt);
+            }
+        });
         elmViews.add(mitPokrycia);
 
         menuBar.add(elmViews);
@@ -554,6 +545,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         properties.setLblL1Liveness(lblL1Liveness);
         properties.setLblL4Liveness(lblL4Liveness);
         properties.setLblReversibility(lblReversibility);
+        properties.setMatrixForm(matrixForm);
     }
     private void createMenu(EditingModalGraphMouse2 gm) {
         JMenu modeMenu = gm.getModeMenu();
@@ -564,7 +556,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }
 
     private void blockOptions(boolean doWeBlock) {
-        btnIncidenceMatrix.setEnabled(!doWeBlock);
         btnReachabilityGraph.setEnabled(!doWeBlock);
         btnCoverabilityGraph.setEnabled(!doWeBlock);
         elmNet.setEnabled(!doWeBlock);
@@ -579,6 +570,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private void drawTables(int[][] inc, int[][] nPlus, int[][] nMinus) {
         if (matrixForm == null) {
             matrixForm = new MatrixForm();
+            matrixForm.setTitle("Reprezentacja macierzowa");
+            properties.setMatrixForm(matrixForm);
         }
 
         matrixForm.setVisible(true);
@@ -700,6 +693,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private void drawRechabilityGrap() {
         if (reachabilityGraphForm == null) {
             reachabilityGraphForm = new ReachabilityGraphForm();
+            reachabilityGraphForm.setTitle("Graf osiągalności");
         }
 
         reachabilityGraphForm.setVisible(true);
@@ -715,8 +709,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_chkIsSelectionByUserActionPerformed
 
     private void mitClearNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitClearNetActionPerformed
-
-// TODO add your handling code here:
+        graph.clear();
+        vv.repaint();
     }//GEN-LAST:event_mitClearNetActionPerformed
 
     private void startSimulate(int param, JToggleButton button) {
@@ -808,6 +802,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 for (Place p : places) {
                     label += "," +/*Integer.toString(p.getId())+":"+*/ ((map.get(p) == -1) ? "∞ " : map.get(p));
                 }
+                if(label.equals("")){return "";}
                 return label.substring(1);
             }
         };
@@ -833,10 +828,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnReachabilityGraphMouseClicked
 
-    private void btnIncidenceMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncidenceMatrixActionPerformed
-        drawTables(graph.getNincidence(), graph.getNplus(), graph.getNminus());
-    }//GEN-LAST:event_btnIncidenceMatrixActionPerformed
-
     private void chkRefreshStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkRefreshStateChanged
        if(properties!=null){
            properties.setRefresh(chkRefresh.isSelected());
@@ -848,6 +839,10 @@ public class PetriGraphGUI extends javax.swing.JFrame {
            properties.refreshProperties();
        }
     }//GEN-LAST:event_chkRefreshMouseClicked
+
+    private void mitPokryciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPokryciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mitPokryciaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -886,7 +881,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCoverabilityGraph;
-    private javax.swing.JButton btnIncidenceMatrix;
     private javax.swing.JButton btnReachabilityGraph;
     private javax.swing.JCheckBox chkIsSelectionByUser;
     private javax.swing.JCheckBox chkRefresh;

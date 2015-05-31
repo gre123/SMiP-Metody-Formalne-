@@ -18,7 +18,7 @@ import model.Transition;
  */
 public class ReachabilityGraphCalculator {
 
-    private ReachabilityGraph reachabilityGraph;
+    private final ReachabilityGraph reachabilityGraph;
 
     public ReachabilityGraphCalculator(ReachabilityGraph reachabilityGraph) {
         this.reachabilityGraph = reachabilityGraph;

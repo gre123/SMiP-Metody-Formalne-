@@ -23,8 +23,13 @@ import painter.WhiteColorPainter;
  */
 public class ShowGraph {
 
+    private static JFrame graphFrame = null;
+
     public static <V, E> void showGraph(Graph<V, E> g, String windowName, int dimensionX, int dimensionY) {
-        JFrame graphFrame = new JFrame();
+        if (graphFrame == null) {
+            graphFrame = new JFrame();
+        }
+
         graphFrame.setAlwaysOnTop(true);
         Layout<V, E> layout = new ISOMLayout<>(g);
         layout.setSize(new Dimension(dimensionX, dimensionY));
@@ -46,7 +51,9 @@ public class ShowGraph {
     }
 
     public static <V, E> void showGraph(Graph<V, E> g, Transformer<V, String> vlt, String windowName, int dimensionX, int dimensionY) {
-        JFrame graphFrame = new JFrame();
+        if (graphFrame == null) {
+            graphFrame = new JFrame();
+        }
         graphFrame.setAlwaysOnTop(true);
         Layout<V, E> layout = new KKLayout<>(g);
         layout.setSize(new Dimension(dimensionX, dimensionY));
@@ -78,7 +85,9 @@ public class ShowGraph {
      * @param dimensionY rozmiar okna w pionie
      */
     public static <E> void showRCGraph(Graph<Map<Place, Integer>, E> g, Transformer<Map<Place, Integer>, String> vlt, String windowName, int dimensionX, int dimensionY) {
-        JFrame graphFrame = new JFrame();
+        if (graphFrame == null) {
+            graphFrame = new JFrame();
+        }
         graphFrame.setAlwaysOnTop(true);
         Layout<Map<Place, Integer>, E> layout = new ISOMLayout<>(g);
         layout.setSize(new Dimension(dimensionX, dimensionY));

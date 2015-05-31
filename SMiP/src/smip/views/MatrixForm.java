@@ -211,7 +211,7 @@ public class MatrixForm extends javax.swing.JFrame {
                 table.getModel().setValueAt(matrix[i][j], i, j);
             }
         }
-        table.setDefaultRenderer(table.getColumnClass(1), renderer);
+        table.setDefaultRenderer(table.getColumnClass(0), renderer);
     }
     public void drawInc(int[][] matrix, Set<Transition> transitons, Set<Place> places) {
         JTable dispTableRowHeader = prepareHeader(places);

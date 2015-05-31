@@ -36,6 +36,13 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         transitionSet = new HashSet();
     }
 
+    public void clear() {
+        placeSet = new HashSet();
+        transitionSet = new HashSet();
+        vertices.clear();
+        edges.clear();
+    }
+
     public PetriGraph() {
         super();
         placeSet = new HashSet();
@@ -211,11 +218,11 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
      * @return coś jak L4 żywotność
      */
     public boolean updateGraphTransitionStates() {
-        return howMenyActiveTransition()==transitionSet.size();
+        return howMenyActiveTransition() == transitionSet.size();
     }
-    
-    public int howMenyActiveTransition(){
-        int alive=0;
+
+    public int howMenyActiveTransition() {
+        int alive = 0;
         for (Object transition : this.transitionSet) {
             if (updateTransitionState((Transition) transition)) {
                 alive++;
@@ -550,7 +557,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         return boundaries;
     }
-    
+
     public void calculateAndSetPlacesBoundedness() {
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Map<Place, Integer> boundaries = new HashMap<>();
@@ -573,7 +580,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
 
     public int getGraphBoundedness() {
         Map<Place, Integer> boundaries = this.getPlacesBoundedness();
-        if (boundaries.values().contains(-1)) {
+        if (boundaries.values().contains(-1) || boundaries.isEmpty()) {
             return -1;
         }
         return Collections.max(boundaries.values());
@@ -699,7 +706,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         return true;
     }
-    
+
     public void calculateAndSetGraphL1Liveness() {
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Set<Transition> transitions = this.transitionSet;

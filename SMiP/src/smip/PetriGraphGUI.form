@@ -86,6 +86,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pokrycie"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mitPokryciaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -179,7 +182,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="tgbtnL1TransitionsLiveness" max="32767" attributes="0"/>
-                          <Component id="btnIncidenceMatrix" alignment="1" max="32767" attributes="0"/>
                           <Component id="btnReachabilityGraph" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnCoverabilityGraph" alignment="0" max="32767" attributes="0"/>
                           <Component id="tgbtnBoundednessPlaces" alignment="0" max="32767" attributes="0"/>
@@ -258,9 +260,7 @@
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblL4Liveness" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                      <Component id="btnIncidenceMatrix" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
                       <Component id="btnReachabilityGraph" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnCoverabilityGraph" min="-2" max="-2" attributes="0"/>
@@ -274,17 +274,6 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnIncidenceMatrix">
-              <Properties>
-                <Property name="label" type="java.lang.String" value="M. wej&#x15b;&#x107;,wyj&#x15b;&#x107;, incydecji"/>
-              </Properties>
-              <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="M. wej&#x15b;&#x107;,wyj&#x15b;&#x107;, incydecji"/>
-              </AccessibilityProperties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIncidenceMatrixActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="btnReachabilityGraph">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Graf osi&#x105;galno&#x15b;ci"/>
