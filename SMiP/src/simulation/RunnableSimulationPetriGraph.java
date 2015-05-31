@@ -11,7 +11,7 @@ public class RunnableSimulationPetriGraph implements Runnable{
     PetriGraph graph;
     VisualizationViewer vv;
     int delay=1000;
-
+    int transitionPerStep=1;
     
     public RunnableSimulationPetriGraph(PetriGraph graph, VisualizationViewer vv){
         this.graph = graph;
@@ -25,12 +25,21 @@ public class RunnableSimulationPetriGraph implements Runnable{
     public void setDelay(int delay) {
         this.delay = delay;
     }
+
+    public int getTransitionPerStep() {
+        return transitionPerStep;
+    }
+
+    public void setTransitionPerStep(int transitionPerStep) {
+        this.transitionPerStep = transitionPerStep;
+    }
+
     
     @Override
     public void run() {
        Random rn = new Random();
-       while(true)
-       {
+       int currentStep=0;
+       while(currentStep<=transitionPerStep || transitionPerStep==-1){
            try {
                Thread.sleep(delay);
            } catch (InterruptedException ex) {
@@ -41,6 +50,11 @@ public class RunnableSimulationPetriGraph implements Runnable{
                graph.executeTransition(transitions.get(rn.nextInt(transitions.size())));
                vv.repaint();
            }
+          if(transitionPerStep>=0){
+              currentStep++;
+              System.out.println(currentStep);
+          } 
+          
        }
     }
 
