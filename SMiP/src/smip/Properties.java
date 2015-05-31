@@ -2,9 +2,7 @@ package smip;
 
 import java.awt.Color;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import model.PetriGraph;
-import static smip.PetriGraphGUI.graph;
 
 /**
  * @author Tomek

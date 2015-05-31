@@ -76,6 +76,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         vCheck = new MyVertexChecker();
         eCheck = new ArcChecker();
         properties=new Properties(graph);
+        
         setProperties();
         //pnlGraph.setSize(600, 400);
         Layout<MyVertex, Arc> layout = new StaticLayout(graph);
@@ -107,6 +108,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         createMenu(gm);
         gm.setMode(ModalGraphMouse.Mode.EDITING);
         simulationPetriGraph = new RunnableSimulationPetriGraph(graph, vv);
+        simulationPetriGraph.setProperties(properties);
         vv.setBackground(new java.awt.Color(204, 255, 255));
 
         pnlGraph.add(vv);
@@ -231,6 +233,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         chkRefresh.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 chkRefreshStateChanged(evt);
+            }
+        });
+        chkRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                chkRefreshMouseClicked(evt);
             }
         });
 
@@ -833,9 +840,14 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private void chkRefreshStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkRefreshStateChanged
        if(properties!=null){
            properties.setRefresh(chkRefresh.isSelected());
-           properties.refreshProperties();
        }
     }//GEN-LAST:event_chkRefreshStateChanged
+
+    private void chkRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chkRefreshMouseClicked
+        if(properties!=null){   
+           properties.refreshProperties();
+       }
+    }//GEN-LAST:event_chkRefreshMouseClicked
 
     /**
      * @param args the command line arguments

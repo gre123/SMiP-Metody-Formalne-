@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.swing.JToggleButton;
 import model.PetriGraph;
 import model.Transition;
+import smip.Properties;
 
 public class RunnableSimulationPetriGraph implements Runnable{
     PetriGraph graph;
@@ -14,6 +15,7 @@ public class RunnableSimulationPetriGraph implements Runnable{
     int delay=1000;
     int transitionPerStep=1;
     JToggleButton button;
+    Properties properties;
     public RunnableSimulationPetriGraph(PetriGraph graph, VisualizationViewer vv){
         this.graph = graph;
         this.vv = vv;
@@ -43,6 +45,10 @@ public class RunnableSimulationPetriGraph implements Runnable{
         this.button = button;
     }
 
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
+
     @Override
     public void run() {
        Random rn = new Random();
@@ -62,7 +68,7 @@ public class RunnableSimulationPetriGraph implements Runnable{
               currentStep++;
               System.out.println(currentStep);
           } 
-          
+          properties.refreshProperties();
        }
        button.setSelected(false);
     }
