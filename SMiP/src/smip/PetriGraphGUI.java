@@ -359,6 +359,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         spnSteps.setValue(1);
 
         tbnStep.setText("Krok →");
+        tbnStep.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tbnStepStateChanged(evt);
+            }
+        });
         tbnStep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tbnStepActionPerformed(evt);
@@ -539,6 +544,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         btnL1Liveness.setEnabled(!doWeBlock);
         btnL4Liveness.setEnabled(!doWeBlock);
         tbnSimulate.setEnabled(!doWeBlock);
+        tbnStep.setEnabled(!doWeBlock);
         tgbtnL1TransitionsLiveness.setEnabled(!doWeBlock);
     }
 
@@ -560,7 +566,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void tbnSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnSimulateActionPerformed
         if (tbnSimulate.isSelected()) {
-            startSimulate(-1);
+            startSimulate(-1, tbnSimulate);
         } else {
             stopSimulate();
         }
@@ -784,10 +790,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tgbtnL1TransitionsLivenessActionPerformed
 
-    private void startSimulate(int param) {
+    private void startSimulate(int param, JToggleButton button) {
         blockOptions(true);
-        tbnSimulate.setEnabled(true);
+        button.setEnabled(true);
         simulationPetriGraph.setTransitionPerStep(param);
+        simulationPetriGraph.setButton(button);
         if (!chkIsSelectionByUser.isSelected()) {
             simulationThread = new Thread(simulationPetriGraph);
             simulationThread.start();
@@ -811,7 +818,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void tbnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnStepActionPerformed
         if (tbnStep.isSelected()) {
-            startSimulate((int) spnSteps.getValue() - 1);
+            startSimulate((int) spnSteps.getValue() - 1, tbnStep);
         } else {
             stopSimulate();
         }
@@ -823,14 +830,20 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formPropertyChange
 
     private void pnlGraphPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_pnlGraphPropertyChange
-        
+
     }//GEN-LAST:event_pnlGraphPropertyChange
 
     private void pnlGraphComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlGraphComponentResized
-       if (vv != null) {
+        if (vv != null) {
             vv.setPreferredSize(this.pnlGraph.getSize());
         }
     }//GEN-LAST:event_pnlGraphComponentResized
+
+    private void tbnStepStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tbnStepStateChanged
+        if (!tbnStep.isSelected()&& simulationThread!=null) {
+            stopSimulate();
+        }
+    }//GEN-LAST:event_tbnStepStateChanged
 
     /**
      * @param args the command line arguments

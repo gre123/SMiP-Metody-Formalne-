@@ -456,6 +456,7 @@
                 <Property name="text" type="java.lang.String" value="Krok &#x2192;"/>
               </Properties>
               <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="tbnStepStateChanged"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tbnStepActionPerformed"/>
               </Events>
             </Component>

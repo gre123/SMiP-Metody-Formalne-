@@ -4,6 +4,7 @@ package simulation;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import java.util.List;
 import java.util.Random;
+import javax.swing.JToggleButton;
 import model.PetriGraph;
 import model.Transition;
 
@@ -12,7 +13,7 @@ public class RunnableSimulationPetriGraph implements Runnable{
     VisualizationViewer vv;
     int delay=1000;
     int transitionPerStep=1;
-    
+    JToggleButton button;
     public RunnableSimulationPetriGraph(PetriGraph graph, VisualizationViewer vv){
         this.graph = graph;
         this.vv = vv;
@@ -34,7 +35,14 @@ public class RunnableSimulationPetriGraph implements Runnable{
         this.transitionPerStep = transitionPerStep;
     }
 
-    
+    public JToggleButton getButton() {
+        return button;
+    }
+
+    public void setButton(JToggleButton button) {
+        this.button = button;
+    }
+
     @Override
     public void run() {
        Random rn = new Random();
@@ -56,6 +64,7 @@ public class RunnableSimulationPetriGraph implements Runnable{
           } 
           
        }
+       button.setSelected(false);
     }
 
     
