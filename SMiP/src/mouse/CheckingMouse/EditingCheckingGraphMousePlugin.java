@@ -25,6 +25,7 @@ import model.Arc;
 import model.PetriGraph;
 import model.Place;
 import model.Transition;
+import smip.Properties;
 
 /**
  * A plugin that can create vertices, undirected edges, and directed edges using
@@ -45,9 +46,18 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
 
     protected EdgeChecker<V, E> edgeChecker;
     protected VertexChecker<V, E> vertexChecker;
+    protected Properties properites;
 
     public EditingCheckingGraphMousePlugin(Factory<V> vertexFactory, Factory<E> edgeFactory) {
         this(MouseEvent.BUTTON2_MASK + MouseEvent.BUTTON1_MASK, vertexFactory, edgeFactory);
+    }
+
+    public Properties getProperites() {
+        return properites;
+    }
+
+    public void setProperites(Properties properites) {
+        this.properites = properites;
     }
 
     /**
@@ -140,6 +150,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                 }
             }
             vv.repaint();
+            properites.refreshProperties();
         }
     }
 
@@ -199,6 +210,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
             edgeIsDirected = EdgeType.UNDIRECTED;
             vv.removePostRenderPaintable(edgePaintable);
             vv.removePostRenderPaintable(arrowPaintable);
+            properites.refreshProperties();
         }
     }
 
@@ -218,6 +230,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
             VisualizationViewer<V, E> vv
                     = (VisualizationViewer<V, E>) e.getSource();
             vv.repaint();
+            properites.refreshProperties();
         }
     }
     
@@ -248,6 +261,7 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                     }
                 }
             }
+            properites.refreshProperties();
         }
     }
 

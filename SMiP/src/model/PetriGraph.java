@@ -211,10 +211,14 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
      * @return coś jak L4 żywotność
      */
     public boolean updateGraphTransitionStates() {
-        boolean alive = true;
+        return howMenyActiveTransition()==transitionSet.size();
+    }
+    
+    public int howMenyActiveTransition(){
+        int alive=0;
         for (Object transition : this.transitionSet) {
-            if (!updateTransitionState((Transition) transition)) {
-                alive = false;
+            if (updateTransitionState((Transition) transition)) {
+                alive++;
             }
         }
         return alive;
