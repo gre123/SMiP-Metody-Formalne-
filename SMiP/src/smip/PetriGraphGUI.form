@@ -53,6 +53,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mitClearNet">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+L"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Wyczy&#x15b;&#x107;"/>
               </Properties>
               <Events>
@@ -68,6 +71,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mitMatrix">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+M"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Macierz"/>
               </Properties>
               <Events>
@@ -76,6 +82,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mitOsi">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+N"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Osi&#x105;galno&#x15b;&#x107;"/>
               </Properties>
               <Events>
@@ -84,6 +93,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mitPokrycia">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+B"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Pokrycie"/>
               </Properties>
               <Events>

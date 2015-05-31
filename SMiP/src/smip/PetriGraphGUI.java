@@ -475,6 +475,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         });
         elmNet.add(mitLoadNet);
 
+        mitClearNet.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         mitClearNet.setText("Wyczyść");
         mitClearNet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -487,6 +488,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
         elmViews.setText("Widok");
 
+        mitMatrix.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK));
         mitMatrix.setText("Macierz");
         mitMatrix.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -495,6 +497,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         });
         elmViews.add(mitMatrix);
 
+        mitOsi.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.ALT_MASK));
         mitOsi.setText("Osiągalność");
         mitOsi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -503,6 +506,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         });
         elmViews.add(mitOsi);
 
+        mitPokrycia.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_MASK));
         mitPokrycia.setText("Pokrycie");
         mitPokrycia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
