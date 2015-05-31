@@ -75,8 +75,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         edgeFactory = new ArcFactory();
         vCheck = new MyVertexChecker();
         eCheck = new ArcChecker();
-        properties=new Properties(graph);
-        
+        properties = new Properties(graph);
+
         setProperties();
         Layout<MyVertex, Arc> layout = new StaticLayout(graph);
         layout.setSize(this.pnlGraph.getSize());
@@ -542,7 +542,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void setProperties(){
+    private void setProperties() {
         properties.setLblActivity(lblActivity);
         properties.setLblBoundedness(lblBoundedness);
         properties.setLblConservation(lblConservation);
@@ -551,6 +551,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         properties.setLblReversibility(lblReversibility);
         properties.setMatrixForm(matrixForm);
     }
+
     private void createMenu(EditingModalGraphMouse2 gm) {
         JMenu modeMenu = gm.getModeMenu();
         modeMenu.setText("Mouse Mode");
@@ -571,20 +572,23 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         tgbtnL1TransitionsLiveness.setEnabled(!doWeBlock);
     }
 
-    private void drawTables(int[][] inc, int[][] nPlus, int[][] nMinus) {
+    private void drawTables() {
         if (matrixForm == null) {
             matrixForm = new MatrixForm();
             matrixForm.setTitle("Reprezentacja macierzowa");
-            properties.setMatrixForm(matrixForm);
-        }
 
+        }
+        Point location = this.getLocation();
+        location.x = location.x + this.getSize().width;
+        matrixForm.setLocation(location);
+        properties.setMatrixForm(matrixForm);
         matrixForm.setVisible(true);
-        if (inc == null || inc.length == 0 || inc[0].length == 0) {
+        if (graph.getNincidence() == null || graph.getNincidence().length == 0 || graph.getNincidence()[0].length == 0) {
             return;
         }
-        matrixForm.drawInc(inc, graph.getTransitionSet(), graph.getPlaceSet());
-        matrixForm.drawNplus(nPlus, graph.getTransitionSet(), graph.getPlaceSet());
-        matrixForm.drawNminus(nMinus, graph.getTransitionSet(), graph.getPlaceSet());
+        matrixForm.drawInc(graph.getNincidence(), graph.getTransitionSet(), graph.getPlaceSet());
+        matrixForm.drawNplus(graph.getNplus(), graph.getTransitionSet(), graph.getPlaceSet());
+        matrixForm.drawNminus(graph.getNminus(), graph.getTransitionSet(), graph.getPlaceSet());
 
     }
 
@@ -686,7 +690,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mitLoadNetActionPerformed
 
     private void mitMatrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitMatrixActionPerformed
-        drawTables(null, null, null);
+        drawTables();
     }//GEN-LAST:event_mitMatrixActionPerformed
 
     private void sldDeleyStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldDeleyStateChanged
@@ -698,7 +702,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         if (reachabilityGraphForm == null) {
             reachabilityGraphForm = new ReachabilityGraphForm();
             reachabilityGraphForm.setTitle("Graf osiągalności");
+
         }
+        Point location = this.getLocation();
+        location.x = location.x + this.getSize().width;
+        reachabilityGraphForm.setLocation(location);
 
         reachabilityGraphForm.setVisible(true);
         reachabilityGraphForm.calculateReachabilityGraph(graph);
@@ -758,7 +766,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlGraphComponentResized
 
     private void tbnStepStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tbnStepStateChanged
-        if (!tbnStep.isSelected()&& simulationThread!=null) {
+        if (!tbnStep.isSelected() && simulationThread != null) {
             stopSimulate();
         }
     }//GEN-LAST:event_tbnStepStateChanged
@@ -806,10 +814,15 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 for (Place p : places) {
                     label += "," +/*Integer.toString(p.getId())+":"+*/ ((map.get(p) == -1) ? "∞ " : map.get(p));
                 }
-                if(label.equals("")){return "";}
+                if (label.equals("")) {
+                    return "";
+                }
                 return label.substring(1);
             }
         };
+        Point location = this.getLocation();
+        location.x = location.x + this.getSize().width;
+        ShowGraph.setLocation(location);
         ShowGraph.showRCGraph(this.graph.getCoverabilityGraph(), vlt, "Graf pokrycia", 500, 300);
     }//GEN-LAST:event_btnCoverabilityGraphActionPerformed
 
@@ -833,15 +846,15 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReachabilityGraphMouseClicked
 
     private void chkRefreshStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkRefreshStateChanged
-       if(properties!=null){
-           properties.setRefresh(chkRefresh.isSelected());
-       }
+        if (properties != null) {
+            properties.setRefresh(chkRefresh.isSelected());
+        }
     }//GEN-LAST:event_chkRefreshStateChanged
 
     private void chkRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chkRefreshMouseClicked
-        if(properties!=null){   
-           properties.refreshProperties();
-       }
+        if (properties != null) {
+            properties.refreshProperties();
+        }
     }//GEN-LAST:event_chkRefreshMouseClicked
 
     private void mitPokryciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPokryciaActionPerformed

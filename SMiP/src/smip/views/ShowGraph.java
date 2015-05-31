@@ -10,6 +10,7 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.util.Map;
 import javax.swing.JFrame;
 import model.Place;
@@ -24,10 +25,16 @@ import painter.WhiteColorPainter;
 public class ShowGraph {
 
     private static JFrame graphFrame = null;
+    private static Point location;
+
+    public static void setLocation(Point location) {
+        ShowGraph.location = location;
+    }
 
     public static <V, E> void showGraph(Graph<V, E> g, String windowName, int dimensionX, int dimensionY) {
         if (graphFrame == null) {
             graphFrame = new JFrame();
+            graphFrame.setLocation(location);
         }
 
         graphFrame.setAlwaysOnTop(true);
@@ -53,6 +60,7 @@ public class ShowGraph {
     public static <V, E> void showGraph(Graph<V, E> g, Transformer<V, String> vlt, String windowName, int dimensionX, int dimensionY) {
         if (graphFrame == null) {
             graphFrame = new JFrame();
+            graphFrame.setLocation(location);
         }
         graphFrame.setAlwaysOnTop(true);
         Layout<V, E> layout = new KKLayout<>(g);
@@ -87,6 +95,7 @@ public class ShowGraph {
     public static <E> void showRCGraph(Graph<Map<Place, Integer>, E> g, Transformer<Map<Place, Integer>, String> vlt, String windowName, int dimensionX, int dimensionY) {
         if (graphFrame == null) {
             graphFrame = new JFrame();
+            graphFrame.setLocation(location);
         }
         graphFrame.setAlwaysOnTop(true);
         Layout<Map<Place, Integer>, E> layout = new ISOMLayout<>(g);
