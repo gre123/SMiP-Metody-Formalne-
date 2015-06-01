@@ -39,6 +39,10 @@ import mouse.CheckingMouse.EditingCheckingGraphMousePlugin;
 import mouse.CheckingMouse.EditingModalGraphMouse2;
 import mouse.CheckingMouse.MyVertexChecker;
 import mouse.MousePlugin.SimulateGraphMousePlugin;
+import mouse.PopupMenu.MyMouseMenus;
+import mouse.PopupMenu.MyMouseMenus.EdgeMenu;
+import mouse.PopupMenu.MyMouseMenus.VertexMenu;
+import mouse.PopupMenu.PopupVertexEdgeMenuMousePlugin;
 import org.apache.commons.collections15.Transformer;
 import painter.BoundednessLabeller;
 import painter.TransitionAlivenessColorPainter;
@@ -96,12 +100,20 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         plugin.setProperites(properties);
 
         gm = new EditingModalGraphMouse2(vv.getRenderContext(), vertexFactory, edgeFactory);
+        
         gm.remove(gm.getEditingPlugin());
-
         plugin.setVertexChecker(vCheck);
         plugin.setEdgeChecker(eCheck);
-
         gm.setEditingPlugin(plugin);
+        
+        PopupVertexEdgeMenuMousePlugin myPlugin = new PopupVertexEdgeMenuMousePlugin();
+        JPopupMenu edgeMenu = new EdgeMenu();
+        JPopupMenu vertexMenu = new VertexMenu(this);
+        myPlugin.setEdgePopup(edgeMenu);
+        myPlugin.setVertexPopup(vertexMenu);
+        gm.remove(gm.getPopupEditingPlugin());  // Removes the existing popup editing plugin
+        gm.add(myPlugin);   // Add our new plugin to the mouse
+        
         vv.setGraphMouse(gm);
 
         createMenu(gm);
