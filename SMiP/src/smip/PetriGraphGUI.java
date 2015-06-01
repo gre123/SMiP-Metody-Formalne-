@@ -658,24 +658,25 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mitSaveNetActionPerformed
 
     private void mitLoadNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitLoadNetActionPerformed
-        //new SaveLoadGui('l').setVisible(true);
         JFrame parentFrame = new JFrame();
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Wybierz skąd wczytać plik");
-        //fileChooser.setSelectedFile(new File(txtFileName.getText()));
 
         int userSelection = fileChooser.showOpenDialog(parentFrame);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToOpen = fileChooser.getSelectedFile();
             System.out.println("Read from file: " + fileToOpen.getAbsolutePath());
-            System.out.println(graph.toString());
             try {
                 FileInputStream fileIn = new FileInputStream(fileToOpen);
                 ObjectInputStream in = new ObjectInputStream(fileIn);
-                this.graph = (PetriGraph) in.readObject();
+                graph = (PetriGraph) in.readObject();
+                properties = new Properties(graph);
+                setProperties();
                 vv.setGraphLayout(new KKLayout(graph));
+                simulationPetriGraph = new RunnableSimulationPetriGraph(graph, vv);
+                simulationPetriGraph.setProperties(properties);
                 in.close();
                 fileIn.close();
             } catch (IOException i) {

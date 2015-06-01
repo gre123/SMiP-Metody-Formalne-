@@ -41,6 +41,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         transitionSet = new HashSet();
         vertices.clear();
         edges.clear();
+        
     }
 
     public PetriGraph() {
