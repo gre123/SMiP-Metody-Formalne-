@@ -74,9 +74,9 @@ public class ReachabilityGraphCalculator {
         restoreResources(markers, places);
         graph.updateGraphTransitionStates();
 
-        calculateLiveness(transitions);
-        calculateConservation(markers);
-        calculateSafeness();
+        //calculateLiveness(transitions);
+       // calculateConservation(markers);
+       // calculateSafeness();
     }
 
     private List<ReachabilityVertex> getVertexList(Transition[] transitions, int[] markers) {
