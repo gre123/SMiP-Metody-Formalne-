@@ -1,6 +1,5 @@
 package smip;
 
-import edu.uci.ics.jung.algorithms.layout.AggregateLayout;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.DAGLayout;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
@@ -8,6 +7,7 @@ import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
+import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
@@ -27,6 +27,7 @@ import smip.views.ReachabilityGraphForm;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,11 +45,11 @@ import mouse.CheckingMouse.EditingCheckingGraphMousePlugin;
 import mouse.CheckingMouse.EditingModalGraphMouse2;
 import mouse.CheckingMouse.MyVertexChecker;
 import mouse.MousePlugin.SimulateGraphMousePlugin;
-import mouse.PopupMenu.MyMouseMenus;
 import mouse.PopupMenu.MyMouseMenus.EdgeMenu;
 import mouse.PopupMenu.MyMouseMenus.VertexMenu;
 import mouse.PopupMenu.PopupVertexEdgeMenuMousePlugin;
 import org.apache.commons.collections15.Transformer;
+import org.apache.commons.collections15.TransformerUtils;
 import painter.BoundednessLabeller;
 import painter.TransitionAlivenessColorPainter;
 import smip.views.ShowGraph;
@@ -88,6 +89,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
         setProperties();
         Layout<MyVertex, Arc> layout = new StaticLayout(graph);
+
         layout.setSize(this.pnlGraph.getSize());
 
         vv = new VisualizationViewer<>(layout);
@@ -105,12 +107,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         plugin.setProperites(properties);
 
         gm = new EditingModalGraphMouse2(vv.getRenderContext(), vertexFactory, edgeFactory);
-        
+
         gm.remove(gm.getEditingPlugin());
         plugin.setVertexChecker(vCheck);
         plugin.setEdgeChecker(eCheck);
         gm.setEditingPlugin(plugin);
-        
+
         PopupVertexEdgeMenuMousePlugin myPlugin = new PopupVertexEdgeMenuMousePlugin();
         JPopupMenu edgeMenu = new EdgeMenu();
         JPopupMenu vertexMenu = new VertexMenu(this);
@@ -118,7 +120,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         myPlugin.setVertexPopup(vertexMenu);
         gm.remove(gm.getPopupEditingPlugin());  // Removes the existing popup editing plugin
         gm.add(myPlugin);   // Add our new plugin to the mouse
-        
+
         vv.setGraphMouse(gm);
 
         createMenu(gm);
@@ -713,10 +715,20 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             System.out.println("Save as file: " + fileToSave.getAbsolutePath());
             FileOutputStream fos = null;
             ObjectOutputStream oos = null;
+
             try {
                 fos = new FileOutputStream(fileToSave);
                 oos = new ObjectOutputStream(fos);
+                for (Object v : vv.getGraphLayout().getGraph().getVertices()) {
+                    Object o = vv.getGraphLayout().transform(v);
+                    for (MyVertex vg : graph.getAllVertices()) {
+                        if (((MyVertex) v).compareTo(vg)==0 &&v.getClass().equals(vg.getClass())) {
+                            vg.setX(((Point2D) o).getX());
+                            vg.setY(((Point2D) o).getY());
+                        }
 
+                    }
+                }
                 oos.writeObject(graph); //serializacja obiektu
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -756,7 +768,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 graph = (PetriGraph) in.readObject();
                 properties = new Properties(graph);
                 setProperties();
-                vv.setGraphLayout(new KKLayout(graph));
+                Layout<MyVertex, Arc> layout = new StaticLayout(graph);
+                for (MyVertex v : graph.getAllVertices()) {
+                    layout.setLocation(v, new Point2D.Double(v.getX(), v.getY()));;
+                }
+                vv.setGraphLayout(layout);
                 simulationPetriGraph = new RunnableSimulationPetriGraph(graph, vv);
                 simulationPetriGraph.setProperties(properties);
                 in.close();
@@ -783,15 +799,15 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void drawRechabilityGrap() {
         if (reachabilityGraphForm == null) {
-         
-        }else{
+
+        } else {
             reachabilityGraphForm.setVisible(false);
             reachabilityGraphForm.dispose();
         }
-        
-           reachabilityGraphForm = new ReachabilityGraphForm();
-            reachabilityGraphForm.setTitle("Graf osiągalności");
-        
+
+        reachabilityGraphForm = new ReachabilityGraphForm();
+        reachabilityGraphForm.setTitle("Graf osiągalności");
+
         Point location = this.getLocation();
         location.x = location.x + this.getSize().width;
         reachabilityGraphForm.setLocation(location);
@@ -954,19 +970,19 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-          vv.setGraphLayout(new KKLayout(graph));
+        vv.setGraphLayout(new KKLayout(graph));
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-         vv.setGraphLayout(new CircleLayout(graph));
+        vv.setGraphLayout(new CircleLayout(graph));
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-         vv.setGraphLayout(new ISOMLayout(graph));
+        vv.setGraphLayout(new ISOMLayout(graph));
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-         vv.setGraphLayout(new FRLayout(graph));
+        vv.setGraphLayout(new FRLayout(graph));
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed

@@ -8,7 +8,6 @@ import org.apache.commons.collections15.Transformer;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.util.Random;
 
 public class MyVertexShapePainter implements Transformer<MyVertex, Shape> {
 
