@@ -32,9 +32,9 @@ public class ReachabilityGraphCalculator {
         this.reachabilityGraph = reachabilityGraph;
     }
 
-    private int[] getNewMarkers(Place[] places,ReachabilityVertex parentVertex,int[][] incidenceMatrix,int i) {
+    private int[] getNewMarkers(Place[] places, ReachabilityVertex parentVertex, int[][] incidenceMatrix, int i) {
         int[] newMarkers = new int[places.length];
-        
+
         for (int j = 0; j < places.length; j++) {
             places[j].setResources(parentVertex.getMarker(j) + incidenceMatrix[j][i]);
             newMarkers[j] = places[j].getResources();
@@ -50,9 +50,9 @@ public class ReachabilityGraphCalculator {
             Set<Transition> activeTransitions = parentVertex.getActiveTransitions();
             for (int i = 0; i < transitions.length; i++) {
                 if (activeTransitions.contains(transitions[i])) {
-                    int[] newMarkers = getNewMarkers(places, parentVertex, incidenceMatrix,i) ;
+                    int[] newMarkers = getNewMarkers(places, parentVertex, incidenceMatrix, i);
                     ReachabilityVertex newVertex = new ReachabilityVertex(newMarkers);
-                    
+
                     if (!reachabilityGraph.containsVertex(newVertex)) {
                         graph.updateGraphTransitionStates();
                         for (Transition transition : transitions) {

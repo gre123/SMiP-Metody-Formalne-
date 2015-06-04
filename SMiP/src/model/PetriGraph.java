@@ -357,6 +357,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
                 entry.getKey().setResources(entry.getValue());
             }
         }
+        updateGraphTransitionStates();
     }
 
     public void setMarkingInf(Map<Place, Integer> marking) {
@@ -441,7 +442,8 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
             rg.addEdge(new Transition(entry.getValue().id), entry.getKey(), this.getMarking());
             count++;
         }
-        this.setMarking(baseMarking);
+        setMarking(baseMarking);
+
         return rg;
     }
 
