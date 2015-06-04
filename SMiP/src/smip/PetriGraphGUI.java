@@ -700,12 +700,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mitAuthorsActionPerformed
 
     private void mitSaveNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSaveNetActionPerformed
-        //new SaveLoadGui('s').setVisible(true);
         JFrame parentFrame = new JFrame();
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Wybierz gdzie zapisać");
-        fileChooser.setSelectedFile(new File("PetriNet"));
+        fileChooser.setSelectedFile(new File("PetriNet.pn"));
 
         int userSelection = fileChooser.showSaveDialog(parentFrame);
 
@@ -718,7 +717,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 fos = new FileOutputStream(fileToSave);
                 oos = new ObjectOutputStream(fos);
 
-                oos.writeObject(this.graph); //serializacja obiektu
+                oos.writeObject(graph); //serializacja obiektu
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
