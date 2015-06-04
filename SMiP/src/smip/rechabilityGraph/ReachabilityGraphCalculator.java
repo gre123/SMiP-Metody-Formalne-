@@ -18,10 +18,28 @@ import model.Transition;
  */
 public class ReachabilityGraphCalculator {
 
-    private final ReachabilityGraph reachabilityGraph;
+    private ReachabilityGraph reachabilityGraph;
 
     public ReachabilityGraphCalculator(ReachabilityGraph reachabilityGraph) {
         this.reachabilityGraph = reachabilityGraph;
+    }
+
+    public ReachabilityGraph getReachabilityGraph() {
+        return reachabilityGraph;
+    }
+
+    public void setReachabilityGraph(ReachabilityGraph reachabilityGraph) {
+        this.reachabilityGraph = reachabilityGraph;
+    }
+
+    private int[] getNewMarkers(Place[] places,ReachabilityVertex parentVertex,int[][] incidenceMatrix,int i) {
+        int[] newMarkers = new int[places.length];
+        
+        for (int j = 0; j < places.length; j++) {
+            places[j].setResources(parentVertex.getMarker(j) + incidenceMatrix[j][i]);
+            newMarkers[j] = places[j].getResources();
+        }
+        return newMarkers;
     }
 
     private void calculateReachabilityGraph(List<ReachabilityVertex> vertexList, PetriGraph graph, Transition[] transitions, Place[] places) {
@@ -32,12 +50,9 @@ public class ReachabilityGraphCalculator {
             Set<Transition> activeTransitions = parentVertex.getActiveTransitions();
             for (int i = 0; i < transitions.length; i++) {
                 if (activeTransitions.contains(transitions[i])) {
-                    int[] newMarkers = new int[places.length];
-                    for (int j = 0; j < places.length; j++) {
-                        places[j].setResources(parentVertex.getMarker(j) + incidenceMatrix[j][i]);
-                        newMarkers[j] = places[j].getResources();
-                    }
+                    int[] newMarkers = getNewMarkers(places, parentVertex, incidenceMatrix,i) ;
                     ReachabilityVertex newVertex = new ReachabilityVertex(newMarkers);
+                    
                     if (!reachabilityGraph.containsVertex(newVertex)) {
                         graph.updateGraphTransitionStates();
                         for (Transition transition : transitions) {
@@ -56,6 +71,7 @@ public class ReachabilityGraphCalculator {
     }
 
     public void calculateAll(PetriGraph graph) {
+
         Place[] places = graph.getPlaceSet().toArray(new Place[graph.getPlaceSet().size()]);
         Arrays.sort(places);
         Transition[] transitions = graph.getTransitionSet().toArray(new Transition[graph.getTransitionSet().size()]);
@@ -75,8 +91,8 @@ public class ReachabilityGraphCalculator {
         graph.updateGraphTransitionStates();
 
         //calculateLiveness(transitions);
-       // calculateConservation(markers);
-       // calculateSafeness();
+        // calculateConservation(markers);
+        // calculateSafeness();
     }
 
     private List<ReachabilityVertex> getVertexList(Transition[] transitions, int[] markers) {

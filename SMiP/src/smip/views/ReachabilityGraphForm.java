@@ -20,14 +20,15 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
     VisualizationViewer vv;
 
     ReachabilityGraphCalculator reachabilityGraphCalculator;
+
     /**
      * Creates new form ReachabilityGraphForm
      */
     public ReachabilityGraphForm() {
         initComponents();
         reachabilityGraph = new ReachabilityGraph();
-        reachabilityGraphCalculator=new ReachabilityGraphCalculator(reachabilityGraph);
-                
+        reachabilityGraphCalculator = new ReachabilityGraphCalculator(reachabilityGraph);
+
         pnlGraph.setLayout(new javax.swing.BoxLayout(pnlGraph, javax.swing.BoxLayout.LINE_AXIS));
         Layout<ReachabilityVertex, ReachabilityArc> layout = new KKLayout<>(reachabilityGraph);
         layout.setSize(this.pnlGraph.getSize());
@@ -104,7 +105,7 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -112,9 +113,10 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnlGraphComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pnlGraphComponentResized
-         if (vv != null) {
+        if (vv != null) {
             vv.setPreferredSize(this.pnlGraph.getSize());
         }
+        vv.repaint();
     }//GEN-LAST:event_pnlGraphComponentResized
 
     /**
@@ -149,8 +151,9 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
     }
 
     public void calculateReachabilityGraph(PetriGraph graph) {
-         vv.repaint();
-        reachabilityGraphCalculator.calculateAll(graph);         
+        vv.repaint();       
+        reachabilityGraphCalculator.calculateAll(graph);
+        vv.repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

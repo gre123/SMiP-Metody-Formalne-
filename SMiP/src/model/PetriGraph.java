@@ -41,13 +41,31 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         transitionSet = new HashSet();
         vertices.clear();
         edges.clear();
-        
+
     }
 
     public PetriGraph() {
         super();
         placeSet = new HashSet();
         transitionSet = new HashSet();
+    }
+
+    public Collection<Place> getPredecessorsPlace(Transition t) {
+        Collection<Place> places = new ArrayList<>();
+        Collection<MyVertex> vertexs = (Collection<MyVertex>) getPredecessors(t);
+        for (MyVertex myVertex : vertexs) {
+            places.add((Place) myVertex);
+        }
+        return places;
+    }
+
+    public Collection<Place> getSuccessorsPlace(Transition t) {
+        Collection<Place> places = new ArrayList<>();
+        Collection<MyVertex> vertexs = (Collection<MyVertex>) getSuccessors(t);
+        for (MyVertex myVertex : vertexs) {
+            places.add((Place) myVertex);
+        }
+        return places;
     }
 
     /**
@@ -69,7 +87,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     /**
      * Returns the set of all vertices
      *
-     * @param type type of vertex class you want
      */
     public Collection<MyVertex> getAllVertices() {
         return this.getVertices();
@@ -123,7 +140,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
      * Adds a BipartiteEdge to the Graph. Checks if it is not connecting
      * vertices of the same partition
      *
-     * @param bpe a BipartiteEdge
      * @return the edge, now a member of the graph.
      */
     public boolean addBipartiteEdge(Arc arc, MyVertex start, MyVertex end) {
@@ -188,27 +204,33 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     }
 
     /**
-     * Funkcja uaktualniająca stan przejścia (czy jest aktywne, boolean )
+     * Funkcja uaktualniająca stan przejścia
      *
      * @param t Przejście do uaktualnienia
-     * @return uaktualniony stan przejścia
      */
-    public boolean updateTransitionState(Transition t) {
-        for (Object place : this.getPredecessors(t)) {
-            Arc connectingEdge = this.findEdge((Place) place, t);
-            if (((Place) place).getResources() < connectingEdge.getValue()) {
-                t.setActive(false);
+    public void updateTransitionState(Transition t) {
+        t.setActive(checkTranistionIsActive(t));
+    }
+
+    /**
+     * Funkcja sprawdzająca stan przejścia
+     *
+     * @param t Przejście do uaktualnienia
+     * @return aktualny stan przejścia
+     */
+    private boolean checkTranistionIsActive(Transition t) {
+        for (Place place : getPredecessorsPlace(t)) {
+            Arc connectingEdge = this.findEdge(place, t);
+            if (place.getResources() < connectingEdge.getValue()) {
                 return false;
             }
         }
-        for (Object place : this.getSuccessors(t)) {
-            Arc connectingEdge = this.findEdge(t, (Place) place);
-            if (((Place) place).getCapacity() < ((Place) place).getResources() + connectingEdge.getValue()) {
-                t.setActive(false);
+        for (Place place : this.getSuccessorsPlace(t)) {
+            Arc connectingEdge = this.findEdge(t, place);
+            if (place.getCapacity() < place.getResources() + connectingEdge.getValue()) {
                 return false;
             }
         }
-        t.setActive(true);
         return true;
     }
 
@@ -216,16 +238,26 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
      * Funkcja uaktualniająca stany przejść całego grafu teraz już faktycznie
      * całego
      *
-     * @return coś jak L4 żywotność
      */
-    public boolean updateGraphTransitionStates() {
-        return howMenyActiveTransition() == transitionSet.size();
+    public void updateGraphTransitionStates() {
+        for (Object transition : this.transitionSet) {
+            updateTransitionState((Transition) transition);
+        }
+    }
+
+    public boolean isAllTransitonsAlive() {
+        for (Object transition : this.transitionSet) {
+            if (!checkTranistionIsActive((Transition) transition)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public int howMenyActiveTransition() {
         int alive = 0;
         for (Object transition : this.transitionSet) {
-            if (updateTransitionState((Transition) transition)) {
+            if (checkTranistionIsActive((Transition) transition)) {
                 alive++;
             }
         }
@@ -238,7 +270,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
      * @return true jesli wszystkie przejscia sa aktywne
      */
     public boolean dummyisGraphAlive() {
-        return updateGraphTransitionStates();
+        return isAllTransitonsAlive();
     }
 
     /**
@@ -355,14 +387,14 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
             System.out.println("Nie można wykonać przejścia którego nie ma w grafie!");
             return false;
         }
-        if (updateTransitionState(t)) {
-            for (Object place : this.getPredecessors(t)) {
-                Arc connectingEdge = this.findEdge((Place) place, t);
-                ((Place) place).decResources(connectingEdge.getValue());
+        if (checkTranistionIsActive(t)) {
+            for (Place place : getPredecessorsPlace(t)) {
+                Arc connectingEdge = this.findEdge(place, t);
+                place.decResources(connectingEdge.getValue());
             }
-            for (Object place : this.getSuccessors(t)) {
-                Arc connectingEdge = this.findEdge(t, (Place) place);
-                ((Place) place).incResources(connectingEdge.getValue());
+            for (Place place : getSuccessorsPlace(t)) {
+                Arc connectingEdge = findEdge(t, place);
+                place.incResources(connectingEdge.getValue());
             }
         }
         //wypadałoby tylko dla powiązanych miejsc, wszędzie gdzie ta funkcja jest użyta

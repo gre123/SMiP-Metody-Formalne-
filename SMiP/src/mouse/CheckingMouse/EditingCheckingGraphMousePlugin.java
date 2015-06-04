@@ -177,7 +177,6 @@ public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlug
                     if ((startVertex == vertex) && vertex.getClass() == Place.class) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             ((Place) vertex).incResources();
-                            //wypadałoby aktualizować stany tylko sąsiednich wierzchołków a nie całości
                             ((PetriGraph) graph).updateGraphTransitionStates();
                         } else if (e.getButton() == MouseEvent.BUTTON2) {
                             ((Place) vertex).decResources();

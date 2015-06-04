@@ -784,10 +784,15 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void drawRechabilityGrap() {
         if (reachabilityGraphForm == null) {
-            reachabilityGraphForm = new ReachabilityGraphForm();
-            reachabilityGraphForm.setTitle("Graf osiągalności");
-
+         
+        }else{
+            reachabilityGraphForm.setVisible(false);
+            reachabilityGraphForm.dispose();
         }
+        
+           reachabilityGraphForm = new ReachabilityGraphForm();
+            reachabilityGraphForm.setTitle("Graf osiągalności");
+        
         Point location = this.getLocation();
         location.x = location.x + this.getSize().width;
         reachabilityGraphForm.setLocation(location);
