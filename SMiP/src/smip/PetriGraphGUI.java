@@ -854,6 +854,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             simulationThread = new Thread(simulationPetriGraph);
             simulationThread.start();
         } else {
+            simulateGraphMousePlugin=new SimulateGraphMousePlugin(graph);
             PluggableGraphMouse simulationGraphMouse = new PluggableGraphMouse();
             simulationGraphMouse.add(simulateGraphMousePlugin);
             vv.setGraphMouse(simulationGraphMouse);
