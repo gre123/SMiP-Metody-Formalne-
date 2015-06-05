@@ -1,8 +1,5 @@
 package model;
 
-/**
- * @author Elpidiusz
- */
 public class Place extends MyVertex {
 
     boolean isAlive;
@@ -94,7 +91,7 @@ public class Place extends MyVertex {
 
     @Override
     public String toString() {
-        return "P" + id + ":" + resources;
+        return "P" + id + ":" + resources + "/" + ((capacity == -1) ? "∞ " : capacity);
     }
 
 }

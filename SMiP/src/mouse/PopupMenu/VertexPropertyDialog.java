@@ -93,10 +93,12 @@ public class VertexPropertyDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonHandler(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonHandler
-        place.setCapacity((int) this.capFormattedTextField.getValue());
-        place.setResources((int) this.resFormattedTextField.getValue());
-        vv.repaint();
-        dispose();
+        if (!((int) this.capFormattedTextField.getValue() > 0 && (int) this.capFormattedTextField.getValue() < (int) this.resFormattedTextField.getValue())) {
+            place.setCapacity((int) this.capFormattedTextField.getValue());
+            place.setResources((int) this.resFormattedTextField.getValue());
+            vv.repaint();
+            dispose();
+        }
     }//GEN-LAST:event_okButtonHandler
 
     private void capFormattedTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capFormattedTextFieldActionPerformed

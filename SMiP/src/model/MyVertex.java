@@ -2,10 +2,6 @@ package model;
 
 import java.io.Serializable;
 
-/**
- *
- * @author Elpidiusz
- */
 public class MyVertex implements Comparable<MyVertex>, Serializable {
 
     int id;

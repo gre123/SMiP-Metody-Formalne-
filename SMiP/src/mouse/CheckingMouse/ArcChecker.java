@@ -8,9 +8,6 @@ import javax.swing.JOptionPane;
 import model.Arc;
 import model.MyVertex;
 
-/**
- * @author Elpidiusz
- */
 public class ArcChecker implements EdgeChecker<MyVertex, Arc> {
 
     @Override

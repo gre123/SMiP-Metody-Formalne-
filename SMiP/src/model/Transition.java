@@ -1,8 +1,5 @@
 package model;
 
-/**
- * @author Elpidiusz
- */
 public class Transition extends MyVertex {
 
     boolean active;

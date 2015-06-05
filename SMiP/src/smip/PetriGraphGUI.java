@@ -7,7 +7,6 @@ import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
-import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
@@ -48,18 +47,12 @@ import mouse.MousePlugin.SimulateGraphMousePlugin;
 import mouse.PopupMenu.MyMouseMenus.EdgeMenu;
 import mouse.PopupMenu.MyMouseMenus.VertexMenu;
 import mouse.PopupMenu.PopupVertexEdgeMenuMousePlugin;
-import mouse.PopupMenu.VertexPropertyDialog;
 import org.apache.commons.collections15.Transformer;
-import org.apache.commons.collections15.TransformerUtils;
 import painter.BoundednessLabeller;
 import painter.TransitionAlivenessColorPainter;
 import smip.views.BoundaryWeightsForm;
 import smip.views.ShowGraph;
 
-/**
- *
- * @author Elpidiusz
- */
 public class PetriGraphGUI extends javax.swing.JFrame {
 
     public static PetriGraph graph;

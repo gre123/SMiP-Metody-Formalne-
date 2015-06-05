@@ -18,10 +18,6 @@ import org.apache.commons.collections15.Transformer;
 import painter.LongRectangleShapePainter;
 import painter.WhiteColorPainter;
 
-/**
- *
- * @author Elpidiusz
- */
 public class ShowGraph {
 
     private static JFrame graphFrame = null;

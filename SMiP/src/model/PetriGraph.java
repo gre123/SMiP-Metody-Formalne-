@@ -23,8 +23,6 @@ import org.apache.commons.collections15.MultiMap;
 /**
  * PetriGraph czyli skierowany graf dwudzielny, kod przerabiany z jakiejś starej
  * implementacji grafu dwudzielnego (BipartiteGraph) z junga 1.7
- *
- * @author Elpidiusz
  */
 public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Serializable {
 
@@ -184,20 +182,26 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
      * @return aktualny stan przejścia
      */
     private boolean checkTranistionIsActive(Transition t) {
-        for (Place place : getPredecessorsPlace(t)) {
+        Collection<Place> predecessors = getPredecessorsPlace(t);
+        for (Place place : predecessors) {
             Arc connectingEdge = this.findEdge(place, t);
             if (place.getResources() < connectingEdge.getValue()) {
+                //t.setActive(false);
                 return false;
             }
         }
         for (Place place : this.getSuccessorsPlace(t)) {
             Arc connectingEdge = this.findEdge(t, place);
-
-            if (((Place) place).getCapacity() != -1 && ((Place) place).getCapacity() < ((Place) place).getResources() + connectingEdge.getValue()) {
-                t.setActive(false);
+            int takenResources = 0;
+            if (predecessors.contains(place)) {
+                takenResources = this.findEdge(place, t).getValue();
+            }
+            if (((Place) place).getCapacity() != -1 && ((Place) place).getCapacity() < ((Place) place).getResources() + connectingEdge.getValue() - takenResources) {
+                //t.setActive(false);
                 return false;
             }
         }
+        //t.setActive(true);
         return true;
     }
 
@@ -248,22 +252,8 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
      */
     public int[][] getNplus() {
         Object[] placearray = placeSet.toArray();
-//        //nie najlepszy sposób na sortowanie, wypadałoby te komparatory ogarnąć w źródłowych klasach
-//        Arrays.sort(placearray, new Comparator<Object>() {
-//            @Override
-//            public int compare(Object p1, Object p2) {
-//                return Integer.compare(((Place)p1).id, ((Place)p2).id);
-//            }
-//        });
         Arrays.sort(placearray);
         Object[] transitionarray = transitionSet.toArray();
-//        //nie najlepszy sposób na sortowanie, wypadałoby te komparatory ogarnąć w źródłowych klasach
-//        Arrays.sort(transitionarray, new Comparator<Object>() {
-//            @Override
-//            public int compare(Object p1, Object p2) {
-//                return Integer.compare(((Transition)p1).id, ((Transition)p2).id);
-//            }
-//        });
         Arrays.sort(transitionarray);
         int[][] nplus = new int[placeSet.size()][transitionSet.size()];
 
