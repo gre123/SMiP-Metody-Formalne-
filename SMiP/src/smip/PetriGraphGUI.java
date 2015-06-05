@@ -48,10 +48,12 @@ import mouse.MousePlugin.SimulateGraphMousePlugin;
 import mouse.PopupMenu.MyMouseMenus.EdgeMenu;
 import mouse.PopupMenu.MyMouseMenus.VertexMenu;
 import mouse.PopupMenu.PopupVertexEdgeMenuMousePlugin;
+import mouse.PopupMenu.VertexPropertyDialog;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.TransformerUtils;
 import painter.BoundednessLabeller;
 import painter.TransitionAlivenessColorPainter;
+import smip.views.BoundaryWeightsForm;
 import smip.views.ShowGraph;
 
 /**
@@ -163,6 +165,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         lblReversibility = new javax.swing.JLabel();
         lblL1Liveness = new javax.swing.JLabel();
         lblL4Liveness = new javax.swing.JLabel();
+        btnWeightedConservation = new javax.swing.JButton();
         pnlSimulation = new javax.swing.JPanel();
         chkIsSelectionByUser = new javax.swing.JCheckBox();
         lblDelayVal = new javax.swing.JLabel();
@@ -290,6 +293,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         lblL4Liveness.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblL4Liveness.setText("-");
 
+        btnWeightedConservation.setText("Ważona zachowawczość");
+        btnWeightedConservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWeightedConservationActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlActionsLayout = new javax.swing.GroupLayout(pnlActions);
         pnlActions.setLayout(pnlActionsLayout);
         pnlActionsLayout.setHorizontalGroup(
@@ -322,12 +332,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblL4Liveness))
                     .addGroup(pnlActionsLayout.createSequentialGroup()
-                        .addComponent(chkRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(pnlActionsLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblConservation)))
+                        .addComponent(lblConservation))
+                    .addGroup(pnlActionsLayout.createSequentialGroup()
+                        .addComponent(chkRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnWeightedConservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlActionsLayout.setVerticalGroup(
@@ -359,15 +370,17 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(lblL4Liveness))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
                 .addComponent(btnReachabilityGraph)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCoverabilityGraph)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tgbtnBoundednessPlaces)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnWeightedConservation)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tgbtnL1TransitionsLiveness)
-                .addGap(29, 29, 29))
+                .addGap(25, 25, 25))
         );
 
         jTabbedPane1.addTab("Właściwości", pnlActions);
@@ -670,6 +683,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         tbnSimulate.setEnabled(!doWeBlock);
         tbnStep.setEnabled(!doWeBlock);
         tgbtnL1TransitionsLiveness.setEnabled(!doWeBlock);
+        btnWeightedConservation.setEnabled(!doWeBlock);
     }
 
     private void drawTables() {
@@ -982,6 +996,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_mitPokryciaActionPerformed
 
+<<<<<<< HEAD
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         vv.setGraphLayout(new StaticLayout(graph));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -1005,6 +1020,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         vv.setGraphLayout(new DAGLayout(graph));
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+=======
+    private void btnWeightedConservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWeightedConservationActionPerformed
+        BoundaryWeightsForm dialog = new BoundaryWeightsForm(this, graph.getPlaceSet(), graph);
+        dialog.setLocation(btnWeightedConservation.getLocationOnScreen());
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnWeightedConservationActionPerformed
+>>>>>>> origin/infrefactor
 
     /**
      * @param args the command line arguments
@@ -1044,6 +1066,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCoverabilityGraph;
     private javax.swing.JButton btnReachabilityGraph;
+    private javax.swing.JButton btnWeightedConservation;
     private javax.swing.JCheckBox chkIsSelectionByUser;
     private javax.swing.JCheckBox chkRefresh;
     private javax.swing.JMenu elmAbout;

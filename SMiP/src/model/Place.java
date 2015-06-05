@@ -13,13 +13,13 @@ public class Place extends MyVertex {
     public Place(int id) {
         super(id, "Place");
         resources = 0;
-        capacity = Integer.MAX_VALUE;
+        capacity = -1;
     }
 
     public Place(int id, String desc) {
         super(id, desc);
         resources = 0;
-        capacity = Integer.MAX_VALUE;
+        capacity = -1;
     }
 
     public int getResources() {
@@ -30,29 +30,43 @@ public class Place extends MyVertex {
         if (resources >= 0) {
             this.resources = resources;
         } else {
-            throw new IllegalArgumentException("nie można ustawić ujemnej ilości znaczników");
+            System.out.println("Ustawiam max zasobów w " + this.toString());
+            this.resources = -1;
+            //throw new IllegalArgumentException("nie można ustawić ujemnej ilości znaczników");
         }
     }
 
     public void incResources() {
-        if (resources + 1 <= capacity) {
+        if (resources == -1){
+            return;
+        }
+        if (capacity==-1 || resources + 1 <= capacity) {
             resources++;
         }
     }
 
     public void incResources(int value) {
-        if (resources + value <= capacity) {
+        if (resources == -1){
+            return;
+        }
+        if (capacity==-1 || resources + value <= capacity) {
             resources += value;
         }
     }
 
     public void decResources() {
+        if (resources == -1){
+            return;
+        }
         if (resources > 0) {
             resources--;
         }
     }
 
     public void decResources(int value) {
+        if (resources == -1){
+            return;
+        }
         if (resources - value >= 0) {
             resources -= value;
         }
@@ -63,10 +77,11 @@ public class Place extends MyVertex {
     }
 
     public void setCapacity(int capacity) {
-        if (capacity >= 0) {
+        if (capacity >= 1) {
             this.capacity = capacity;
         } else {
-            throw new IllegalArgumentException("nie można ustawić ujemnej pojemności");
+            System.out.println("Ustawiam nieskończoną pojemność dla" + this.toString());
+            this.capacity = -1;
         }
     }
 
@@ -78,6 +93,7 @@ public class Place extends MyVertex {
         this.boundary = boundedness;
     }
 
+    @Override
     public String toString() {
         return "P" + id + ":" + resources;
     }

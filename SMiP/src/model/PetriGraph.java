@@ -101,41 +101,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return v.getClass();
     }
 
-//    /**
-//     * Adds a single vertex to the graph in the specified partition.
-//     * NIE UŻYWAĆ PÓKI CO,
-//     * to będzie konwerter MyVertex do klasy zadanej w drugim parametrze
-//     * o ile będzie taka funkcja do czegoś potrzebna.
-//     * 
-//     * @param v	the vertex to be added to the class
-//     * @param choice	the class to which the vertex should be added
-//     * @return the input vertex
-//     */
-//    public MyVertex addVertex(MyVertex v, Choice choice) {
-//        String exists = "Specified partition already contains vertex ";
-//        String dup = "Another partition already contains vertex ";
-//        if (choice == CLASSA) {
-//            if (placeSet.contains(v)) {
-//                throw new IllegalArgumentException(exists + v);
-//            }
-//            if (transitionSet.contains(v)) {
-//                throw new IllegalArgumentException(dup + v);
-//            }
-//            placeSet.add(v);
-//        } else if (choice == CLASSB) {
-//            if (transitionSet.contains(v)) {
-//                throw new IllegalArgumentException(exists + v);
-//            }
-//            if (placeSet.contains(v)) {
-//                throw new IllegalArgumentException(dup + v);
-//            }
-//            transitionSet.add(v);
-//        } else {
-//            throw new IllegalArgumentException("Invalid partition specification for vertex " + v + ": " + choice);
-//        }
-//        super.addVertex(v);
-//        return v;
-//    }
     /**
      * Adds a BipartiteEdge to the Graph. Checks if it is not connecting
      * vertices of the same partition
@@ -225,9 +190,16 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
                 return false;
             }
         }
+<<<<<<< HEAD
         for (Place place : this.getSuccessorsPlace(t)) {
             Arc connectingEdge = this.findEdge(t, place);
             if (place.getCapacity() < place.getResources() + connectingEdge.getValue()) {
+=======
+        for (Object place : this.getSuccessors(t)) {
+            Arc connectingEdge = this.findEdge(t, (Place) place);
+            if (((Place) place).getCapacity() != -1 && ((Place) place).getCapacity() < ((Place) place).getResources() + connectingEdge.getValue()) {
+                t.setActive(false);
+>>>>>>> origin/infrefactor
                 return false;
             }
         }
@@ -462,7 +434,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         rg.addVertex(baseMarking);
         int count = 0;
-        while (!transitionsToCheck.isEmpty() && count < 300) {
+        while (!transitionsToCheck.isEmpty() && count < 100) {
             ArrayList<Place> infPlaces = new ArrayList<>();
             Map.Entry<Map<Place, Integer>, Transition> entry = transitionsToCheck.poll();
             for (Entry<Place, Integer> m : entry.getKey().entrySet()) {
@@ -509,21 +481,21 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         cg.addVertex(baseMarking);
         int count = 0;
-        while (!transitionsToCheck.isEmpty() && count < 300) {
-            ArrayList<Place> infPlaces = new ArrayList<>();
+        while (!transitionsToCheck.isEmpty() /*&& count < 100*/) {
+//            ArrayList<Place> infPlaces = new ArrayList<>();
             Map.Entry<Map<Place, Integer>, Transition> entry = transitionsToCheck.poll();
-            for (Entry<Place, Integer> m : entry.getKey().entrySet()) {
-                if (m.getValue().equals(-1)) {
-                    infPlaces.add(m.getKey());
-                }
-            }
-            this.setMarkingInf(entry.getKey());
+//            for (Entry<Place, Integer> m : entry.getKey().entrySet()) {
+//                if (m.getValue().equals(-1)) {
+//                    infPlaces.add(m.getKey());
+//                }
+//            }
+            this.setMarking(entry.getKey());
             this.executeTransition(entry.getValue());
             Map<Place, Integer> currentMarking = this.getMarking();
 
-            for (Place p : infPlaces) {
-                currentMarking.put(p, -1);
-            }
+//            for (Place p : infPlaces) {
+//                currentMarking.put(p, -1);
+//            }
             if (!cg.containsVertex(currentMarking)) {
                 for (Map<Place, Integer> znakowanie : cg.getVertices()) {
                     isMore(currentMarking, znakowanie);
@@ -537,7 +509,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
             if (!PetriGraph.isTransitionInSetById(cg.findEdgeSet(entry.getKey(), currentMarking), entry.getValue())) {
                 cg.addEdge(new Transition(entry.getValue().id), entry.getKey(), currentMarking);
             }
-            infPlaces.clear();
+//            infPlaces.clear();
             count++;
         }
         this.setMarking(baseMarking);
@@ -629,17 +601,25 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
 
         int konserwa = 0;
         for (Place place : this.placeSet) {
+            if (place.resources == -1 && weights.get(place) != 0) {
+                System.out.println("Graf pokrycia jest nieskończony, sieć nie jest zachowawcza");
+                return false;
+            }
             konserwa += weights.get(place) * place.resources;
         }
 
         Collection<Map<Place, Integer>> markings = getCoverabilityGraph().getVertices();
         for (Map<Place, Integer> marking : markings) {
-            if (marking.containsValue(-1)) {
-                System.out.println("Graf pokrycia jest nieskończony, sieć nie jest zachowawcza");
-                return false;
-            }
+//            if (marking.containsValue(-1)) {
+//                System.out.println("Graf pokrycia jest nieskończony, sieć nie jest zachowawcza");
+//                return false;
+//            }
             int sum = 0;
             for (Place place : this.placeSet) {
+                if (marking.get(place) == -1 && weights.get(place) != 0) {
+                    System.out.println("Graf pokrycia jest nieskończony, sieć nie jest zachowawcza");
+                    return false;
+                }
                 sum += weights.get(place) * marking.get(place);
             }
             if (sum != konserwa) {
