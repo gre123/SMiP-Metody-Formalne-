@@ -171,6 +171,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         sldDeley = new javax.swing.JSlider();
         spnSteps = new javax.swing.JSpinner();
         tbnStep = new javax.swing.JToggleButton();
+        jLabel8 = new javax.swing.JLabel();
+        lblTimeDiff = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         elmAbout = new javax.swing.JMenu();
         mitAuthors = new javax.swing.JMenuItem();
@@ -391,8 +393,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
         sldDeley.setMajorTickSpacing(200);
         sldDeley.setMaximum(1200);
-        sldDeley.setMinimum(100);
-        sldDeley.setMinorTickSpacing(100);
+        sldDeley.setMinimum(50);
+        sldDeley.setMinorTickSpacing(50);
         sldDeley.setPaintTicks(true);
         sldDeley.setSnapToTicks(true);
         sldDeley.setValue(1000);
@@ -418,6 +420,10 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setText("Czas przetwarzania kroku:");
+
+        lblTimeDiff.setText("0 ms");
+
         javax.swing.GroupLayout pnlSimulationLayout = new javax.swing.GroupLayout(pnlSimulation);
         pnlSimulation.setLayout(pnlSimulationLayout);
         pnlSimulationLayout.setHorizontalGroup(
@@ -442,12 +448,21 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                         .addGap(9, 9, 9))
                     .addGroup(pnlSimulationLayout.createSequentialGroup()
                         .addComponent(chkIsSelectionByUser)
-                        .addContainerGap(55, Short.MAX_VALUE))))
+                        .addContainerGap(55, Short.MAX_VALUE))
+                    .addGroup(pnlSimulationLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTimeDiff)
+                        .addContainerGap())))
         );
         pnlSimulationLayout.setVerticalGroup(
             pnlSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSimulationLayout.createSequentialGroup()
-                .addContainerGap(273, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(pnlSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(lblTimeDiff))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
                 .addComponent(chkIsSelectionByUser)
                 .addGap(18, 18, 18)
                 .addGroup(pnlSimulationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -834,6 +849,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         button.setEnabled(true);
         simulationPetriGraph.setTransitionPerStep(param);
         simulationPetriGraph.setButton(button);
+        simulationPetriGraph.setLblTimeDiff(lblTimeDiff);
         if (!chkIsSelectionByUser.isSelected()) {
             simulationThread = new Thread(simulationPetriGraph);
             simulationThread.start();
@@ -1039,6 +1055,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -1054,6 +1071,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblL1Liveness;
     private javax.swing.JLabel lblL4Liveness;
     private javax.swing.JLabel lblReversibility;
+    private javax.swing.JLabel lblTimeDiff;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mitAuthors;
     private javax.swing.JMenuItem mitClearNet;

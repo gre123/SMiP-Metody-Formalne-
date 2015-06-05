@@ -485,7 +485,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
@@ -512,6 +512,12 @@
                               <Component id="chkIsSelectionByUser" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="55" max="32767" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="lblTimeDiff" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -519,7 +525,12 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="273" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblTimeDiff" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="248" max="32767" attributes="0"/>
                       <Component id="chkIsSelectionByUser" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -572,8 +583,8 @@
               <Properties>
                 <Property name="majorTickSpacing" type="int" value="200"/>
                 <Property name="maximum" type="int" value="1200"/>
-                <Property name="minimum" type="int" value="100"/>
-                <Property name="minorTickSpacing" type="int" value="100"/>
+                <Property name="minimum" type="int" value="50"/>
+                <Property name="minorTickSpacing" type="int" value="50"/>
                 <Property name="paintTicks" type="boolean" value="true"/>
                 <Property name="snapToTicks" type="boolean" value="true"/>
                 <Property name="value" type="int" value="1000"/>
@@ -603,6 +614,16 @@
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="tbnStepStateChanged"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tbnStepActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Czas przetwarzania kroku:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblTimeDiff">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="0 ms"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

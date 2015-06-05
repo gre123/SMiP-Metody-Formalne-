@@ -15,14 +15,13 @@ public class MyVertexShapePainter implements Transformer<MyVertex, Shape> {
     public Shape transform(MyVertex v) {
         int radius = 15;
         if (v.getClass() == Place.class) {
-
             Area shape = new Area(new Ellipse2D.Float(-radius, -radius, radius * 2, radius * 2));
 
-            if (((Place) v).getResources() != 0) {
                 float limit = 4;
                 float currentradius = 2;
                 int j = 0;
-                for (int i = 0; i < ((Place) v).getResources(); i++) {
+                int resourcesSize=((Place) v).getResources();
+                for (int i = 0; i < resourcesSize; i++) {
                     float angle = (float) (((limit - j) / limit) * Math.PI * 2);
 
                     double x = Math.cos(angle) * (currentradius);
@@ -36,7 +35,7 @@ public class MyVertexShapePainter implements Transformer<MyVertex, Shape> {
                         j++;
                     }
                 }
-            }
+
             return shape;
         } else if (v.getClass() == Transition.class) {
             return new Area(new Rectangle(-radius/2, -radius, radius, radius*2));
