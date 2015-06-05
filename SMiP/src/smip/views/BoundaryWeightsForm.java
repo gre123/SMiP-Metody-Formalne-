@@ -69,7 +69,7 @@ public class BoundaryWeightsForm extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setPreferredSize(new java.awt.Dimension(100, 150));
+        jTable1.setPreferredSize(jTable1.getPreferredScrollableViewportSize());
         jScrollPane1.setViewportView(jTable1);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
