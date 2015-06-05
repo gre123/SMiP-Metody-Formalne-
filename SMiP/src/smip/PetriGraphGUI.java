@@ -896,7 +896,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         if (this.tgbtnL1TransitionsLiveness.isSelected()) {
             blockOptions(true);
             tgbtnL1TransitionsLiveness.setEnabled(true);
-            graph.calculateAndSetGraphL1Liveness();
+            graph.calculateAndSetTransitionsL1Liveness();
             vv.getRenderContext().setVertexFillPaintTransformer(new TransitionAlivenessColorPainter());
             vv.repaint();
         } else {

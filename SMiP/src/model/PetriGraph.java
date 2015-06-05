@@ -741,8 +741,30 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         return true;
     }
+    
+    /**
+     * pomocnicza funkcja do liczenia L4-żywotności
+     * @param marking znakowanie wyjściowe
+     * @return 
+     */
+    public boolean getGraphL1Liveness(Map<Place, Integer> marking) {
+        Map<Place, Integer> currentmarking = this.getMarking();
+        this.setMarking(marking);
+        DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
+        Set<Transition> transitions = this.transitionSet;
+        for (Transition transition : transitions) {
+            //tak się nie da bo w grafie pokrycia są nowe obiekty
+            //if (!cg.getEdges().contains(transition)) {
+            if (!PetriGraph.isTransitionInSetById(cg.getEdges(), transition)) {
+                this.setMarking(currentmarking);
+                return false;
+            }
+        }
+        this.setMarking(currentmarking);
+        return true;
+    }
 
-    public void calculateAndSetGraphL1Liveness() {
+    public void calculateAndSetTransitionsL1Liveness() {
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Set<Transition> transitions = this.transitionSet;
         for (Transition transition : transitions) {
@@ -757,25 +779,18 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     }
 
     /**
-     * L4 żywotność (czyli pełna żywotność) - dla każdego przejścia zawsze (z
-     * każdego osiągalnego znakowania) da się wykonać to przejście czyli w
-     * grafie pokrycia z każdego znakowania wychodzą wszystkie przejścia
+     * L4 żywotność (czyli pełna żywotność) - Przejście t nazywamy żywym (L4-żywym), jeżeli t jest potencjalnie wykonalne dla każdego znakowania M ∈ R(M0) (zbiór znakowań osiągalnych ze znakowania początkowego).
      *
-     * @return L4 żywotnosc
+     * @return żywotnosc = L4 żywotnosc
      */
     public boolean getGraphL4Liveness() {
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Set<Transition> transitions = this.transitionSet;
         for (Map<Place, Integer> marking : cg.getVertices()) {
-            for (Transition transition : transitions) {
-                //tak się nie da bo w grafie pokrycia są nowe obiekty
-                //if (!cg.getOutEdges(marking).contains(transition)) {
-                if (!PetriGraph.isTransitionInSetById(cg.getOutEdges(marking), transition)) {
-                    return false;
-                }
+            if (!this.getGraphL1Liveness(marking)){
+                return false;
             }
         }
-
         return true;
     }
 }
