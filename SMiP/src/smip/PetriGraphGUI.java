@@ -751,7 +751,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 for (Object v : vv.getGraphLayout().getGraph().getVertices()) {
                     Object o = vv.getGraphLayout().transform(v);
                     for (MyVertex vg : graph.getAllVertices()) {
-                        if (((MyVertex) v).compareTo(vg)==0 &&v.getClass().equals(vg.getClass())) {
+                        if (((MyVertex) v).compareTo(vg) == 0 && v.getClass().equals(vg.getClass())) {
                             vg.setX(((Point2D) o).getX());
                             vg.setY(((Point2D) o).getY());
                         }
@@ -868,7 +868,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             simulationThread = new Thread(simulationPetriGraph);
             simulationThread.start();
         } else {
-            simulateGraphMousePlugin=new SimulateGraphMousePlugin(graph);
+            simulateGraphMousePlugin = new SimulateGraphMousePlugin(graph);
             PluggableGraphMouse simulationGraphMouse = new PluggableGraphMouse();
             simulationGraphMouse.add(simulateGraphMousePlugin);
             vv.setGraphMouse(simulationGraphMouse);
@@ -996,7 +996,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_mitPokryciaActionPerformed
 
-<<<<<<< HEAD
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         vv.setGraphLayout(new StaticLayout(graph));
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -1020,13 +1019,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         vv.setGraphLayout(new DAGLayout(graph));
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-=======
+
     private void btnWeightedConservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWeightedConservationActionPerformed
         BoundaryWeightsForm dialog = new BoundaryWeightsForm(this, graph.getPlaceSet(), graph);
         dialog.setLocation(btnWeightedConservation.getLocationOnScreen());
         dialog.setVisible(true);
     }//GEN-LAST:event_btnWeightedConservationActionPerformed
->>>>>>> origin/infrefactor
 
     /**
      * @param args the command line arguments

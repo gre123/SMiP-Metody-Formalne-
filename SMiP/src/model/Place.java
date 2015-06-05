@@ -30,32 +30,31 @@ public class Place extends MyVertex {
         if (resources >= 0) {
             this.resources = resources;
         } else {
-            System.out.println("Ustawiam max zasobów w " + this.toString());
             this.resources = -1;
             //throw new IllegalArgumentException("nie można ustawić ujemnej ilości znaczników");
         }
     }
 
     public void incResources() {
-        if (resources == -1){
+        if (resources == -1) {
             return;
         }
-        if (capacity==-1 || resources + 1 <= capacity) {
+        if (capacity == -1 || resources + 1 <= capacity) {
             resources++;
         }
     }
 
     public void incResources(int value) {
-        if (resources == -1){
+        if (resources == -1) {
             return;
         }
-        if (capacity==-1 || resources + value <= capacity) {
+        if (capacity == -1 || resources + value <= capacity) {
             resources += value;
         }
     }
 
     public void decResources() {
-        if (resources == -1){
+        if (resources == -1) {
             return;
         }
         if (resources > 0) {
@@ -64,7 +63,7 @@ public class Place extends MyVertex {
     }
 
     public void decResources(int value) {
-        if (resources == -1){
+        if (resources == -1) {
             return;
         }
         if (resources - value >= 0) {

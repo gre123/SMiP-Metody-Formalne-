@@ -190,16 +190,11 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
                 return false;
             }
         }
-<<<<<<< HEAD
         for (Place place : this.getSuccessorsPlace(t)) {
             Arc connectingEdge = this.findEdge(t, place);
-            if (place.getCapacity() < place.getResources() + connectingEdge.getValue()) {
-=======
-        for (Object place : this.getSuccessors(t)) {
-            Arc connectingEdge = this.findEdge(t, (Place) place);
+
             if (((Place) place).getCapacity() != -1 && ((Place) place).getCapacity() < ((Place) place).getResources() + connectingEdge.getValue()) {
                 t.setActive(false);
->>>>>>> origin/infrefactor
                 return false;
             }
         }
@@ -721,11 +716,12 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
         return true;
     }
-    
+
     /**
      * pomocnicza funkcja do liczenia L4-żywotności
+     *
      * @param marking znakowanie wyjściowe
-     * @return 
+     * @return
      */
     public boolean getGraphL1Liveness(Map<Place, Integer> marking) {
         Map<Place, Integer> currentmarking = this.getMarking();
@@ -759,7 +755,9 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     }
 
     /**
-     * L4 żywotność (czyli pełna żywotność) - Przejście t nazywamy żywym (L4-żywym), jeżeli t jest potencjalnie wykonalne dla każdego znakowania M ∈ R(M0) (zbiór znakowań osiągalnych ze znakowania początkowego).
+     * L4 żywotność (czyli pełna żywotność) - Przejście t nazywamy żywym
+     * (L4-żywym), jeżeli t jest potencjalnie wykonalne dla każdego znakowania M
+     * ∈ R(M0) (zbiór znakowań osiągalnych ze znakowania początkowego).
      *
      * @return żywotnosc = L4 żywotnosc
      */
@@ -767,7 +765,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Set<Transition> transitions = this.transitionSet;
         for (Map<Place, Integer> marking : cg.getVertices()) {
-            if (!this.getGraphL1Liveness(marking)){
+            if (!this.getGraphL1Liveness(marking)) {
                 return false;
             }
         }
