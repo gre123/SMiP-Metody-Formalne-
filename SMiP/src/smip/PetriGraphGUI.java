@@ -11,6 +11,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import edu.uci.ics.jung.visualization.renderers.BasicEdgeLabelRenderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
 import model.Arc;
@@ -50,12 +51,13 @@ import mouse.PopupMenu.PopupVertexEdgeMenuMousePlugin;
 import org.apache.commons.collections15.Transformer;
 import painter.BoundednessLabeller;
 import painter.MyVertexSimpleShapePainter;
+import painter.NullTransformer;
 import painter.TransitionAlivenessColorPainter;
 import smip.views.BoundaryWeightsForm;
 import smip.views.ShowGraph;
 
 public class PetriGraphGUI extends javax.swing.JFrame {
-
+    
     public static PetriGraph graph;
     Factory<MyVertex> vertexFactory;
     Factory<Arc> edgeFactory;
@@ -68,7 +70,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     RunnableSimulationPetriGraph simulationPetriGraph;
     EditingModalGraphMouse2 gm;
     Properties properties;
-
+    
     private SimulateGraphMousePlugin simulateGraphMousePlugin;
 
     /**
@@ -82,12 +84,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         vCheck = new MyVertexChecker();
         eCheck = new ArcChecker();
         properties = new Properties(graph);
-
+        
         setProperties();
         Layout<MyVertex, Arc> layout = new StaticLayout(graph);
-
+        
         layout.setSize(this.pnlGraph.getSize());
-
+        
         vv = new VisualizationViewer<>(layout);
         vv.setPreferredSize(this.pnlGraph.getSize());
         // Show vertex and edge labels
@@ -101,14 +103,14 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         EditingCheckingGraphMousePlugin plugin = new EditingCheckingGraphMousePlugin(vertexFactory,
                 edgeFactory);
         plugin.setProperites(properties);
-
+        
         gm = new EditingModalGraphMouse2(vv.getRenderContext(), vertexFactory, edgeFactory);
-
+        
         gm.remove(gm.getEditingPlugin());
         plugin.setVertexChecker(vCheck);
         plugin.setEdgeChecker(eCheck);
         gm.setEditingPlugin(plugin);
-
+        
         PopupVertexEdgeMenuMousePlugin myPlugin = new PopupVertexEdgeMenuMousePlugin();
         JPopupMenu edgeMenu = new EdgeMenu();
         JPopupMenu vertexMenu = new VertexMenu(this);
@@ -118,13 +120,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         gm.add(myPlugin);   // Add our new plugin to the mouse
 
         vv.setGraphMouse(gm);
-
+        
         createMenu(gm);
         gm.setMode(ModalGraphMouse.Mode.EDITING);
         simulationPetriGraph = new RunnableSimulationPetriGraph(graph, vv);
         simulationPetriGraph.setProperties(properties);
         vv.setBackground(new java.awt.Color(204, 255, 255));
-
+        
         pnlGraph.add(vv);
         pnlGraph.validate();
         pnlGraph.repaint();
@@ -160,6 +162,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         lblL1Liveness = new javax.swing.JLabel();
         lblL4Liveness = new javax.swing.JLabel();
         btnWeightedConservation = new javax.swing.JButton();
+        jCheckBoxVertexLabel = new javax.swing.JCheckBox();
+        jCheckBoxEdgeLabel = new javax.swing.JCheckBox();
         pnlSimulation = new javax.swing.JPanel();
         chkIsSelectionByUser = new javax.swing.JCheckBox();
         lblDelayVal = new javax.swing.JLabel();
@@ -294,6 +298,32 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
+        jCheckBoxVertexLabel.setSelected(true);
+        jCheckBoxVertexLabel.setText("etykiety wierzchołków");
+        jCheckBoxVertexLabel.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBoxVertexLabelStateChanged(evt);
+            }
+        });
+        jCheckBoxVertexLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxVertexLabelActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxEdgeLabel.setSelected(true);
+        jCheckBoxEdgeLabel.setText("etykiety łuków");
+        jCheckBoxEdgeLabel.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBoxEdgeLabelStateChanged(evt);
+            }
+        });
+        jCheckBoxEdgeLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxEdgeLabelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlActionsLayout = new javax.swing.GroupLayout(pnlActions);
         pnlActions.setLayout(pnlActionsLayout);
         pnlActionsLayout.setHorizontalGroup(
@@ -329,10 +359,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblConservation))
+                    .addComponent(btnWeightedConservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlActionsLayout.createSequentialGroup()
-                        .addComponent(chkRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnWeightedConservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBoxEdgeLabel)
+                            .addComponent(jCheckBoxVertexLabel)
+                            .addComponent(chkRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlActionsLayout.setVerticalGroup(
@@ -364,7 +397,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(lblL4Liveness))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBoxVertexLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBoxEdgeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(btnReachabilityGraph)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCoverabilityGraph)
@@ -658,7 +695,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         properties.setLblReversibility(lblReversibility);
         properties.setMatrixForm(matrixForm);
     }
-
+    
     private void createMenu(EditingModalGraphMouse2 gm) {
         JMenu modeMenu = gm.getModeMenu();
         modeMenu.setText("Mouse Mode");
@@ -666,7 +703,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         modeMenu.setPreferredSize(new Dimension(80, 20));
         menuBar.add(modeMenu);
     }
-
+    
     private void blockOptions(boolean doWeBlock) {
         btnReachabilityGraph.setEnabled(!doWeBlock);
         btnCoverabilityGraph.setEnabled(!doWeBlock);
@@ -679,12 +716,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         tgbtnL1TransitionsLiveness.setEnabled(!doWeBlock);
         btnWeightedConservation.setEnabled(!doWeBlock);
     }
-
+    
     private void drawTables() {
         if (matrixForm == null) {
             matrixForm = new MatrixForm();
             matrixForm.setTitle("Reprezentacja macierzowa");
-
+            
         }
         Point location = this.getLocation();
         location.x = location.x + this.getSize().width;
@@ -697,9 +734,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         matrixForm.drawInc(graph.getNincidence(), graph.getTransitionSet(), graph.getPlaceSet());
         matrixForm.drawNplus(graph.getNplus(), graph.getTransitionSet(), graph.getPlaceSet());
         matrixForm.drawNminus(graph.getNminus(), graph.getTransitionSet(), graph.getPlaceSet());
-
+        
     }
-
+    
 
     private void tbnSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnSimulateActionPerformed
         if (tbnSimulate.isSelected()) {
@@ -710,7 +747,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_tbnSimulateActionPerformed
 
     private void mitAuthorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitAuthorsActionPerformed
-
+        
         JDialog authors = new JDialog(this, "Autorzy");
         authors.setSize(200, 100);
         JTextArea engineers = new JTextArea("pan inżynier Elpidiusz Wszołek \n"
@@ -726,19 +763,19 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void mitSaveNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSaveNetActionPerformed
         JFrame parentFrame = new JFrame();
-
+        
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Wybierz gdzie zapisać");
         fileChooser.setSelectedFile(new File("PetriNet.pn"));
-
+        
         int userSelection = fileChooser.showSaveDialog(parentFrame);
-
+        
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
             System.out.println("Save as file: " + fileToSave.getAbsolutePath());
             FileOutputStream fos = null;
             ObjectOutputStream oos = null;
-
+            
             try {
                 fos = new FileOutputStream(fileToSave);
                 oos = new ObjectOutputStream(fos);
@@ -749,7 +786,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                             vg.setX(((Point2D) o).getX());
                             vg.setY(((Point2D) o).getY());
                         }
-
+                        
                     }
                 }
                 oos.writeObject(graph); //serializacja obiektu
@@ -776,12 +813,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void mitLoadNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitLoadNetActionPerformed
         JFrame parentFrame = new JFrame();
-
+        
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Wybierz skąd wczytać plik");
-
+        
         int userSelection = fileChooser.showOpenDialog(parentFrame);
-
+        
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToOpen = fileChooser.getSelectedFile();
             System.out.println("Read from file: " + fileToOpen.getAbsolutePath());
@@ -819,22 +856,22 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         lblDelayVal.setText(Integer.toString(sldDeley.getValue()) + " ms");
         simulationPetriGraph.setDelay(sldDeley.getValue());
     }//GEN-LAST:event_sldDeleyStateChanged
-
+    
     private void drawRechabilityGrap() {
         if (reachabilityGraphForm == null) {
-
+            
         } else {
             reachabilityGraphForm.setVisible(false);
             reachabilityGraphForm.dispose();
         }
-
+        
         reachabilityGraphForm = new ReachabilityGraphForm();
         reachabilityGraphForm.setTitle("Graf osiągalności");
-
+        
         Point location = this.getLocation();
         location.x = location.x + this.getSize().width;
         reachabilityGraphForm.setLocation(location);
-
+        
         reachabilityGraphForm.setVisible(true);
         reachabilityGraphForm.calculateReachabilityGraph(graph);
     }
@@ -851,7 +888,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         graph.clear();
         vv.repaint();
     }//GEN-LAST:event_mitClearNetActionPerformed
-
+    
     private void startSimulate(int param, JToggleButton button) {
         blockOptions(true);
         button.setEnabled(true);
@@ -868,10 +905,10 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             vv.setGraphMouse(simulationGraphMouse);
         }
     }
-
+    
     private void stopSimulate() {
         blockOptions(false);
-
+        
         if (!chkIsSelectionByUser.isSelected()) {
             simulationThread.interrupt();
         } else {
@@ -930,6 +967,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         } else {
             blockOptions(false);
             vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+            this.jCheckBoxVertexLabel.setSelected(true);
             vv.getRenderContext().setVertexShapeTransformer(new MyVertexShapePainter());
             vv.getRenderer().getVertexLabelRenderer().setPosition(Position.AUTO);
             vv.repaint();
@@ -1022,6 +1060,34 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnWeightedConservationActionPerformed
 
+    private void jCheckBoxVertexLabelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBoxVertexLabelStateChanged
+
+    }//GEN-LAST:event_jCheckBoxVertexLabelStateChanged
+
+    private void jCheckBoxEdgeLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxEdgeLabelActionPerformed
+        if (jCheckBoxEdgeLabel.isSelected()) {
+            vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+            vv.repaint();
+        } else {
+            vv.getRenderContext().setEdgeLabelTransformer(new NullTransformer());
+            vv.repaint();
+        }
+    }//GEN-LAST:event_jCheckBoxEdgeLabelActionPerformed
+
+    private void jCheckBoxVertexLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxVertexLabelActionPerformed
+        if (jCheckBoxVertexLabel.isSelected()) {
+            vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+            vv.repaint();
+        } else {
+            vv.getRenderContext().setVertexLabelTransformer(new NullTransformer());
+            vv.repaint();
+        }
+    }//GEN-LAST:event_jCheckBoxVertexLabelActionPerformed
+
+    private void jCheckBoxEdgeLabelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBoxEdgeLabelStateChanged
+
+    }//GEN-LAST:event_jCheckBoxEdgeLabelStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -1066,6 +1132,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JMenu elmAbout;
     private javax.swing.JMenu elmNet;
     private javax.swing.JMenu elmViews;
+    private javax.swing.JCheckBox jCheckBoxEdgeLabel;
+    private javax.swing.JCheckBox jCheckBoxVertexLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
