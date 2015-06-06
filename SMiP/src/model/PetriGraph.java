@@ -26,6 +26,7 @@ import org.apache.commons.collections15.MultiMap;
  */
 public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Serializable {
 
+    private static final long serialVersionUID = -4313981474632231362L;
     private Set<Place> placeSet = new HashSet();
     private Set<Transition> transitionSet = new HashSet();
 

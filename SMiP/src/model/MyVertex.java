@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class MyVertex implements Comparable<MyVertex>, Serializable {
 
+    private static final long serialVersionUID = -4645028831063217456L;
     int id;
     String description;
     private double x;
