@@ -1,17 +1,17 @@
 package smip.views;
 
-import java.awt.Frame;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.PetriGraph;
 import model.Place;
 
-public class BoundaryWeightsForm extends javax.swing.JDialog {
+public class BoundaryWeightsForm extends javax.swing.JDialog implements FocusListener{
 
     PetriGraph graph;
 
@@ -43,8 +43,24 @@ public class BoundaryWeightsForm extends javax.swing.JDialog {
         jButtonOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
+        setModalityType(null);
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(200, 200));
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+                formWindowLostFocus(evt);
+            }
+        });
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                formFocusLost(evt);
+            }
+        });
+
+        jScrollPane1.setFocusable(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -96,9 +112,28 @@ public class BoundaryWeightsForm extends javax.swing.JDialog {
                 "Zachowawczość sieci", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButtonOKActionPerformed
 
+    private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowLostFocus
+
+    private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
+        dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formFocusLost
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonOK;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void focusGained(FocusEvent e) {
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        dispose();
+    }
 }
