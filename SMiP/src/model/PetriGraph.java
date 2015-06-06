@@ -409,7 +409,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
      *
      * @return graf pokrycia (if you are very lucky)
      */
-    public DirectedSparseGraph<Map<Place, Integer>, Transition> getCoverabilityGraphOld() {
+    public DirectedSparseGraph<Map<Place, Integer>, Transition> getCoverabilityGraphOldOld() {
         DirectedSparseGraph<Map<Place, Integer>, Transition> rg = new DirectedSparseGraph<>();
         Map<Place, Integer> baseMarking = this.getMarking();
         LinkedList<Map.Entry<Map<Place, Integer>, Transition>> transitionsToCheck = new java.util.LinkedList<>();
@@ -456,7 +456,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
      *
      * @return graf pokrycia (if you are very lucky)
      */
-    public DirectedSparseMultigraph<Map<Place, Integer>, Transition> getCoverabilityGraph() {
+    public DirectedSparseMultigraph<Map<Place, Integer>, Transition> getCoverabilityGraphOld() {
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = new DirectedSparseMultigraph<>();
         Map<Place, Integer> baseMarking = this.getMarking();
         LinkedList<Map.Entry<Map<Place, Integer>, Transition>> transitionsToCheck = new java.util.LinkedList<>();
@@ -502,6 +502,57 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     }
 
     /**
+     * Powinno działać poprawnie, tak ze dla ciasnych pętli w tej wersji powinny
+     * też działać ograniczenia miejsc
+     *
+     * @return graf pokrycia (if you are very lucky)
+     */
+    public DirectedSparseMultigraph<Map<Place, Integer>, Transition> getCoverabilityGraph() {
+        DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = new DirectedSparseMultigraph<>();
+        Map<Place, Integer> baseMarking = this.getMarking();
+        LinkedList<Map.Entry<Map<Place, Integer>, Transition>> transitionsToCheck = new java.util.LinkedList<>();
+
+        for (Transition t : this.getActiveTransitions()) {
+            transitionsToCheck.add(new SimpleEntry<>(baseMarking, t));
+        }
+        cg.addVertex(baseMarking);
+        int count = 0;
+        while (!transitionsToCheck.isEmpty() /*&& count < 100*/) {
+//            ArrayList<Place> infPlaces = new ArrayList<>();
+            Map.Entry<Map<Place, Integer>, Transition> entry = transitionsToCheck.poll();
+//            for (Entry<Place, Integer> m : entry.getKey().entrySet()) {
+//                if (m.getValue().equals(-1)) {
+//                    infPlaces.add(m.getKey());
+//                }
+//            }
+            this.setMarking(entry.getKey());
+            this.executeTransition(entry.getValue());
+            Map<Place, Integer> currentMarking = this.getMarking();
+
+//            for (Place p : infPlaces) {
+//                currentMarking.put(p, -1);
+//            }
+            if (!cg.containsVertex(currentMarking)) {
+                for (Map<Place, Integer> znakowanie : cg.getVertices()) {
+                    isMorev2(currentMarking, znakowanie);
+                }
+                cg.addVertex(currentMarking);
+                for (Transition t : this.getActiveTransitions()) {
+                    transitionsToCheck.add(new SimpleEntry<>(currentMarking, t));
+                }
+            }
+            //if (!cg.findEdgeSet(entry.getKey(), currentMarking).contains(entry.getValue())){
+            if (!PetriGraph.isTransitionInSetById(cg.findEdgeSet(entry.getKey(), currentMarking), entry.getValue())) {
+                cg.addEdge(new Transition(entry.getValue().id), entry.getKey(), currentMarking);
+            }
+//            infPlaces.clear();
+            count++;
+        }
+        this.setMarking(baseMarking);
+        return cg;
+    }
+
+    /**
      * funkcja do porównywania znakowań przy liczeniu grafu pokrycia ustawia -1
      * na większych miejscach jak trzeba
      *
@@ -526,6 +577,34 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         //skoro jest większe, to tam gdzie jest większe ustawia się inf (-1)
         for (Place p : m1.keySet()) {
             if (m1.get(p) > m2.get(p)) {
+                m1.put(p, -1);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * funkcja do porównywania znakowań przy liczeniu grafu pokrycia ustawia -1
+     * na większych miejscach jak trzeba ta wersja ma obsługiwać ograniczoność
+     * miejsc
+     *
+     * @return true if m1>m2
+     */
+    public static boolean isMorev2(Map<Place, Integer> m1, Map<Place, Integer> m2) {
+        if (!(m1.keySet().equals(m2.keySet()))) {
+            System.out.println("Zbiory miejsc nie są takie same, nie będzie z tego dzieci");
+            System.out.println("m1: " + m1.keySet().toString());
+            System.out.println("m2: " + m1.keySet().toString());
+            return false;
+        }
+        for (Place p : m1.keySet()) {
+            if ((!m1.get(p).equals(-1) || p.capacity != -1) && m1.get(p) < m2.get(p)) {
+                return false;
+            }
+        }
+        //skoro jest większe, to tam gdzie jest większe ustawia się inf (-1)
+        for (Place p : m1.keySet()) {
+            if ((p.capacity == -1) && (m1.get(p) > m2.get(p))) {
                 m1.put(p, -1);
             }
         }
