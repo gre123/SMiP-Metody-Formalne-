@@ -1,7 +1,6 @@
 package smip.views;
 
 import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
-import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -30,7 +29,9 @@ public class ShowGraph {
     public static <V, E> void showGraph(Graph<V, E> g, String windowName, int dimensionX, int dimensionY) {
         if (graphFrame == null) {
             graphFrame = new JFrame();
-            graphFrame.setLocation(location);
+            if (location != null) {
+                graphFrame.setLocation(location);
+            }
         }
 
         graphFrame.setAlwaysOnTop(true);
@@ -56,10 +57,12 @@ public class ShowGraph {
     public static <V, E> void showGraph(Graph<V, E> g, Transformer<V, String> vlt, String windowName, int dimensionX, int dimensionY) {
         if (graphFrame == null) {
             graphFrame = new JFrame();
-            graphFrame.setLocation(location);
+            if (location != null) {
+                graphFrame.setLocation(location);
+            }
         }
         graphFrame.setAlwaysOnTop(true);
-        Layout<V, E> layout = new KKLayout<>(g);
+        Layout<V, E> layout = new ISOMLayout<>(g);
         layout.setSize(new Dimension(dimensionX, dimensionY));
         VisualizationViewer<V, E> vv;
         vv = new VisualizationViewer<>(layout,
@@ -91,7 +94,9 @@ public class ShowGraph {
     public static <E> void showRCGraph(Graph<Map<Place, Integer>, E> g, Transformer<Map<Place, Integer>, String> vlt, String windowName, int dimensionX, int dimensionY) {
         if (graphFrame == null) {
             graphFrame = new JFrame();
-            graphFrame.setLocation(location);
+            if (location != null) {
+                graphFrame.setLocation(location);
+            }
         }
         graphFrame.setAlwaysOnTop(true);
         Layout<Map<Place, Integer>, E> layout = new ISOMLayout<>(g);

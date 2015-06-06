@@ -49,6 +49,7 @@ import mouse.PopupMenu.MyMouseMenus.VertexMenu;
 import mouse.PopupMenu.PopupVertexEdgeMenuMousePlugin;
 import org.apache.commons.collections15.Transformer;
 import painter.BoundednessLabeller;
+import painter.MyVertexSimpleShapePainter;
 import painter.TransitionAlivenessColorPainter;
 import smip.views.BoundaryWeightsForm;
 import smip.views.ShowGraph;
@@ -923,11 +924,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             tgbtnBoundednessPlaces.setEnabled(true);
             graph.calculateAndSetPlacesBoundedness();
             vv.getRenderContext().setVertexLabelTransformer(new BoundednessLabeller());
+            vv.getRenderContext().setVertexShapeTransformer(new MyVertexSimpleShapePainter());
             vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
             vv.repaint();
         } else {
             blockOptions(false);
             vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+            vv.getRenderContext().setVertexShapeTransformer(new MyVertexShapePainter());
             vv.getRenderer().getVertexLabelRenderer().setPosition(Position.AUTO);
             vv.repaint();
         }
