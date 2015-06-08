@@ -90,9 +90,6 @@ public class ReachabilityGraphCalculator {
         restoreResources(markers, places);
         graph.updateGraphTransitionStates();
 
-        //calculateLiveness(transitions);
-        // calculateConservation(markers);
-        // calculateSafeness();
     }
 
     private List<ReachabilityVertex> getVertexList(Transition[] transitions, int[] markers) {
@@ -144,7 +141,6 @@ public class ReachabilityGraphCalculator {
             }
         }
 
-        System.out.println("Żywotnośc sieci: " + liveness);
         return liveness;
     }
 

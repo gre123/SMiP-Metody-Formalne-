@@ -20,10 +20,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import org.apache.commons.collections15.MultiMap;
 
-/**
- * PetriGraph czyli skierowany graf dwudzielny, kod przerabiany z jakiejś starej
- * implementacji grafu dwudzielnego (BipartiteGraph) z junga 1.7
- */
 public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Serializable {
 
     private static final long serialVersionUID = -4313981474632231362L;
@@ -40,7 +36,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         transitionSet = new HashSet();
         vertices.clear();
         edges.clear();
-
     }
 
     public PetriGraph() {
@@ -50,8 +45,8 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     }
 
     public Collection<Place> getPredecessorsPlace(Transition t) {
-        Collection<Place> places = new ArrayList<>();
         Collection<MyVertex> vertexs = (Collection<MyVertex>) getPredecessors(t);
+        Collection<Place> places = new ArrayList<>(vertexs.size());
         for (MyVertex myVertex : vertexs) {
             places.add((Place) myVertex);
         }
@@ -59,20 +54,14 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     }
 
     public Collection<Place> getSuccessorsPlace(Transition t) {
-        Collection<Place> places = new ArrayList<>();
         Collection<MyVertex> vertexs = (Collection<MyVertex>) getSuccessors(t);
+        Collection<Place> places = new ArrayList<>(vertexs.size());
         for (MyVertex myVertex : vertexs) {
             places.add((Place) myVertex);
         }
         return places;
     }
 
-    /**
-     * Returns the set of all vertices from that class. All vertices in the
-     * return set will be of class specified in parameter.
-     *
-     * @param type type of vertex class you want
-     */
     public Collection<MyVertex> getAllVertices(Class type) {
         if (type == Place.class) {
             return Collections.unmodifiableSet(placeSet);
@@ -83,46 +72,20 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         }
     }
 
-    /**
-     * Returns the set of all vertices
-     *
-     */
     public Collection<MyVertex> getAllVertices() {
         return this.getVertices();
     }
 
-    /**
-     * Returns the partition for vertex v.
-     *
-     * @param v
-     */
     public Class getPartition(MyVertex v) {
         return v.getClass();
     }
 
-    /**
-     * Adds a BipartiteEdge to the Graph. Checks if it is not connecting
-     * vertices of the same partition
-     *
-     * @return the edge, now a member of the graph.
-     */
     public boolean addBipartiteEdge(Arc arc, MyVertex start, MyVertex end) {
-        //trochę naiwne sprawdzanie, gdyby ktoś wsadził więcej typów wierchołków to nie będzie działało
         if (start.getClass() != end.getClass()) {
         }
         return super.addEdge(arc, start, end, EdgeType.DIRECTED);
     }
 
-    /**
-     * właściwie do usunięcia, jeśli weryfikacja poprawności łączenia
-     * wierzchołków jest na poziomie edytora
-     *
-     * @param arc
-     * @param start
-     * @param end
-     * @param type
-     * @return
-     */
     @Override
     public boolean addEdge(Arc arc, MyVertex start, MyVertex end, EdgeType type) {
         if (type == EdgeType.UNDIRECTED) {
@@ -143,13 +106,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return super.addVertex(vertex);
     }
 
-    /**
-     * Adds all pairs (key, value) to the multimap from the initial set keySet.
-     * Nie wiem czy działa, skopiowane ze wzoru
-     *
-     * @param set
-     * @param hyperEdge
-     */
     private static void addAll(MultiMap mm, Set keyset, Object value) {
         for (Iterator iter = keyset.iterator(); iter.hasNext();) {
             Object key = iter.next();
@@ -167,58 +123,42 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return super.removeVertex(v);
     }
 
-    /**
-     * Funkcja uaktualniająca stan przejścia
-     *
-     * @param t Przejście do uaktualnienia
-     */
     public void updateTransitionState(Transition t) {
         t.setActive(checkTranistionIsActive(t));
     }
 
-    /**
-     * Funkcja sprawdzająca stan przejścia
-     *
-     * @param t Przejście do uaktualnienia
-     * @return aktualny stan przejścia
-     */
     private boolean checkTranistionIsActive(Transition t) {
-        Collection<Place> predecessors = getPredecessorsPlace(t);
-        for (Place place : predecessors) {
+        Collection<MyVertex> predecessors = getPredecessors(t);
+        for (MyVertex mv : predecessors) {
+            Place place = (Place) mv;
             Arc connectingEdge = this.findEdge(place, t);
             if (place.getResources() < connectingEdge.getValue()) {
-                //t.setActive(false);
                 return false;
             }
         }
-        for (Place place : this.getSuccessorsPlace(t)) {
+
+        for (MyVertex mv : this.getSuccessors(t)) {
+            Place place = (Place) mv;
             Arc connectingEdge = this.findEdge(t, place);
             int takenResources = 0;
-            if (predecessors.contains(place)) {
+            if (predecessors.contains(mv)) {
                 takenResources = this.findEdge(place, t).getValue();
             }
-            if (((Place) place).getCapacity() != -1 && ((Place) place).getCapacity() < ((Place) place).getResources() + connectingEdge.getValue() - takenResources) {
-                //t.setActive(false);
+            if (place.getCapacity() != -1 && place.getCapacity() < place.getResources() + connectingEdge.getValue() - takenResources) {
                 return false;
             }
         }
-        //t.setActive(true);
         return true;
     }
 
-    /**
-     * Funkcja uaktualniająca stany przejść całego grafu teraz już faktycznie
-     * całego
-     *
-     */
     public void updateGraphTransitionStates() {
-        for (Object transition : this.transitionSet) {
+        for (Object transition : transitionSet) {
             updateTransitionState((Transition) transition);
         }
     }
 
     public boolean isAllTransitonsAlive() {
-        for (Object transition : this.transitionSet) {
+        for (Object transition : transitionSet) {
             if (!checkTranistionIsActive((Transition) transition)) {
                 return false;
             }
@@ -236,21 +176,10 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return alive;
     }
 
-    /**
-     * Coś jak L4 żywotność: wszystkie przejścia są aktywne
-     *
-     * @return true jesli wszystkie przejscia sa aktywne
-     */
     public boolean dummyisGraphAlive() {
         return isAllTransitonsAlive();
     }
 
-    /**
-     * mało optymalna implementacja, można by zamiast przeglądać wszystkie
-     * miejsca i przejścia skorzystać z np getPredecessors();
-     *
-     * @return
-     */
     public int[][] getNplus() {
         Object[] placearray = placeSet.toArray();
         Arrays.sort(placearray);
@@ -303,7 +232,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
 
     public Map<Place, Integer> getMarking() {
         Map marking = new HashMap<>();
-        for (Place place : this.placeSet) {
+        for (Place place : placeSet) {
             marking.put(place, place.resources);
         }
         return marking;
@@ -331,9 +260,9 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     }
 
     public List<Transition> getActiveTransitions() {
-        this.updateGraphTransitionStates();
-        List<Transition> activetransitions = new ArrayList<>();
-        for (Transition t : this.transitionSet) {
+        updateGraphTransitionStates();
+        List<Transition> activetransitions = new ArrayList<>(transitionSet.size());
+        for (Transition t : transitionSet) {
             if (t.getActive()) {
                 activetransitions.add(t);
             }
@@ -356,7 +285,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
                 place.incResources(connectingEdge.getValue());
             }
         }
-        //wypadałoby tylko dla powiązanych miejsc, wszędzie gdzie ta funkcja jest użyta
         updateGraphTransitionStates();
         return true;
     }
@@ -369,13 +297,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return transitionSet;
     }
 
-    /**
-     * NIE sprawdziłem czy dla trudniejszych przypadków działa poprawnie, wersja
-     * Piotrka z ReachabilitygraphForm jest lepsza, a do tego liczy żywotność
-     * itp
-     *
-     * @return graf osiągalności (if you are lucky)
-     */
     public DirectedSparseGraph<Map<Place, Integer>, Transition> getReachabilityGraph() {
         DirectedSparseGraph<Map<Place, Integer>, Transition> rg = new DirectedSparseGraph<>();
         Map<Place, Integer> baseMarking = this.getMarking();
@@ -502,12 +423,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return cg;
     }
 
-    /**
-     * Powinno działać poprawnie, tak ze dla ciasnych pętli w tej wersji powinny
-     * też działać ograniczenia miejsc
-     *
-     * @return graf pokrycia (if you are very lucky)
-     */
     public DirectedSparseMultigraph<Map<Place, Integer>, Transition> getCoverabilityGraph() {
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = new DirectedSparseMultigraph<>();
         Map<Place, Integer> baseMarking = this.getMarking();
@@ -530,9 +445,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
             this.executeTransition(entry.getValue());
             Map<Place, Integer> currentMarking = this.getMarking();
 
-//            for (Place p : infPlaces) {
-//                currentMarking.put(p, -1);
-//            }
             if (!cg.containsVertex(currentMarking)) {
                 for (Map<Place, Integer> znakowanie : cg.getVertices()) {
                     isMorev2(currentMarking, znakowanie);
@@ -542,23 +454,15 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
                     transitionsToCheck.add(new SimpleEntry<>(currentMarking, t));
                 }
             }
-            //if (!cg.findEdgeSet(entry.getKey(), currentMarking).contains(entry.getValue())){
             if (!PetriGraph.isTransitionInSetById(cg.findEdgeSet(entry.getKey(), currentMarking), entry.getValue())) {
                 cg.addEdge(new Transition(entry.getValue().id), entry.getKey(), currentMarking);
             }
-//            infPlaces.clear();
             count++;
         }
         this.setMarking(baseMarking);
         return cg;
     }
 
-    /**
-     * funkcja do porównywania znakowań przy liczeniu grafu pokrycia ustawia -1
-     * na większych miejscach jak trzeba
-     *
-     * @return true if m1>m2
-     */
     public static boolean isMore(Map<Place, Integer> m1, Map<Place, Integer> m2) {
         if (!(m1.keySet().equals(m2.keySet()))) {
             System.out.println("Zbiory miejsc nie są takie same, nie będzie z tego dzieci");
@@ -571,11 +475,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
                 return false;
             }
         }
-//        Place[] places = m1.keySet().toArray(new Place[m1.keySet().size()]);
-//        Arrays.sort(places);
-//        for (Place p:places){
-//                }
-        //skoro jest większe, to tam gdzie jest większe ustawia się inf (-1)
         for (Place p : m1.keySet()) {
             if (m1.get(p) > m2.get(p)) {
                 m1.put(p, -1);
@@ -584,13 +483,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return true;
     }
 
-    /**
-     * funkcja do porównywania znakowań przy liczeniu grafu pokrycia ustawia -1
-     * na większych miejscach jak trzeba ta wersja ma obsługiwać ograniczoność
-     * miejsc
-     *
-     * @return true if m1>m2
-     */
     public static boolean isMorev2(Map<Place, Integer> m1, Map<Place, Integer> m2) {
         if (!(m1.keySet().equals(m2.keySet()))) {
             System.out.println("Zbiory miejsc nie są takie same, nie będzie z tego dzieci");
@@ -603,7 +495,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
                 return false;
             }
         }
-        //skoro jest większe, to tam gdzie jest większe ustawia się inf (-1)
         for (Place p : m1.keySet()) {
             if ((p.capacity == -1) && (m1.get(p) > m2.get(p))) {
                 m1.put(p, -1);
@@ -615,7 +506,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     public Map<Place, Integer> getPlacesBoundedness() {
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Map<Place, Integer> boundaries = new HashMap<>();
-        for (Place p : this.placeSet) {
+        for (Place p : placeSet) {
             boundaries.put(p, Integer.MIN_VALUE);
         }
         for (Map<Place, Integer> marking : cg.getVertices()) {
@@ -633,7 +524,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
     public void calculateAndSetPlacesBoundedness() {
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Map<Place, Integer> boundaries = new HashMap<>();
-        for (Place p : this.placeSet) {
+        for (Place p : placeSet) {
             boundaries.put(p, Integer.MIN_VALUE);
         }
         for (Map<Place, Integer> marking : cg.getVertices()) {
@@ -661,7 +552,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
 
     public boolean getWeightedGraphConservation(Map<Place, Integer> weights) {
         if (!weights.keySet().equals(this.placeSet)) {
-            System.out.println("Mapa wag nie odpowiada miejscom w grafie, nic z tego nie będzie");
+            System.out.println("Mapa wag nie odpowiada miejscom w grafie");
         }
 
         int konserwa = 0;
@@ -675,10 +566,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
 
         Collection<Map<Place, Integer>> markings = getCoverabilityGraph().getVertices();
         for (Map<Place, Integer> marking : markings) {
-//            if (marking.containsValue(-1)) {
-//                System.out.println("Graf pokrycia jest nieskończony, sieć nie jest zachowawcza");
-//                return false;
-//            }
             int sum = 0;
             for (Place place : this.placeSet) {
                 if (marking.get(place) == -1 && weights.get(place) != 0) {
@@ -702,7 +589,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
             weights.put(place, 1);
         }
         if (!weights.keySet().equals(this.placeSet)) {
-            System.out.println("Mapa wag nie odpowiada miejscom w grafie, nic z tego nie będzie");
+            System.out.println("Mapa wag nie odpowiada miejscom w grafie");
         }
 
         int konserwa = 0;
@@ -778,8 +665,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Set<Transition> transitions = this.transitionSet;
         for (Transition transition : transitions) {
-            //tak się nie da bo w grafie pokrycia są nowe obiekty
-            //if (!cg.getEdges().contains(transition)) {
             if (!PetriGraph.isTransitionInSetById(cg.getEdges(), transition)) {
                 return false;
             }
@@ -787,20 +672,12 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         return true;
     }
 
-    /**
-     * pomocnicza funkcja do liczenia L4-żywotności
-     *
-     * @param marking znakowanie wyjściowe
-     * @return
-     */
     public boolean getGraphL1Liveness(Map<Place, Integer> marking) {
         Map<Place, Integer> currentmarking = this.getMarking();
         this.setMarking(marking);
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Set<Transition> transitions = this.transitionSet;
         for (Transition transition : transitions) {
-            //tak się nie da bo w grafie pokrycia są nowe obiekty
-            //if (!cg.getEdges().contains(transition)) {
             if (!PetriGraph.isTransitionInSetById(cg.getEdges(), transition)) {
                 this.setMarking(currentmarking);
                 return false;
@@ -814,8 +691,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         DirectedSparseMultigraph<Map<Place, Integer>, Transition> cg = this.getCoverabilityGraph();
         Set<Transition> transitions = this.transitionSet;
         for (Transition transition : transitions) {
-            //tak się nie da bo w grafie pokrycia są nowe obiekty
-            //if (!cg.getEdges().contains(transition)) {
             if (!PetriGraph.isTransitionInSetById(cg.getEdges(), transition)) {
                 transition.setL1alive(false);
             } else {

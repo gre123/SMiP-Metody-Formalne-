@@ -56,7 +56,7 @@ import smip.views.BoundaryWeightsForm;
 import smip.views.ShowGraph;
 
 public class PetriGraphGUI extends javax.swing.JFrame {
-    
+
     public static PetriGraph graph;
     Factory<MyVertex> vertexFactory;
     Factory<Arc> edgeFactory;
@@ -69,7 +69,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     RunnableSimulationPetriGraph simulationPetriGraph;
     EditingModalGraphMouse2 gm;
     Properties properties;
-    
+
     private SimulateGraphMousePlugin simulateGraphMousePlugin;
 
     /**
@@ -83,12 +83,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         vCheck = new MyVertexChecker();
         eCheck = new ArcChecker();
         properties = new Properties(graph);
-        
+
         setProperties();
         Layout<MyVertex, Arc> layout = new StaticLayout(graph);
-        
+
         layout.setSize(this.pnlGraph.getSize());
-        
+
         vv = new VisualizationViewer<>(layout);
         vv.setPreferredSize(this.pnlGraph.getSize());
         // Show vertex and edge labels
@@ -102,14 +102,14 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         EditingCheckingGraphMousePlugin plugin = new EditingCheckingGraphMousePlugin(vertexFactory,
                 edgeFactory);
         plugin.setProperites(properties);
-        
+
         gm = new EditingModalGraphMouse2(vv.getRenderContext(), vertexFactory, edgeFactory);
-        
+
         gm.remove(gm.getEditingPlugin());
         plugin.setVertexChecker(vCheck);
         plugin.setEdgeChecker(eCheck);
         gm.setEditingPlugin(plugin);
-        
+
         PopupVertexEdgeMenuMousePlugin myPlugin = new PopupVertexEdgeMenuMousePlugin();
         JPopupMenu edgeMenu = new EdgeMenu();
         JPopupMenu vertexMenu = new VertexMenu(this);
@@ -119,13 +119,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         gm.add(myPlugin);   // Add our new plugin to the mouse
 
         vv.setGraphMouse(gm);
-        
+
         createMenu(gm);
         gm.setMode(ModalGraphMouse.Mode.EDITING);
         simulationPetriGraph = new RunnableSimulationPetriGraph(graph, vv);
         simulationPetriGraph.setProperties(properties);
         vv.setBackground(new java.awt.Color(204, 255, 255));
-        
+
         pnlGraph.add(vv);
         pnlGraph.validate();
         pnlGraph.repaint();
@@ -699,7 +699,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         properties.setLblReversibility(lblReversibility);
         properties.setMatrixForm(matrixForm);
     }
-    
+
     private void createMenu(EditingModalGraphMouse2 gm) {
         JMenu modeMenu = gm.getModeMenu();
         modeMenu.setText("Mouse Mode");
@@ -707,7 +707,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         modeMenu.setPreferredSize(new Dimension(80, 20));
         menuBar.add(modeMenu);
     }
-    
+
     private void blockOptions(boolean doWeBlock) {
         btnReachabilityGraph.setEnabled(!doWeBlock);
         btnCoverabilityGraph.setEnabled(!doWeBlock);
@@ -720,12 +720,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         tgbtnL1TransitionsLiveness.setEnabled(!doWeBlock);
         btnWeightedConservation.setEnabled(!doWeBlock);
     }
-    
+
     private void drawTables() {
         if (matrixForm == null) {
             matrixForm = new MatrixForm();
             matrixForm.setTitle("Reprezentacja macierzowa");
-            
+
         }
         Point location = this.getLocation();
         location.x = location.x + this.getSize().width;
@@ -738,9 +738,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         matrixForm.drawInc(graph.getNincidence(), graph.getTransitionSet(), graph.getPlaceSet());
         matrixForm.drawNplus(graph.getNplus(), graph.getTransitionSet(), graph.getPlaceSet());
         matrixForm.drawNminus(graph.getNminus(), graph.getTransitionSet(), graph.getPlaceSet());
-        
+
     }
-    
+
 
     private void tbnSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnSimulateActionPerformed
         if (tbnSimulate.isSelected()) {
@@ -759,19 +759,19 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void mitSaveNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSaveNetActionPerformed
         JFrame parentFrame = new JFrame();
-        
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Wybierz gdzie zapisać");
         fileChooser.setSelectedFile(new File("PetriNet.pn"));
-        
+
         int userSelection = fileChooser.showSaveDialog(parentFrame);
-        
+
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
             System.out.println("Save as file: " + fileToSave.getAbsolutePath());
             FileOutputStream fos = null;
             ObjectOutputStream oos = null;
-            
+
             try {
                 fos = new FileOutputStream(fileToSave);
                 oos = new ObjectOutputStream(fos);
@@ -782,7 +782,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                             vg.setX(((Point2D) o).getX());
                             vg.setY(((Point2D) o).getY());
                         }
-                        
+
                     }
                 }
                 oos.writeObject(graph); //serializacja obiektu
@@ -809,12 +809,12 @@ public class PetriGraphGUI extends javax.swing.JFrame {
 
     private void mitLoadNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitLoadNetActionPerformed
         JFrame parentFrame = new JFrame();
-        
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Wybierz skąd wczytać plik");
-        
+
         int userSelection = fileChooser.showOpenDialog(parentFrame);
-        
+
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToOpen = fileChooser.getSelectedFile();
             System.out.println("Read from file: " + fileToOpen.getAbsolutePath());
@@ -852,22 +852,22 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         lblDelayVal.setText(Integer.toString(sldDeley.getValue()) + " ms");
         simulationPetriGraph.setDelay(sldDeley.getValue());
     }//GEN-LAST:event_sldDeleyStateChanged
-    
+
     private void drawRechabilityGrap() {
         if (reachabilityGraphForm == null) {
-            
+
         } else {
             reachabilityGraphForm.setVisible(false);
             reachabilityGraphForm.dispose();
         }
-        
+
         reachabilityGraphForm = new ReachabilityGraphForm();
         reachabilityGraphForm.setTitle("Graf osiągalności");
-        
+
         Point location = this.getLocation();
         location.x = location.x + this.getSize().width;
         reachabilityGraphForm.setLocation(location);
-        
+
         reachabilityGraphForm.setVisible(true);
         reachabilityGraphForm.calculateReachabilityGraph(graph);
     }
@@ -884,7 +884,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         graph.clear();
         vv.repaint();
     }//GEN-LAST:event_mitClearNetActionPerformed
-    
+
     private void startSimulate(int param, JToggleButton button) {
         blockOptions(true);
         button.setEnabled(true);
@@ -901,10 +901,10 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             vv.setGraphMouse(simulationGraphMouse);
         }
     }
-    
+
     private void stopSimulate() {
         blockOptions(false);
-        
+
         if (!chkIsSelectionByUser.isSelected()) {
             simulationThread.interrupt();
         } else {
@@ -970,7 +970,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tgbtnBoundednessPlacesActionPerformed
 
-    private void btnCoverabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCoverabilityGraphActionPerformed
+    private void drawCoverabilityGraph() {
         Transformer<Map<Place, Integer>, String> vlt = new Transformer<Map<Place, Integer>, String>() {
             public String transform(Map<Place, Integer> map) {
                 String label = "";
@@ -989,6 +989,10 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         location.x = location.x + this.getSize().width;
         ShowGraph.setLocation(location);
         ShowGraph.showRCGraph(this.graph.getCoverabilityGraph(), vlt, "Graf pokrycia", 500, 300);
+    }
+
+    private void btnCoverabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCoverabilityGraphActionPerformed
+        drawCoverabilityGraph();    
     }//GEN-LAST:event_btnCoverabilityGraphActionPerformed
 
     private void btnReachabilityGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReachabilityGraphActionPerformed
@@ -1023,7 +1027,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_chkRefreshMouseClicked
 
     private void mitPokryciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPokryciaActionPerformed
-        // TODO add your handling code here:
+        drawCoverabilityGraph();
     }//GEN-LAST:event_mitPokryciaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -1087,7 +1091,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private void mitLicenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitLicenceActionPerformed
         JOptionPane.showMessageDialog(this, "Aplikacja wykorzystuje bibliotekę JUNG,"
                 + " która jest na licencji BSD (http://jung.sourceforge.net/)");
-        
+
 // TODO add your handling code here:
     }//GEN-LAST:event_mitLicenceActionPerformed
 

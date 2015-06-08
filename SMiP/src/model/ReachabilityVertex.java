@@ -1,6 +1,5 @@
 package model;
 
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +7,7 @@ import java.util.Set;
 public class ReachabilityVertex {
 
     int[] markers;
-    Set<Transition> activeTransitions = new HashSet<>();
+    Set<Transition> activeTransitions = new HashSet<>(200);
 
     public ReachabilityVertex(int[] markers) {
         this.markers = markers;
@@ -32,14 +31,14 @@ public class ReachabilityVertex {
 
     @Override
     public String toString() {
-        String string = "";
-        for (int i = 0; i < markers.length; i++) {
-            string += Integer.toString(markers[i]);
-            if (i < markers.length - 1) {
-                string += ", ";
-            }
+        String string = "(";
+        for (int i = 0; i < markers.length-1; i++) {
+            string += Integer.toString(markers[i])+",";
         }
-        return "( " + string + " )";
+        if(markers.length-1>=0){
+            string += Integer.toString(markers[markers.length-1]);
+        }
+        return  string + " )";
     }
 
     @Override
@@ -49,6 +48,13 @@ public class ReachabilityVertex {
 
     @Override
     public int hashCode() {
-        return markers.length;
+        int hash = 5;
+        hash = 71 * hash + Arrays.hashCode(this.markers);
+        return hash;
     }
+    
+
+    
+
+    
 }

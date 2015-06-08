@@ -29,6 +29,6 @@ public class PlaceTransitionFactory implements Factory {
         } else if (type == Transition.class) {
             return new Transition(transition_n++);
         }
-        return null; //wypada rzucić jakimś wyjątkiem tutaj
+        return null; 
     }
 }

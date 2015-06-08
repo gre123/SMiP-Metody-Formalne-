@@ -65,4 +65,5 @@ public class MyVertex implements Comparable<MyVertex>, Serializable {
         MyVertex guest = (MyVertex) other;
         return (this.id == guest.id);
     }
+
 }
