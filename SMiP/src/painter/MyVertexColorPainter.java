@@ -6,11 +6,6 @@ import model.MyVertex;
 import model.Place;
 import model.Transition;
 
-/**
- * Do zmiany kolorów wierzchołków zależnie od ich stanu. Wydaje mi się, że można
- * zrobić jakąś funkcję która w symulacji uaktualnia zmienną active na
- * przejściach i wtedy przejścia możliwe do odpalenia będą miały inny kolor.
- */
 public class MyVertexColorPainter implements Transformer<MyVertex, Paint> {
 
     @Override

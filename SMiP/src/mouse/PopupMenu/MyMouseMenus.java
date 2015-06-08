@@ -16,9 +16,6 @@ public class MyMouseMenus {
         public VertexMenu(final JFrame frame) {
             super("Vertex Menu");
             this.add(new DeleteVertexMenuItem<>());
-//                this.addSeparator();
-//                this.add(new ResourcesDisplay());
-//                this.add(new CapacityDisplay());
             this.addSeparator();
             this.add(new VertexPropItem(frame));
         }
@@ -49,7 +46,6 @@ public class MyMouseMenus {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     VertexPropertyDialog dialog = new VertexPropertyDialog(frame, place, visComp);
-                    //70 to szerokość panelu po lewej, nie chce mi się go przekazywać żeby dostać automatycznie jego szerokość
                     dialog.setLocation((int) point.getX() + 70, (int) point.getY());
                     dialog.setVisible(true);
                 }

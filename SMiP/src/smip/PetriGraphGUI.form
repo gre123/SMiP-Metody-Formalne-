@@ -105,7 +105,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mitPokryciaActionPerformed"/>
               </Events>
             </MenuItem>
-            <Menu class="javax.swing.JMenu" name="jMenu1">
+            <Menu class="javax.swing.JMenu" name="mitTryb">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tryb"/>
               </Properties>
@@ -308,8 +308,8 @@
                           <Component id="btnWeightedConservation" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jCheckBoxEdgeLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCheckBoxVertexLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkEdgeLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkVertexLabel" min="-2" max="-2" attributes="0"/>
                                   <Component id="chkRefresh" min="-2" pref="149" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -355,9 +355,9 @@
                           <Component id="lblL4Liveness" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jCheckBoxVertexLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="chkVertexLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jCheckBoxEdgeLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="chkEdgeLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="62" max="32767" attributes="0"/>
                       <Component id="btnReachabilityGraph" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -493,24 +493,24 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnWeightedConservationActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBoxVertexLabel">
+            <Component class="javax.swing.JCheckBox" name="chkVertexLabel">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="etykiety wierzcho&#x142;k&#xf3;w"/>
               </Properties>
               <Events>
-                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jCheckBoxVertexLabelStateChanged"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxVertexLabelActionPerformed"/>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="chkVertexLabelStateChanged"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkVertexLabelActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBoxEdgeLabel">
+            <Component class="javax.swing.JCheckBox" name="chkEdgeLabel">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="etykiety &#x142;uk&#xf3;w"/>
               </Properties>
               <Events>
-                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jCheckBoxEdgeLabelStateChanged"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxEdgeLabelActionPerformed"/>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="chkEdgeLabelStateChanged"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkEdgeLabelActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

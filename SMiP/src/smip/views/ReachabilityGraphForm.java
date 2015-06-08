@@ -23,9 +23,6 @@ public class ReachabilityGraphForm extends javax.swing.JFrame {
 
     ReachabilityGraphCalculator reachabilityGraphCalculator;
 
-    /**
-     * Creates new form ReachabilityGraphForm
-     */
     public ReachabilityGraphForm() {
         initComponents();
         reachabilityGraph = new ReachabilityGraph();

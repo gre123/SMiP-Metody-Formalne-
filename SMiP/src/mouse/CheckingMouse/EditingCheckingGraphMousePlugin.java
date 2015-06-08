@@ -35,11 +35,10 @@ import smip.Properties;
  * added to the graph. Note: all "significant" code reused from Tom Nelson's
  * EditingGraphMousePlugin, I just added checking hooks.
  *
- * @author Dr. Greg Bernstein Epifaniusz: pozmieniałem trochę zmieniając
+ * @author Dr. Greg Bernstein
+ * @author Epifaniusz: pozmieniałem trochę zmieniając
  * działanie lewego klawisza myszy i dodając obsługę środkowego kliknięcia
- * (odejmuje znaczniki). TODO: w przyszłości wypada się zastanowić jakie akcje
- * powinny być pod odpowiednimi przyciskami i to pozmieniać, bo teraz jest
- * trochę małi intuicyjnie
+ * (odejmuje znaczniki). 
  *
  */
 public class EditingCheckingGraphMousePlugin<V, E> extends EditingGraphMousePlugin<V, E> {

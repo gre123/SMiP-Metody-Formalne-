@@ -28,7 +28,6 @@ public class Place extends MyVertex {
             this.resources = resources;
         } else {
             this.resources = -1;
-            //throw new IllegalArgumentException("nie można ustawić ujemnej ilości znaczników");
         }
     }
 

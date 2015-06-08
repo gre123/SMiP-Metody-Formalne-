@@ -161,8 +161,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         lblL1Liveness = new javax.swing.JLabel();
         lblL4Liveness = new javax.swing.JLabel();
         btnWeightedConservation = new javax.swing.JButton();
-        jCheckBoxVertexLabel = new javax.swing.JCheckBox();
-        jCheckBoxEdgeLabel = new javax.swing.JCheckBox();
+        chkVertexLabel = new javax.swing.JCheckBox();
+        chkEdgeLabel = new javax.swing.JCheckBox();
         pnlSimulation = new javax.swing.JPanel();
         chkIsSelectionByUser = new javax.swing.JCheckBox();
         lblDelayVal = new javax.swing.JLabel();
@@ -185,7 +185,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         mitMatrix = new javax.swing.JMenuItem();
         mitOsi = new javax.swing.JMenuItem();
         mitPokrycia = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        mitTryb = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -297,29 +297,29 @@ public class PetriGraphGUI extends javax.swing.JFrame {
             }
         });
 
-        jCheckBoxVertexLabel.setSelected(true);
-        jCheckBoxVertexLabel.setText("etykiety wierzchołków");
-        jCheckBoxVertexLabel.addChangeListener(new javax.swing.event.ChangeListener() {
+        chkVertexLabel.setSelected(true);
+        chkVertexLabel.setText("etykiety wierzchołków");
+        chkVertexLabel.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jCheckBoxVertexLabelStateChanged(evt);
+                chkVertexLabelStateChanged(evt);
             }
         });
-        jCheckBoxVertexLabel.addActionListener(new java.awt.event.ActionListener() {
+        chkVertexLabel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxVertexLabelActionPerformed(evt);
+                chkVertexLabelActionPerformed(evt);
             }
         });
 
-        jCheckBoxEdgeLabel.setSelected(true);
-        jCheckBoxEdgeLabel.setText("etykiety łuków");
-        jCheckBoxEdgeLabel.addChangeListener(new javax.swing.event.ChangeListener() {
+        chkEdgeLabel.setSelected(true);
+        chkEdgeLabel.setText("etykiety łuków");
+        chkEdgeLabel.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jCheckBoxEdgeLabelStateChanged(evt);
+                chkEdgeLabelStateChanged(evt);
             }
         });
-        jCheckBoxEdgeLabel.addActionListener(new java.awt.event.ActionListener() {
+        chkEdgeLabel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxEdgeLabelActionPerformed(evt);
+                chkEdgeLabelActionPerformed(evt);
             }
         });
 
@@ -361,8 +361,8 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                     .addComponent(btnWeightedConservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlActionsLayout.createSequentialGroup()
                         .addGroup(pnlActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBoxEdgeLabel)
-                            .addComponent(jCheckBoxVertexLabel)
+                            .addComponent(chkEdgeLabel)
+                            .addComponent(chkVertexLabel)
                             .addComponent(chkRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -397,9 +397,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(lblL4Liveness))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBoxVertexLabel)
+                .addComponent(chkVertexLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxEdgeLabel)
+                .addComponent(chkEdgeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(btnReachabilityGraph)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -604,7 +604,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         });
         elmViews.add(mitPokrycia);
 
-        jMenu1.setText("Tryb");
+        mitTryb.setText("Tryb");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("tryb1");
@@ -613,7 +613,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        mitTryb.add(jMenuItem1);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("tryb2");
@@ -622,7 +622,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        mitTryb.add(jMenuItem2);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("tryb3");
@@ -631,7 +631,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        mitTryb.add(jMenuItem3);
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem4.setText("tryb4");
@@ -640,7 +640,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem4);
+        mitTryb.add(jMenuItem4);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setText("tryb5");
@@ -650,7 +650,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem5);
+        mitTryb.add(jMenuItem5);
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_6, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem6.setText("tryb6");
@@ -659,9 +659,9 @@ public class PetriGraphGUI extends javax.swing.JFrame {
                 jMenuItem6ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem6);
+        mitTryb.add(jMenuItem6);
 
-        elmViews.add(jMenu1);
+        elmViews.add(mitTryb);
 
         menuBar.add(elmViews);
 
@@ -963,7 +963,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         } else {
             blockOptions(false);
             vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
-            this.jCheckBoxVertexLabel.setSelected(true);
+            this.chkVertexLabel.setSelected(true);
             vv.getRenderContext().setVertexShapeTransformer(new MyVertexShapePainter());
             vv.getRenderer().getVertexLabelRenderer().setPosition(Position.AUTO);
             vv.repaint();
@@ -1060,39 +1060,37 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnWeightedConservationActionPerformed
 
-    private void jCheckBoxVertexLabelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBoxVertexLabelStateChanged
+    private void chkVertexLabelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkVertexLabelStateChanged
 
-    }//GEN-LAST:event_jCheckBoxVertexLabelStateChanged
+    }//GEN-LAST:event_chkVertexLabelStateChanged
 
-    private void jCheckBoxEdgeLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxEdgeLabelActionPerformed
-        if (jCheckBoxEdgeLabel.isSelected()) {
+    private void chkEdgeLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEdgeLabelActionPerformed
+        if (chkEdgeLabel.isSelected()) {
             vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
             vv.repaint();
         } else {
             vv.getRenderContext().setEdgeLabelTransformer(new NullTransformer());
             vv.repaint();
         }
-    }//GEN-LAST:event_jCheckBoxEdgeLabelActionPerformed
+    }//GEN-LAST:event_chkEdgeLabelActionPerformed
 
-    private void jCheckBoxVertexLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxVertexLabelActionPerformed
-        if (jCheckBoxVertexLabel.isSelected()) {
+    private void chkVertexLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkVertexLabelActionPerformed
+        if (chkVertexLabel.isSelected()) {
             vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
             vv.repaint();
         } else {
             vv.getRenderContext().setVertexLabelTransformer(new NullTransformer());
             vv.repaint();
         }
-    }//GEN-LAST:event_jCheckBoxVertexLabelActionPerformed
+    }//GEN-LAST:event_chkVertexLabelActionPerformed
 
-    private void jCheckBoxEdgeLabelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBoxEdgeLabelStateChanged
+    private void chkEdgeLabelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkEdgeLabelStateChanged
 
-    }//GEN-LAST:event_jCheckBoxEdgeLabelStateChanged
+    }//GEN-LAST:event_chkEdgeLabelStateChanged
 
     private void mitLicenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitLicenceActionPerformed
         JOptionPane.showMessageDialog(this, "Aplikacja wykorzystuje bibliotekę JUNG,"
                 + " która jest na licencji BSD (http://jung.sourceforge.net/)");
-
-// TODO add your handling code here:
     }//GEN-LAST:event_mitLicenceActionPerformed
 
     /**
@@ -1134,13 +1132,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnCoverabilityGraph;
     private javax.swing.JButton btnReachabilityGraph;
     private javax.swing.JButton btnWeightedConservation;
+    private javax.swing.JCheckBox chkEdgeLabel;
     private javax.swing.JCheckBox chkIsSelectionByUser;
     private javax.swing.JCheckBox chkRefresh;
+    private javax.swing.JCheckBox chkVertexLabel;
     private javax.swing.JMenu elmAbout;
     private javax.swing.JMenu elmNet;
     private javax.swing.JMenu elmViews;
-    private javax.swing.JCheckBox jCheckBoxEdgeLabel;
-    private javax.swing.JCheckBox jCheckBoxVertexLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1149,7 +1147,6 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
@@ -1174,6 +1171,7 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem mitOsi;
     private javax.swing.JMenuItem mitPokrycia;
     private javax.swing.JMenuItem mitSaveNet;
+    private javax.swing.JMenu mitTryb;
     private javax.swing.JPanel pnlActions;
     private javax.swing.JPanel pnlGraph;
     private javax.swing.JPanel pnlSimulation;

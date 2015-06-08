@@ -16,7 +16,7 @@ public class ArcChecker implements EdgeChecker<MyVertex, Arc> {
             JOptionPane.showMessageDialog(vv, "E, łączyć można tylko wierzchołki różnych typów",
                     "Arc check", JOptionPane.ERROR_MESSAGE);
             return false;
-        } else if (g.findEdge(start, end) != null) {//może się przydać
+        } else if (g.findEdge(start, end) != null) {
             JOptionPane.showMessageDialog(vv, "No parallel edges allowed in this graph!",
                     "Arc Check", JOptionPane.ERROR_MESSAGE);
             return false;

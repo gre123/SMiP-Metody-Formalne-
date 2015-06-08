@@ -9,9 +9,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
-/**
- * Ma nie pokazywać kropek znakowania
- */
+
 public class MyVertexSimpleShapePainter implements Transformer<MyVertex, Shape> {
 
     @Override

@@ -113,13 +113,11 @@ public class BoundaryWeightsForm extends javax.swing.JDialog implements FocusLis
     }//GEN-LAST:event_jButtonOKActionPerformed
 
     private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
-        this.dispose();
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_formWindowLostFocus
 
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
         dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_formFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
