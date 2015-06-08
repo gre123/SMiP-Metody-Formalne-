@@ -11,7 +11,6 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import edu.uci.ics.jung.visualization.renderers.BasicEdgeLabelRenderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
 import model.Arc;
@@ -536,6 +535,11 @@ public class PetriGraphGUI extends javax.swing.JFrame {
         elmAbout.add(mitAuthors);
 
         mitLicence.setText("Licencja");
+        mitLicence.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitLicenceActionPerformed(evt);
+            }
+        });
         elmAbout.add(mitLicence);
 
         menuBar.add(elmAbout);
@@ -747,18 +751,10 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_tbnSimulateActionPerformed
 
     private void mitAuthorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitAuthorsActionPerformed
-        
-        JDialog authors = new JDialog(this, "Autorzy");
-        authors.setSize(200, 100);
-        JTextArea engineers = new JTextArea("pan inżynier Elpidiusz Wszołek \n"
-                + "pan inżynier Tomasz Gajda\n"
-                + "pan inżynier Piotr Knop\n"
-                + "pan inżynier Grzegorz Bylina");
-        engineers.setEditable(false);
-        engineers.setBackground(Color.LIGHT_GRAY);
-        authors.add(engineers);
-        authors.setAlwaysOnTop(true);
-        authors.setVisible(true);
+
+        JOptionPane.showMessageDialog(this, "Autorzy projektu: \n\n"
+                + "inż. Elpidiusz Wszołek\ninż. Grzegorz Bylina \n"
+                + "inż. Piotr Knop \ninż. Tomasz Gajda\n");
     }//GEN-LAST:event_mitAuthorsActionPerformed
 
     private void mitSaveNetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSaveNetActionPerformed
@@ -1087,6 +1083,13 @@ public class PetriGraphGUI extends javax.swing.JFrame {
     private void jCheckBoxEdgeLabelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBoxEdgeLabelStateChanged
 
     }//GEN-LAST:event_jCheckBoxEdgeLabelStateChanged
+
+    private void mitLicenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitLicenceActionPerformed
+        JOptionPane.showMessageDialog(this, "Aplikacja wykorzystuje bibliotekę JUNG,"
+                + " która jest na licencji BSD (http://jung.sourceforge.net/)");
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_mitLicenceActionPerformed
 
     /**
      * @param args the command line arguments
