@@ -36,8 +36,8 @@ import smip.Properties;
  * EditingGraphMousePlugin, I just added checking hooks.
  *
  * @author Dr. Greg Bernstein
- * @author Epifaniusz: pozmieniałem trochę zmieniając
- * działanie lewego klawisza myszy i dodając obsługę środkowego kliknięcia
+ * zmienione na potrzeby projektu:
+ * inne działanie lewego klawisza myszy i obsługa środkowego kliknięcia
  * (odejmuje znaczniki). 
  *
  */
