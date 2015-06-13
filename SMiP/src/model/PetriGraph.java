@@ -465,7 +465,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
 
     public static boolean isMore(Map<Place, Integer> m1, Map<Place, Integer> m2) {
         if (!(m1.keySet().equals(m2.keySet()))) {
-            System.out.println("Zbiory miejsc nie są takie same, nie będzie z tego dzieci");
+            System.out.println("Zbiory miejsc nie są takie same, nie można porównać");
             System.out.println("m1: " + m1.keySet().toString());
             System.out.println("m2: " + m1.keySet().toString());
             return false;
@@ -485,7 +485,7 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
 
     public static boolean isMorev2(Map<Place, Integer> m1, Map<Place, Integer> m2) {
         if (!(m1.keySet().equals(m2.keySet()))) {
-            System.out.println("Zbiory miejsc nie są takie same, nie będzie z tego dzieci");
+            System.out.println("Zbiory miejsc nie są takie same, nie można porównać");
             System.out.println("m1: " + m1.keySet().toString());
             System.out.println("m2: " + m1.keySet().toString());
             return false;
@@ -558,7 +558,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         int konserwa = 0;
         for (Place place : this.placeSet) {
             if (place.resources == -1 && weights.get(place) != 0) {
-                System.out.println("Graf pokrycia jest nieskończony, sieć nie jest zachowawcza");
                 return false;
             }
             konserwa += weights.get(place) * place.resources;
@@ -569,13 +568,11 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
             int sum = 0;
             for (Place place : this.placeSet) {
                 if (marking.get(place) == -1 && weights.get(place) != 0) {
-                    System.out.println("Graf pokrycia jest nieskończony, sieć nie jest zachowawcza");
                     return false;
                 }
                 sum += weights.get(place) * marking.get(place);
             }
             if (sum != konserwa) {
-                System.out.println("Suma znaczników nie jest stała, sieć nie jest zachowawcza");
                 return false;
             }
         }
@@ -600,7 +597,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
         Collection<Map<Place, Integer>> markings = getCoverabilityGraph().getVertices();
         for (Map<Place, Integer> marking : markings) {
             if (marking.containsValue(-1)) {
-                System.out.println("Graf pokrycia jest nieskończony, sieć nie jest zachowawcza");
                 return false;
             }
             int sum = 0;
@@ -608,7 +604,6 @@ public class PetriGraph extends DirectedSparseGraph<MyVertex, Arc> implements Se
                 sum += weights.get(place) * marking.get(place);
             }
             if (sum != konserwa) {
-                System.out.println("Suma znaczników nie jest stała, sieć nie jest zachowawcza");
                 return false;
             }
         }
