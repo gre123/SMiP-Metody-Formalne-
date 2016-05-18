@@ -45,5 +45,8 @@ public class Arc implements Serializable{
             throw new IllegalArgumentException("nie można ustawić ujemnej wagi");
         }
     }
+	
+	public void costam(){
+	}
 
 }
